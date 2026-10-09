@@ -1,0 +1,1456 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AHP 政策环境判断矩阵互动练习</title>
+<style>
+  :root{
+    --bg:#f5f6f8;
+    --surface:#ffffff;
+    --fg:#202833;
+    --muted:#697386;
+    --line:#dfe4eb;
+    --line-strong:#c8cfda;
+    --brand:#2456d6;
+    --brand-strong:#1c44ac;
+    --brand-soft:#e8efff;
+    --ok:#137a60;
+    --ok-soft:#e2f3ed;
+    --warn:#9a5a00;
+    --warn-soft:#fff1dc;
+    --danger:#b33a4a;
+    --danger-soft:#fde8eb;
+    --de:#2456d6;
+    --uk:#c83d55;
+    --my:#178564;
+    --shadow:0 1px 2px rgba(19,32,51,.06);
+  }
+  @media (prefers-color-scheme: dark){
+    :root{
+      --bg:#11151c;
+      --surface:#171c25;
+      --fg:#edf1f7;
+      --muted:#a2adbd;
+      --line:#2b3442;
+      --line-strong:#3b4656;
+      --brand:#6f9cff;
+      --brand-strong:#8aafff;
+      --brand-soft:#1d2a45;
+      --ok:#45c49b;
+      --ok-soft:#17372f;
+      --warn:#e6ad55;
+      --warn-soft:#3a2c17;
+      --danger:#ef7281;
+      --danger-soft:#40212a;
+      --de:#6f9cff;
+      --uk:#ee7890;
+      --my:#3ec79c;
+      --shadow:0 1px 2px rgba(0,0,0,.25);
+    }
+  }
+
+  *{box-sizing:border-box}
+  html,body{margin:0;padding:0}
+  body{
+    background:var(--bg);
+    color:var(--fg);
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Microsoft YaHei",system-ui,sans-serif;
+    line-height:1.5;
+    -webkit-font-smoothing:antialiased;
+  }
+  button,input,select{font:inherit}
+
+  .app-header{
+    border-bottom:1px solid var(--line);
+    background:color-mix(in srgb, var(--surface) 88%, transparent);
+    backdrop-filter:blur(8px);
+    position:sticky;top:0;z-index:20;
+  }
+  .header-inner{
+    max-width:1120px;margin:0 auto;padding:16px 20px;
+    display:flex;gap:18px;align-items:center;justify-content:space-between;
+  }
+  .brand{display:flex;gap:12px;align-items:center;min-width:0}
+  .brand-mark{
+    width:34px;height:34px;flex:0 0 34px;border-radius:8px;
+    background:var(--brand);color:#fff;display:grid;place-items:center;
+    font-weight:600;font-size:14px;
+  }
+  .brand-text{min-width:0}
+  h1{font-size:18px;font-weight:600;margin:0;line-height:1.3}
+  .subtitle{color:var(--muted);font-size:12px;margin:2px 0 0}
+
+  .tabs{
+    display:inline-flex;gap:2px;background:var(--bg);border:1px solid var(--line);
+    border-radius:8px;padding:3px;
+  }
+  .tab{
+    border:0;background:transparent;color:var(--muted);padding:7px 12px;
+    border-radius:6px;cursor:pointer;font-size:13px;font-weight:500;
+    display:inline-flex;align-items:center;gap:6px;
+  }
+  .tab[aria-selected="true"]{background:var(--surface);color:var(--fg);box-shadow:var(--shadow)}
+  .tab svg{width:14px;height:14px}
+
+  main{max-width:1120px;margin:0 auto;padding:24px 20px 64px}
+  section{margin:0 0 32px}
+  .section-head{display:flex;align-items:baseline;justify-content:space-between;gap:16px;margin-bottom:14px}
+  h2{font-size:15px;font-weight:600;margin:0}
+  .section-note{color:var(--muted);font-size:12px;margin:0;max-width:720px}
+
+  .intro{
+    display:flex;gap:14px;align-items:flex-start;border-left:3px solid var(--brand);
+    background:var(--brand-soft);padding:12px 14px;border-radius:0 8px 8px 0;
+  }
+  .intro svg{width:18px;height:18px;flex:0 0 18px;color:var(--brand);margin-top:1px}
+  .intro p{margin:0;font-size:13px;color:var(--fg)}
+  .intro strong{font-weight:600}
+  .phase-banner{
+    display:flex;align-items:center;gap:9px;margin:14px 0 0;padding:10px 14px;
+    border:1px solid var(--line);border-radius:8px;font-size:13px;background:var(--surface);
+  }
+  .phase-dot{width:9px;height:9px;border-radius:50%;background:var(--brand);flex:0 0 9px}
+  .phase-banner.check{background:var(--ok-soft);border-color:color-mix(in srgb,var(--ok) 35%,var(--line));color:var(--ok)}
+  .phase-banner.check .phase-dot{background:var(--ok)}
+
+  .identity-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;max-width:680px}
+  .field{display:flex;flex-direction:column;gap:6px}
+  .field label{font-size:12px;font-weight:500;color:var(--fg)}
+  .field input{
+    height:40px;border:1px solid var(--line-strong);border-radius:8px;
+    background:var(--surface);color:var(--fg);padding:0 12px;width:100%;
+  }
+  .field input:focus{outline:2px solid var(--brand);outline-offset:1px;border-color:var(--brand)}
+
+  .matrix-layout{display:grid;grid-template-columns:minmax(300px,1.05fr) minmax(300px,.95fr);gap:24px;align-items:start}
+  @media (max-width:820px){.matrix-layout{grid-template-columns:1fr}}
+
+  .pair-list{display:flex;flex-direction:column;gap:14px}
+  .pair{border:1px solid var(--line);border-radius:8px;padding:14px;background:var(--surface)}
+  .pair-top{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:10px}
+  .pair-label{font-size:13px;font-weight:600;margin:0}
+  .pair-meaning{font-size:12px;color:var(--muted);margin:0;font-weight:400}
+  .pair-value{
+    flex:0 0 auto;min-width:34px;text-align:center;background:var(--brand-soft);
+    color:var(--brand-strong);border-radius:6px;padding:4px 8px;font-weight:600;font-size:13px;
+  }
+  .pair-control{display:flex;gap:12px;align-items:center}
+  input[type="range"]{flex:1;accent-color:var(--brand);min-width:0}
+  .scale-word{flex:0 0 96px;text-align:right;font-size:12px;color:var(--muted)}
+
+  .matrix-display{min-width:0}
+  .matrix-card{background:var(--surface);border:1px solid var(--line);border-radius:8px;overflow:hidden}
+  .matrix-title{font-size:12px;font-weight:600;padding:12px 14px;border-bottom:1px solid var(--line);color:var(--fg)}
+  .matrix-scroll{overflow-x:auto}
+  table.matrix{border-collapse:collapse;width:100%;min-width:260px;text-align:center}
+  .matrix th,.matrix td{border-bottom:1px solid var(--line);padding:11px 8px;font-size:13px}
+  .matrix th{font-weight:600;color:var(--muted);font-size:12px}
+  .matrix tr:last-child td{border-bottom:0}
+  .matrix .row-head{font-weight:600;color:var(--fg);text-align:left;white-space:nowrap}
+  .matrix .diag{color:var(--muted)}
+  .matrix .num{font-variant-numeric:tabular-nums}
+  .country-dot{display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:7px;vertical-align:1px}
+
+  .results-grid{display:grid;grid-template-columns:1.05fr .95fr;gap:24px;align-items:start}
+  @media (max-width:820px){.results-grid{grid-template-columns:1fr}}
+
+  .metrics{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:16px}
+  @media (max-width:520px){.metrics{grid-template-columns:1fr}}
+  .metric{border:1px solid var(--line);border-radius:8px;padding:12px;background:var(--surface)}
+  .metric-label{font-size:12px;color:var(--muted);margin:0 0 5px}
+  .metric-value{font-size:20px;font-weight:600;margin:0;font-variant-numeric:tabular-nums}
+  .metric-hint{font-size:11px;color:var(--muted);margin:3px 0 0}
+  .verdict{
+    border:1px solid var(--line);border-radius:8px;padding:12px 14px;margin-bottom:16px;
+    font-size:13px;display:flex;gap:9px;align-items:center;background:var(--surface);
+  }
+  .verdict svg{width:17px;height:17px;flex:0 0 17px}
+  .verdict.ok{background:var(--ok-soft);border-color:color-mix(in srgb,var(--ok) 35%,var(--line));color:var(--ok)}
+  .verdict.warn{background:var(--warn-soft);border-color:color-mix(in srgb,var(--warn) 35%,var(--line));color:var(--warn)}
+
+  .bar-chart{display:flex;flex-direction:column;gap:14px;background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:16px}
+  .bar-row{display:grid;grid-template-columns:96px 1fr 76px;gap:12px;align-items:center}
+  @media (max-width:480px){.bar-row{grid-template-columns:82px 1fr 58px}}
+  .bar-name{font-size:13px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .bar-track{height:18px;background:var(--bg);border-radius:5px;overflow:hidden}
+  .bar-fill{height:100%;border-radius:5px;min-width:3px;transition:width .25s ease}
+  .bar-pct{font-size:13px;font-weight:600;text-align:right;font-variant-numeric:tabular-nums}
+
+  .actions{display:flex;flex-wrap:wrap;gap:10px;margin-top:18px}
+  .btn{
+    display:inline-flex;align-items:center;gap:8px;border:1px solid var(--line-strong);
+    background:var(--surface);color:var(--fg);padding:9px 14px;border-radius:8px;
+    cursor:pointer;font-size:13px;font-weight:500;line-height:1.2;
+  }
+  .btn:hover{background:color-mix(in srgb,var(--surface) 88%,var(--fg))}
+  .btn svg{width:15px;height:15px}
+  .btn-primary{background:var(--brand);border-color:var(--brand);color:#fff}
+  .btn-primary:hover{background:var(--brand-strong);border-color:var(--brand-strong)}
+  .btn-ghost{background:transparent;border-color:transparent;color:var(--muted)}
+  .btn-ghost:hover{background:var(--bg);color:var(--fg)}
+  .btn-danger{color:var(--danger);border-color:color-mix(in srgb,var(--danger) 35%,var(--line))}
+  .btn-danger:hover{background:var(--danger-soft)}
+
+  .teacher-bar{display:flex;flex-wrap:wrap;gap:14px;align-items:center;justify-content:space-between;margin-bottom:14px}
+  .teacher-stats{display:flex;flex-wrap:wrap;gap:10px}
+  .chip{display:inline-flex;align-items:center;gap:8px;background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:7px 11px;font-size:12px;color:var(--muted)}
+  .chip b{color:var(--fg);font-weight:600}
+  .join-panel{
+    display:flex;flex-wrap:wrap;gap:12px;align-items:center;justify-content:space-between;
+    border:1px solid var(--line);border-radius:8px;padding:12px 14px;margin-bottom:14px;background:var(--surface);
+  }
+  .join-info{display:flex;flex-direction:column;gap:4px;min-width:0}
+  .join-label{font-size:12px;color:var(--muted);font-weight:600}
+  .join-url{font-size:16px;font-weight:600;color:var(--brand-strong);word-break:break-all}
+  .phase-control{
+    display:flex;flex-wrap:wrap;gap:12px;align-items:center;justify-content:space-between;
+    border:1px solid var(--line);border-radius:8px;padding:12px 14px;margin-bottom:14px;background:var(--surface);
+  }
+  .phase-switch{display:flex;flex-wrap:wrap;gap:8px}
+  .phase-switch .btn{padding:7px 11px;font-size:12px}
+  .phase-switch .btn.active{background:var(--brand);border-color:var(--brand);color:#fff}
+  .compare-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px}
+  .compare-card{background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:14px;display:flex;flex-direction:column;gap:12px;min-width:0}
+  .compare-card-head{display:flex;justify-content:space-between;gap:12px;align-items:baseline;min-width:0}
+  .compare-card-head strong{font-size:14px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .compare-card-head span{font-size:12px;color:var(--muted);white-space:nowrap}
+  .compare-card .matrix-open{align-self:flex-start}
+  .compare-meta{display:flex;flex-wrap:wrap;gap:7px}
+  .compare-meta span{background:var(--bg);border:1px solid var(--line);border-radius:6px;padding:4px 7px;font-size:12px;color:var(--fg);font-variant-numeric:tabular-nums}
+  .phase-banner.compare{background:var(--warn-soft);border-color:color-mix(in srgb,var(--warn) 35%,var(--line));color:var(--warn)}
+  .phase-banner.compare .phase-dot{background:var(--warn)}
+    .empty{border:1px dashed var(--line-strong);border-radius:8px;padding:34px 20px;text-align:center;color:var(--muted);font-size:13px;background:var(--surface)}
+  .record-list{border:1px solid var(--line);border-radius:8px;overflow:hidden;background:var(--surface)}
+  .record-scroll{overflow-x:auto}
+  table.records{border-collapse:collapse;width:100%;text-align:left;font-size:13px;min-width:980px}
+  table.records.compact{min-width:420px}
+  .records th,.records td{padding:11px 12px;border-bottom:1px solid var(--line)}
+  .records th{font-size:12px;color:var(--muted);font-weight:600;white-space:nowrap}
+  .records tr:last-child td{border-bottom:0}
+  .records td.num,.records th.num{text-align:right;font-variant-numeric:tabular-nums}
+  .records .name-cell{font-weight:600}
+  .records .badge{font-size:11px;padding:2px 7px;border-radius:5px;font-weight:600}
+  .badge.ok{background:var(--ok-soft);color:var(--ok)}
+  .badge.warn{background:var(--warn-soft);color:var(--warn)}
+  .badge.danger{background:var(--danger-soft);color:var(--danger)}
+  .mini-matrix{border-collapse:collapse;font-size:11px;font-variant-numeric:tabular-nums;white-space:nowrap}
+  .mini-matrix td{border:1px solid var(--line);padding:3px 6px;text-align:center;min-width:22px;background:var(--surface)}
+  .mini-matrix .mini-head{color:var(--muted);font-weight:600}
+  .mini-matrix .mini-diag{color:var(--muted)}
+  .matrix-open{cursor:pointer;border-radius:8px;transition:box-shadow .15s ease,background .15s ease;padding:4px;margin:-4px}
+  .matrix-open:hover,.matrix-open:focus-visible{background:var(--brand-soft);box-shadow:0 0 0 2px var(--brand-soft)}
+  .matrix-open:focus{outline:2px solid var(--brand);outline-offset:2px}
+  .record-actions{display:flex;gap:6px}
+  .icon-btn{width:28px;height:28px;display:inline-grid;place-items:center;border:1px solid var(--line);border-radius:6px;background:transparent;color:var(--muted);cursor:pointer}
+  .icon-btn:hover{color:var(--danger);border-color:color-mix(in srgb,var(--danger) 35%,var(--line));background:var(--danger-soft)}
+  .icon-btn svg{width:14px;height:14px}
+
+  .live-badge{
+    display:inline-flex;align-items:center;gap:7px;border:1px solid var(--line);
+    border-radius:999px;padding:6px 10px;font-size:12px;color:var(--muted);background:var(--surface);
+    white-space:nowrap;
+  }
+  .live-dot{width:8px;height:8px;border-radius:50%;background:var(--muted);flex:0 0 8px}
+  .live-badge.online{color:var(--ok);border-color:color-mix(in srgb,var(--ok) 40%,var(--line));background:var(--ok-soft)}
+  .live-badge.online .live-dot{background:var(--ok);box-shadow:0 0 0 3px color-mix(in srgb,var(--ok) 18%,transparent)}
+  .live-badge.offline{color:var(--warn);border-color:color-mix(in srgb,var(--warn) 40%,var(--line));background:var(--warn-soft)}
+  .live-badge.offline .live-dot{background:var(--warn)}
+
+  .toast{
+    position:fixed;right:20px;bottom:20px;z-index:50;max-width:320px;
+    background:var(--fg);color:var(--bg);padding:11px 14px;border-radius:8px;font-size:13px;
+    box-shadow:0 8px 24px rgba(0,0,0,.22);opacity:0;transform:translateY(8px);
+    pointer-events:none;transition:opacity .2s ease,transform .2s ease;
+  }
+  .toast.show{opacity:1;transform:translateY(0)}
+  .toast.warn{background:var(--warn);color:#fff}
+  .toast.danger{background:var(--danger);color:#fff}
+  .toast.ok{background:var(--ok);color:#fff}
+
+  .matrix-modal{position:fixed;inset:0;z-index:80;display:flex;align-items:center;justify-content:center;padding:20px;background:rgba(8,13,22,.64)}
+  .matrix-modal[hidden]{display:none}
+  .matrix-modal-panel{
+    background:var(--surface);border:1px solid var(--line);border-radius:12px;
+    width:100%;max-width:760px;max-height:92vh;overflow:auto;padding:24px;box-shadow:0 24px 80px rgba(0,0,0,.35);
+  }
+  .matrix-modal-head{display:flex;align-items:flex-start;justify-content:space-between;gap:18px;margin-bottom:18px}
+  .matrix-modal-kicker{font-size:12px;color:var(--muted);margin:0 0 4px}
+  .matrix-modal-title{font-size:20px;font-weight:600;margin:0;letter-spacing:0}
+  .matrix-modal-close{
+    width:34px;height:34px;flex:0 0 34px;display:grid;place-items:center;border:1px solid var(--line);
+    border-radius:8px;background:var(--surface);color:var(--fg);cursor:pointer;
+  }
+  .matrix-modal-close:hover{background:var(--danger-soft);color:var(--danger);border-color:color-mix(in srgb,var(--danger) 35%,var(--line))}
+  .matrix-modal-close svg{width:16px;height:16px}
+  .large-matrix-wrap{overflow-x:auto;padding:6px 0 4px}
+  table.large-matrix{border-collapse:collapse;width:100%;max-width:560px;margin:0 auto;text-align:center}
+  .large-matrix td{border:1px solid var(--line-strong);padding:16px 12px;font-size:20px;font-variant-numeric:tabular-nums;min-width:58px}
+  .large-matrix .large-head{font-size:13px;font-weight:600;color:var(--muted);background:var(--bg)}
+  .large-matrix .large-row-head{font-size:13px;font-weight:600;color:var(--fg);background:var(--bg)}
+  .large-matrix .large-diag{color:var(--muted)}
+  .matrix-modal-summary{display:flex;flex-wrap:wrap;gap:10px;margin-top:18px}
+  .matrix-modal-summary .chip{font-size:13px}
+  @media (max-width:520px){
+    .matrix-modal-panel{padding:16px}
+    .large-matrix td{padding:12px 8px;font-size:17px;min-width:44px}
+  }
+
+  @media (max-width:600px){
+    .header-inner{padding:12px 14px;gap:10px}
+    .brand-mark{width:30px;height:30px;flex-basis:30px}
+    h1{font-size:16px}
+    .subtitle{display:none}
+    .tab{padding:7px 9px;font-size:12px}
+    main{padding:18px 14px 56px}
+    .identity-grid{grid-template-columns:1fr}
+    .metrics{grid-template-columns:1fr 1fr}
+  }
+  @media (max-width:420px){
+    .header-inner{flex-wrap:wrap;row-gap:8px}
+    .tabs{width:100%;justify-content:center}
+    .live-badge{order:3;margin-left:auto}
+  }
+</style>
+</head>
+<body>
+<header class="app-header">
+  <div class="header-inner">
+    <div class="brand">
+      <div class="brand-mark">AHP</div>
+      <div class="brand-text">
+        <h1>政策环境下的国家比较</h1>
+        <p class="subtitle">德国 · 英国 · 马来西亚 判断矩阵互动练习</p>
+      </div>
+    </div>
+    <div class="tabs" role="tablist" aria-label="视图切换">
+      <button class="tab" type="button" role="tab" aria-selected="true" data-view="student" aria-controls="student-view" id="tab-student">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M19 8v6"/><path d="M22 11h-6"/></svg>
+        学生填写
+      </button>
+      <button class="tab" type="button" role="tab" aria-selected="false" data-view="teacher" aria-controls="teacher-view" id="tab-teacher">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 3v18h18"/><path d="M7 15l4-5 3 3 5-7"/></svg>
+        教师汇总
+      </button>
+    </div>
+    <div class="live-badge offline" id="live-badge" aria-live="polite">
+      <span class="live-dot" aria-hidden="true"></span>
+      <span id="live-badge-text">本地模式</span>
+    </div>
+  </div>
+</header>
+
+<main>
+  <section id="student-view" role="tabpanel" aria-labelledby="tab-student">
+    <section class="intro" aria-label="任务说明">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg>
+      <p>请从<strong>政策环境</strong>这一准则出发，对德国、英国、马来西亚进行两两比较。拖动滑块填写你认为相对重要的程度，程序会自动生成完整的互反矩阵，并实时计算权重和一致性比率。</p>
+    </section>
+    <div class="phase-banner fill" id="student-phase-banner">
+      <span class="phase-dot" aria-hidden="true"></span>
+      <span id="student-phase-text">当前阶段：填写判断矩阵，先不用考虑对错。</span>
+    </div>
+
+    <section>
+      <div class="section-head"><h2>你的信息</h2></div>
+      <div class="identity-grid">
+        <div class="field">
+          <label for="student-name">姓名或学号</label>
+          <input id="student-name" type="text" placeholder="例如：张三" autocomplete="name">
+        </div>
+        <div class="field">
+          <label for="student-group">小组</label>
+          <input id="student-group" type="text" placeholder="例如：第 1 组" autocomplete="off">
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <div class="section-head">
+        <h2>填写判断矩阵</h2>
+        <p class="section-note">数值 1 表示同等重要，9 表示极端重要；向左拖动表示右侧国家更重要，向右拖动表示左侧国家更重要。</p>
+      </div>
+      <div class="matrix-layout">
+        <div class="pair-list" id="pair-list"></div>
+        <div class="matrix-display">
+          <div class="matrix-card">
+            <div class="matrix-title">当前判断矩阵（上三角为你填写，下三角自动取倒数）</div>
+            <div class="matrix-scroll" id="matrix-scroll"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+          <div class="actions">
+        <button class="btn btn-primary" id="submit-btn" type="button">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>
+          提交本次判断
+        </button>
+        <button class="btn" id="example-btn" type="button">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m12 3-1.5 4.5L6 9l4.5 1.5L12 15l1.5-4.5L18 9l-4.5-1.5L12 3Z"/><path d="m5 17 .8 2.2L8 20l-2.2.8L5 23l-.8-2.2L2 20l2.2-.8L5 17Z"/></svg>
+          填入示例
+        </button>
+        <button class="btn btn-ghost" id="reset-btn" type="button">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 12a9 9 0 1 0 3-6.7L3 8"/><path d="M3 3v5h5"/></svg>
+          清空
+        </button>
+      </div>
+
+
+
+    <section id="results-section">
+      <div class="section-head">
+        <h2>结果与一致性检验</h2>
+        <p class="section-note">一般认为 CR &lt; 0.10 时判断矩阵通过一致性检验。</p>
+      </div>
+      <div class="results-grid">
+        <div>
+          <div class="metrics">
+            <div class="metric">
+              <p class="metric-label">λ<sub>max</sub></p>
+              <p class="metric-value" id="lambda-max">—</p>
+              <p class="metric-hint">最大特征值</p>
+            </div>
+            <div class="metric">
+              <p class="metric-label">CI</p>
+              <p class="metric-value" id="ci-value">—</p>
+              <p class="metric-hint">一致性指标</p>
+            </div>
+            <div class="metric">
+              <p class="metric-label">CR</p>
+              <p class="metric-value" id="cr-value">—</p>
+              <p class="metric-hint">RI = 0.58</p>
+            </div>
+          </div>
+          <div class="verdict" id="verdict"></div>
+        </div>
+        <div>
+          <h2>权重结果</h2>
+          <div class="bar-chart" id="weight-chart" aria-label="方案权重条形图"></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="compare-section" hidden>
+      <div class="section-head">
+        <h2>全班矩阵比较</h2>
+        <p class="section-note">老师已开启比较阶段。点击任意矩阵可以放大查看。</p>
+      </div>
+      <div id="student-compare-content"></div>
+    </section>
+  </section>
+
+  <section id="teacher-view" role="tabpanel" aria-labelledby="tab-teacher" hidden>
+    <div class="section-head">
+      <h2>班级提交汇总</h2>
+      <p class="section-note">实时模式下，学生端的每次修改都会自动同步到这里；直接打开文件时则使用当前浏览器的本地保存。</p>
+    </div>
+    <div class="join-panel">
+      <div class="join-info">
+        <span class="join-label">学生加入地址（投屏或复制发送给学生）</span>
+        <code class="join-url" id="student-join-url">正在获取地址…</code>
+      </div>
+      <button class="btn" id="copy-join-btn" type="button">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="14" height="14" x="8" y="8" rx="2"/><path d="M4 16V6a2 2 0 0 1 2-2h10"/></svg>
+        复制链接
+      </button>
+    </div>
+    <div class="phase-control">
+      <span class="chip">当前阶段 <b id="teacher-phase-label">填写判断矩阵</b></span>
+      <div class="phase-switch" role="group" aria-label="教学阶段切换">
+        <button class="btn active" type="button" data-phase="fill" aria-pressed="true">填写判断矩阵</button>
+        <button class="btn" type="button" data-phase="check" aria-pressed="false">一致性检验</button>
+        <button class="btn" type="button" data-phase="compare" aria-pressed="false">矩阵比较</button>
+      </div>
+    </div>
+    <div class="teacher-bar">
+      <div class="teacher-stats" id="teacher-stats">
+        <span class="chip">提交数 <b id="record-count">0</b></span>
+        <span class="chip">德国均值 <b id="avg-de">—</b></span>
+        <span class="chip">英国均值 <b id="avg-uk">—</b></span>
+        <span class="chip">马来西亚均值 <b id="avg-my">—</b></span>
+      </div>
+      <div class="actions" style="margin-top:0">
+        <button class="btn" id="export-btn" type="button">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12"/><path d="m7 10 5 5 5-5"/><path d="M4 21h16"/></svg>
+          导出 CSV
+        </button>
+        <button class="btn btn-danger" id="clear-btn" type="button">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 6h18"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"/><path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
+          清空全部
+        </button>
+      </div>
+    </div>
+    <div id="teacher-content"></div>
+  </section>
+</main>
+
+<div class="matrix-modal" id="matrix-modal" hidden>
+  <div class="matrix-modal-panel" role="dialog" aria-modal="true" aria-labelledby="matrix-modal-title">
+    <div class="matrix-modal-head">
+      <div>
+        <p class="matrix-modal-kicker">判断矩阵</p>
+        <h2 class="matrix-modal-title" id="matrix-modal-title">学生</h2>
+      </div>
+      <button class="matrix-modal-close" id="matrix-modal-close" type="button" aria-label="关闭放大矩阵">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+      </button>
+    </div>
+    <div id="matrix-modal-body"></div>
+  </div>
+</div>
+
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script>
+(function(){
+  "use strict";
+
+  var COUNTRIES = [
+    { key:"DE", name:"德国", color:"var(--de)" },
+    { key:"UK", name:"英国", color:"var(--uk)" },
+    { key:"MY", name:"马来西亚", color:"var(--my)" }
+  ];
+
+  var PAIRS = [
+    { left:0, right:1, label:"德国 对 英国" },
+    { left:0, right:2, label:"德国 对 马来西亚" },
+    { left:1, right:2, label:"英国 对 马来西亚" }
+  ];
+
+  var SCALE_WORDS = {
+    1:"同等重要",2:"介于同等与稍微",3:"稍微重要",4:"介于稍微与明显",
+    5:"明显重要",6:"介于明显与强烈",7:"强烈重要",8:"介于强烈与极端",9:"极端重要"
+  };
+
+  var STORAGE_KEY = "ahp-policy-matrix-records-v1";
+  var REMOTE_URL = "https://ntfy.sh/ahp-judgment-3406zx-7d31";
+  var REMOTE_SSE_URL = REMOTE_URL + "/sse?since=all";
+  var REMOTE_FALLBACK_URL = "https://api.restful-api.dev/objects/ff808181a09d98f701a1207b36a72cef";
+  var POLL_MS = 2500;
+  var PUBLIC_STUDENT_URL = "https://3406zx.github.io/ahp-judgment-class/";
+  var PUBLIC_TEACHER_URL = "https://3406zx.github.io/ahp-judgment-class/?role=teacher";
+  var remoteSource = null;
+  var remoteErrorCount = 0;
+  var remoteUsingFallback = false;
+  var remotePollTimer = null;
+  var remoteFallbackFailCount = 0;
+  var remoteWriteBusy = false;
+  var remoteSentInitial = false;
+  var state = [1, 1, 1];
+  var toastTimer = null;
+  var liveConnected = false;
+  var liveSnapshot = [];
+  var livePhase = "fill";
+  var liveSendTimer = null;
+  var clientId = getClientId();
+  var isTeacherPage = (new URLSearchParams(window.location.search).get("role") === "teacher") || window.location.pathname === "/teacher";
+  var currentView = "student";
+
+  function $(id){ return document.getElementById(id); }
+
+  function getClientId(){
+    var key = "ahp-live-client-id";
+    try{
+      var existing = sessionStorage.getItem(key) || localStorage.getItem(key);
+      if(existing) return existing;
+      var id = "c-" + Date.now().toString(36) + "-" + Math.random().toString(36).slice(2,8);
+      sessionStorage.setItem(key, id);
+      return id;
+    }catch(e){
+      return "c-" + Math.random().toString(36).slice(2,10);
+    }
+  }
+
+  function matrix(){
+    var v = state;
+    return [
+      [1, signedToRatio(v[0]), signedToRatio(v[1])],
+      [1 / signedToRatio(v[0]), 1, signedToRatio(v[2])],
+      [1 / signedToRatio(v[1]), 1 / signedToRatio(v[2]), 1]
+    ];
+  }
+
+  function matrixFromValues(v){
+    return [
+      [1, signedToRatio(v[0]), signedToRatio(v[1])],
+      [1 / signedToRatio(v[0]), 1, signedToRatio(v[2])],
+      [1 / signedToRatio(v[1]), 1 / signedToRatio(v[2]), 1]
+    ];
+  }
+
+  function miniMatrixHtml(values){
+    var m = matrixFromValues(values || [1,1,1]);
+    var names = ["德", "英", "马"];
+    var html = '<table class="mini-matrix"><tbody>';
+    html += '<tr><td></td><td class="mini-head">德</td><td class="mini-head">英</td><td class="mini-head">马</td></tr>';
+    for(var i=0;i<3;i++){
+      html += '<tr><td class="mini-head">' + names[i] + '</td>';
+      for(var j=0;j<3;j++){
+        var cls = i === j ? ' class="mini-diag"' : '';
+        html += '<td' + cls + '>' + fracDisplay(m[i][j]) + '</td>';
+      }
+      html += '</tr>';
+    }
+    html += '</tbody></table>';
+    return html;
+  }
+
+  function largeMatrixHtml(values){
+    var m = matrixFromValues(values || [1,1,1]);
+    var names = ["德国", "英国", "马来西亚"];
+    var html = '<div class="large-matrix-wrap"><table class="large-matrix"><tbody>';
+    html += '<tr><td></td><td class="large-head">德国</td><td class="large-head">英国</td><td class="large-head">马来西亚</td></tr>';
+    for(var i=0;i<3;i++){
+      html += '<tr><td class="large-row-head">' + names[i] + '</td>';
+      for(var j=0;j<3;j++){
+        var cls = i === j ? ' class="large-diag"' : '';
+        html += '<td' + cls + '>' + fracDisplay(m[i][j]) + '</td>';
+      }
+      html += '</tr>';
+    }
+    html += '</tbody></table></div>';
+    return html;
+  }
+
+  var activeMatrixId = null;
+
+  function openMatrixModal(id){
+    var rec = currentRecords().filter(function(r){ return r.id === id; })[0];
+    if(!rec) return;
+    activeMatrixId = id;
+    $("matrix-modal-title").textContent = rec.name + " · " + rec.group;
+    var html = largeMatrixHtml(rec.values);
+    if(livePhase === "check" || livePhase === "compare"){
+      html += '<div class="matrix-modal-summary">' +
+        '<span class="chip">德国 <b>' + fmt(rec.weights[0]*100,1) + '%</b></span>' +
+        '<span class="chip">英国 <b>' + fmt(rec.weights[1]*100,1) + '%</b></span>' +
+        '<span class="chip">马来西亚 <b>' + fmt(rec.weights[2]*100,1) + '%</b></span>' +
+        '<span class="chip">λ<sub>max</sub> <b>' + fmt(rec.lambdaMax) + '</b></span>' +
+        '<span class="chip">CR <b>' + fmt(rec.cr) + '</b></span>' +
+      '</div>';
+    }
+    $("matrix-modal-body").innerHTML = html;
+    $("matrix-modal").hidden = false;
+    document.body.style.overflow = "hidden";
+  }
+
+  function closeMatrixModal(){
+    activeMatrixId = null;
+    $("matrix-modal").hidden = true;
+    document.body.style.overflow = "";
+  }
+
+  function refreshMatrixModal(){
+    if($("matrix-modal").hidden || !activeMatrixId) return;
+    var rec = currentRecords().filter(function(r){ return r.id === activeMatrixId; })[0];
+    if(rec){
+      openMatrixModal(activeMatrixId);
+    } else {
+      closeMatrixModal();
+    }
+  }
+
+  function signedToRatio(v){
+    if(v === 0 || v === 1 || v === -1) return 1;
+    return v > 0 ? v : 1 / (-v);
+  }
+
+  function signedDisplay(v){
+    if(Math.abs(v) <= 1) return "1";
+    return v > 0 ? String(v) : "1/" + (-v);
+  }
+
+  function wordFor(v){
+    return Math.abs(v) <= 1 ? "同等重要" : SCALE_WORDS[Math.abs(v)];
+  }
+
+  function matVec(A, v){
+    var out = [0,0,0];
+    for(var i=0;i<3;i++){
+      var s=0;
+      for(var j=0;j<3;j++) s += A[i][j]*v[j];
+      out[i]=s;
+    }
+    return out;
+  }
+
+  function eigen(A){
+    var v=[1,1,1], nv;
+    for(var iter=0; iter<200; iter++){
+      nv = matVec(A, v);
+      var norm = Math.sqrt(nv[0]*nv[0]+nv[1]*nv[1]+nv[2]*nv[2]);
+      nv = [nv[0]/norm, nv[1]/norm, nv[2]/norm];
+      var diff = Math.max(Math.abs(nv[0]-v[0]), Math.abs(nv[1]-v[1]), Math.abs(nv[2]-v[2]));
+      v = nv;
+      if(diff < 1e-13) break;
+    }
+    var sum = v[0]+v[1]+v[2];
+    return [v[0]/sum, v[1]/sum, v[2]/sum];
+  }
+
+  function calc(){
+    var A = matrix();
+    var w = eigen(A);
+    var Av = matVec(A, w);
+    var lambdaMax = (Av[0]+Av[1]+Av[2]) / (w[0]+w[1]+w[2]);
+    var n = 3;
+    var ci = (lambdaMax - n) / (n - 1);
+    var cr = ci / 0.58;
+    return { w:w, lambdaMax:lambdaMax, ci:ci, cr:cr };
+  }
+
+  function currentRecords(){
+    return liveConnected ? liveSnapshot : getRecords();
+  }
+
+  function setLiveStatus(mode, text){
+    var badge = $("live-badge");
+    var label = $("live-badge-text");
+    if(!badge || !label) return;
+    badge.className = "live-badge " + mode;
+    label.textContent = text;
+  }
+
+  function buildLiveRecord(submitted){
+    var r = calc();
+    return {
+      id: clientId,
+      name: $("student-name").value.trim() || "未署名",
+      group: $("student-group").value.trim() || "—",
+      values: state.slice(),
+      weights: r.w,
+      lambdaMax: r.lambdaMax,
+      ci: r.ci,
+      cr: r.cr,
+      submitted: !!submitted,
+      time: new Date().toISOString()
+    };
+  }
+
+  function sendLiveNow(submitted){
+    if(!liveConnected || isTeacherPage) return;
+    var payload = buildLiveRecord(submitted);
+    publishEvent({ type: "upsert", record: payload });
+  }
+
+  function queueSendLive(){
+    if(!liveConnected || isTeacherPage) return;
+    if(liveSendTimer) clearTimeout(liveSendTimer);
+    liveSendTimer = setTimeout(function(){ sendLiveNow(false); }, 250);
+  }
+
+  function applyPhaseUI(){
+    var check = livePhase === "check";
+    var compare = livePhase === "compare";
+    var banner = $("student-phase-banner");
+    var text = $("student-phase-text");
+    if(banner){
+      banner.className = "phase-banner " + (compare ? "compare" : (check ? "check" : "fill"));
+    }
+    if(text){
+      text.textContent = compare
+        ? "当前阶段：矩阵比较。请查看全班提交的判断矩阵。"
+        : (check
+          ? "当前阶段：一致性检验。请查看权重与 CR，必要时回到上方调整判断。"
+          : "当前阶段：填写判断矩阵，先不用考虑对错。");
+    }
+    var results = $("results-section");
+    if(results) results.hidden = !check;
+    var compareSection = $("compare-section");
+    if(compareSection) compareSection.hidden = !compare;
+    var phaseLabel = $("teacher-phase-label");
+    if(phaseLabel) phaseLabel.textContent = compare ? "矩阵比较" : (check ? "一致性检验" : "填写判断矩阵");
+    var buttons = document.querySelectorAll("[data-phase]");
+    Array.prototype.forEach.call(buttons, function(btn){
+      var active = btn.getAttribute("data-phase") === livePhase;
+      btn.classList.toggle("active", active);
+      btn.setAttribute("aria-pressed", active ? "true" : "false");
+    });
+    var stats = $("teacher-stats");
+    if(stats) stats.style.display = (check || compare) ? "flex" : "none";
+    if(compare && compareSection){
+      renderCompareView($("student-compare-content"), compareRecords(), false);
+    }
+  }
+  function setPhase(next){
+    if(next !== "fill" && next !== "check" && next !== "compare") return;
+    livePhase = next;
+    applyPhaseUI();
+    if(currentView === "teacher") renderTeacher();
+    if(!liveConnected) return;
+    publishEvent({ type: "phase", phase: next });
+  }
+
+  function publishEvent(event){
+    event.at = new Date().toISOString();
+    if(remoteUsingFallback) return mutateFallback(event);
+    return fetch(REMOTE_URL, {
+      method: "POST",
+      headers: { "Content-Type": "application/json", "Title": "ahp-event" },
+      body: JSON.stringify(event)
+    }).then(function(res){
+      if(!res.ok) throw new Error("publish " + res.status);
+      return res.json();
+    }).catch(function(){});
+  }
+
+  function applyEvent(event){
+    var data = event;
+    if(event && typeof event.message === "string"){
+      try{ data = JSON.parse(event.message); }catch(e){ data = event; }
+    }
+    if(!data || !data.type) return;
+    if(data.type === "upsert" && data.record && typeof data.record.id === "string"){
+      liveSnapshot = upsertRecord(liveSnapshot, data.record);
+    } else if(data.type === "delete" && typeof data.id === "string"){
+      liveSnapshot = liveSnapshot.filter(function(r){ return r.id !== data.id; });
+    } else if(data.type === "clear"){
+      liveSnapshot = [];
+    } else if(data.type === "phase" && (data.phase === "fill" || data.phase === "check" || data.phase === "compare")){
+      livePhase = data.phase;
+    }
+  }
+
+  function upsertRecord(records, rec){
+    for(var i=records.length-1;i>=0;i--){
+      if(records[i].id === rec.id) records.splice(i, 1);
+    }
+    records.unshift(rec);
+    return records;
+  }
+
+  function applyFallbackPayload(payload){
+    var data = payload && payload.data ? payload.data : payload;
+    if(typeof data === "string"){
+      try{ data = JSON.parse(data); }catch(e){ data = payload; }
+    }
+    if(data && Object.prototype.hasOwnProperty.call(data, "records")){
+      liveSnapshot = Array.isArray(data.records) ? data.records : [];
+    }
+    if(data && (data.phase === "fill" || data.phase === "check" || data.phase === "compare")){
+      livePhase = data.phase;
+    }
+  }
+
+  function fetchFallback(){
+    return fetch(REMOTE_FALLBACK_URL + "?ts=" + Date.now(), { cache: "no-store" }).then(function(res){
+      if(!res.ok) throw new Error("fallback read " + res.status);
+      return res.json();
+    });
+  }
+
+  function mutateFallback(event){
+    if(remoteWriteBusy) return Promise.resolve();
+    remoteWriteBusy = true;
+    applyEvent(event);
+    return fetch(REMOTE_FALLBACK_URL, {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ name: "ahp-class", data: { phase: livePhase, records: liveSnapshot } })
+    }).then(function(res){
+      if(!res.ok) throw new Error("fallback write " + res.status);
+      return res.json();
+    }).catch(function(){}).finally(function(){
+      remoteWriteBusy = false;
+    });
+  }
+
+  function startFallbackPolling(){
+    if(remotePollTimer) return;
+    if(remoteSource){
+      remoteSource.close();
+      remoteSource = null;
+    }
+    remoteUsingFallback = true;
+    function poll(){
+      fetchFallback().then(function(payload){
+        applyFallbackPayload(payload);
+        liveConnected = true;
+        remoteFallbackFailCount = 0;
+        setLiveStatus("online", "实时已连接（备用通道）");
+        applyPhaseUI();
+        if(!isTeacherPage && !remoteSentInitial){
+          remoteSentInitial = true;
+          sendLiveNow(false);
+        }
+        if(currentView === "teacher"){
+          renderTeacher();
+          refreshMatrixModal();
+        }
+      }).catch(function(){
+        remoteFallbackFailCount += 1;
+        if(remoteFallbackFailCount >= 3){
+          liveConnected = false;
+          setLiveStatus("offline", "实时连接中断");
+        }
+        if(currentView === "teacher"){
+          renderTeacher();
+          refreshMatrixModal();
+        }
+      });
+    }
+    poll();
+    remotePollTimer = setInterval(poll, POLL_MS);
+  }
+
+  function connectLive(){
+    if(remotePollTimer){
+      clearInterval(remotePollTimer);
+      remotePollTimer = null;
+    }
+    if(remoteSource) remoteSource.close();
+    remoteUsingFallback = false;
+    remoteErrorCount = 0;
+    remoteFallbackFailCount = 0;
+    remoteWriteBusy = false;
+    remoteSource = new EventSource(REMOTE_SSE_URL);
+
+    remoteSource.onopen = function(){
+      liveConnected = true;
+      remoteErrorCount = 0;
+      setLiveStatus("online", "实时已连接");
+      applyPhaseUI();
+      if(!isTeacherPage){
+        remoteSentInitial = true;
+        sendLiveNow(false);
+      }
+      if(currentView === "teacher"){
+        renderTeacher();
+        refreshMatrixModal();
+      }
+    };
+
+    remoteSource.onmessage = function(event){
+      try{
+        applyEvent(JSON.parse(event.data));
+      }catch(e){
+        return;
+      }
+      liveConnected = true;
+      remoteErrorCount = 0;
+      setLiveStatus("online", "实时已连接");
+      applyPhaseUI();
+      if(currentView === "teacher"){
+        renderTeacher();
+        refreshMatrixModal();
+      }
+    };
+
+    remoteSource.onerror = function(){
+      remoteErrorCount += 1;
+      if(remoteErrorCount >= 3 && !remoteUsingFallback){
+        setLiveStatus("offline", "正在切换备用通道");
+        startFallbackPolling();
+      }
+      if(currentView === "teacher"){
+        renderTeacher();
+        refreshMatrixModal();
+      }
+    };
+  }
+
+  function fmt(v, digits){
+    if(v === null || v === undefined || !isFinite(v)) return "—";
+    return Number(v).toFixed(digits === undefined ? 3 : digits);
+  }
+
+  function fracDisplay(x){
+    if(Math.abs(x - Math.round(x)) < 1e-9) return String(Math.round(x));
+    var r = 1/x;
+    if(Math.abs(r - Math.round(r)) < 1e-9) return "1/" + Math.round(r);
+    return fmt(x, 2);
+  }
+
+  function countryChip(country){
+    return '<span class="country-dot" style="background:' + country.color + '"></span>' + country.name;
+  }
+
+  function renderPairs(){
+    var list = $("pair-list");
+    list.innerHTML = "";
+    PAIRS.forEach(function(pair, i){
+      var v = state[i];
+      var left = COUNTRIES[pair.left];
+      var right = COUNTRIES[pair.right];
+      var meaning = pairMeaning(left, right, v);
+      var scaleWord = wordFor(v);
+
+      var row = document.createElement("div");
+      row.className = "pair";
+      row.innerHTML =
+        '<div class="pair-top">' +
+          '<div><p class="pair-label">' + pair.label + '</p>' +
+          '<p class="pair-meaning">' + meaning + '</p></div>' +
+          '<div class="pair-value" id="pair-val-' + i + '">' + signedDisplay(v) + '</div>' +
+        '</div>' +
+        '<div class="pair-control">' +
+          '<input type="range" min="-9" max="9" step="1" value="' + v + '" aria-label="' + pair.label + ' 的 Saaty 数值" data-pair="' + i + '">' +
+          '<span class="scale-word" id="scale-word-' + i + '">' + scaleWord + '</span>' +
+        '</div>';
+      list.appendChild(row);
+    });
+  }
+
+  function pairMeaning(left, right, v){
+    if(Math.abs(v) <= 1) return left.name + " 与 " + right.name + " 同等重要";
+    if(v < -1) return right.name + " 比 " + left.name + " " + SCALE_WORDS[-v];
+    return left.name + " 比 " + right.name + " " + SCALE_WORDS[v];
+  }
+
+  function renderMatrix(){
+    var holder = $("matrix-scroll");
+    var A = matrix();
+    var html = '<table class="matrix"><thead><tr><th></th>';
+    COUNTRIES.forEach(function(c){ html += '<th>' + countryChip(c) + '</th>'; });
+    html += '</tr></thead><tbody>';
+    COUNTRIES.forEach(function(c, i){
+      html += '<tr><td class="row-head">' + countryChip(c) + '</td>';
+      for(var j=0;j<3;j++){
+        var val = A[i][j];
+        var cls = (i===j) ? ' class="diag"' : ' class="num"';
+        html += '<td' + cls + '>' + fracDisplay(val) + '</td>';
+      }
+      html += '</tr>';
+    });
+    html += '</tbody></table>';
+    holder.innerHTML = html;
+  }
+
+  function renderResults(){
+    var r = calc();
+    $("lambda-max").textContent = fmt(r.lambdaMax);
+    $("ci-value").textContent = fmt(r.ci);
+    $("cr-value").textContent = fmt(r.cr);
+
+    var verdict = $("verdict");
+    var passed = r.cr < 0.10;
+    if(passed){
+      verdict.className = "verdict ok";
+      verdict.innerHTML =
+        '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>' +
+        '<span>一致性良好：CR = ' + fmt(r.cr) + '，该判断矩阵通过一致性检验。</span>';
+    } else {
+      verdict.className = "verdict warn";
+      verdict.innerHTML =
+        '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 9v4"/><path d="M12 17h.01"/><path d="M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0Z"/></svg>' +
+        '<span>一致性较弱：CR = ' + fmt(r.cr) + '。建议回到矩阵中调整矛盾较大的判断。</span>';
+    }
+
+    var chart = $("weight-chart");
+    chart.innerHTML = "";
+    COUNTRIES.forEach(function(c, i){
+      var pct = r.w[i] * 100;
+      var row = document.createElement("div");
+      row.className = "bar-row";
+      row.innerHTML =
+        '<div class="bar-name">' + countryChip(c) + '</div>' +
+        '<div class="bar-track" role="img" aria-label="' + c.name + ' 权重 ' + fmt(pct, 1) + '%"><div class="bar-fill" style="width:' + pct.toFixed(2) + '%;background:' + c.color + '"></div></div>' +
+        '<div class="bar-pct">' + fmt(pct, 1) + '%</div>';
+      chart.appendChild(row);
+    });
+  }
+
+  function render(){
+    renderPairs();
+    renderMatrix();
+    renderResults();
+    bindPairInputs();
+  }
+
+  function bindPairInputs(){
+    var inputs = document.querySelectorAll("#pair-list input[type=range]");
+    Array.prototype.forEach.call(inputs, function(input){
+      input.addEventListener("input", function(){
+        var i = parseInt(input.getAttribute("data-pair"), 10);
+        var val = parseInt(input.value, 10);
+        if(val === 0){
+          val = 1;
+          input.value = 1;
+        }
+        state[i] = val;
+        renderMatrix();
+        renderResults();
+        updatePairFeedback(i);
+        queueSendLive();
+      });
+    });
+  }
+
+  function updatePairFeedback(i){
+    var v = state[i];
+    $("pair-val-" + i).textContent = signedDisplay(v);
+    $("scale-word-" + i).textContent = wordFor(v);
+    var pair = PAIRS[i];
+    var row = $("pair-val-" + i).closest(".pair");
+    row.querySelector(".pair-meaning").textContent = pairMeaning(COUNTRIES[pair.left], COUNTRIES[pair.right], v);
+  }
+
+  function switchView(view){
+    currentView = view;
+    $("student-view").hidden = view !== "student";
+    $("teacher-view").hidden = view !== "teacher";
+    $("tab-student").setAttribute("aria-selected", view === "student" ? "true" : "false");
+    $("tab-teacher").setAttribute("aria-selected", view === "teacher" ? "true" : "false");
+    if(view === "teacher") renderTeacher();
+    window.scrollTo({ top:0, behavior:"smooth" });
+  }
+
+  function applyRoleChrome(){
+    if(isTeacherPage){
+      $("tab-student").style.display = "none";
+      $("tab-teacher").setAttribute("aria-selected", "true");
+    } else if(window.location.protocol === "file:"){
+      $("tab-student").style.display = "";
+      $("tab-teacher").style.display = "";
+      $("tab-student").setAttribute("aria-selected", "true");
+    } else {
+      $("tab-teacher").style.display = "none";
+      $("tab-student").setAttribute("aria-selected", "true");
+    }
+  }
+
+  function getRecords(){
+    try{
+      var raw = localStorage.getItem(STORAGE_KEY);
+      if(!raw) return [];
+      var arr = JSON.parse(raw);
+      return Array.isArray(arr) ? arr : [];
+    }catch(e){
+      return [];
+    }
+  }
+
+  function saveRecords(records){
+    try{
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(records));
+    }catch(e){
+      showToast("无法保存：浏览器存储不可用", "danger");
+    }
+  }
+
+  function submitRecord(){
+    var name = $("student-name").value.trim() || "未署名";
+    var group = $("student-group").value.trim() || "—";
+    var r = calc();
+    var rec = {
+      id: Date.now().toString(36) + Math.random().toString(36).slice(2,6),
+      name:name,
+      group:group,
+      values:state.slice(),
+      weights:r.w,
+      lambdaMax:r.lambdaMax,
+      ci:r.ci,
+      cr:r.cr,
+      time:new Date().toISOString()
+    };
+    var records = getRecords();
+    records.unshift(rec);
+    saveRecords(records);
+    sendLiveNow(true);
+
+    if(rec.cr < 0.10){
+      showToast("已提交，CR = " + fmt(rec.cr), "ok");
+    } else {
+      showToast("已提交，但 CR = " + fmt(rec.cr) + "，请考虑调整后重新提交", "warn");
+    }
+  }
+
+  function fillExample(){
+    state = [3, 5, 2];
+    $("student-name").value = "";
+    $("student-group").value = "";
+    render();
+    queueSendLive();
+    showToast("已填入示例判断", "ok");
+  }
+
+  function resetForm(){
+    state = [1, 1, 1];
+    $("student-name").value = "";
+    $("student-group").value = "";
+    render();
+    queueSendLive();
+    showToast("已清空为同等重要", "ok");
+  }
+
+  function compareRecords(){
+    return currentRecords().filter(function(rec){ return rec.submitted !== false; });
+  }
+
+  function updateAverageStats(records){
+    var de = $("avg-de"), uk = $("avg-uk"), my = $("avg-my");
+    if(!de || !uk || !my) return;
+    if(records.length === 0){
+      de.textContent = "—";
+      uk.textContent = "—";
+      my.textContent = "—";
+      return;
+    }
+    var totals = [0,0,0];
+    records.forEach(function(rec){
+      totals[0] += rec.weights[0];
+      totals[1] += rec.weights[1];
+      totals[2] += rec.weights[2];
+    });
+    de.textContent = fmt(totals[0]/records.length*100, 1) + "%";
+    uk.textContent = fmt(totals[1]/records.length*100, 1) + "%";
+    my.textContent = fmt(totals[2]/records.length*100, 1) + "%";
+  }
+
+  function compareCardHtml(rec){
+    return '<article class="compare-card">' +
+      '<div class="compare-card-head"><strong>' + escapeHtml(rec.name) + '</strong><span>' + escapeHtml(rec.group || "—") + '</span></div>' +
+      '<div class="matrix-open" data-id="' + rec.id + '" role="button" tabindex="0" aria-label="放大 ' + escapeHtml(rec.name) + ' 的判断矩阵">' + miniMatrixHtml(rec.values) + '</div>' +
+      '<div class="compare-meta">' +
+        '<span>德国 <b>' + fmt(rec.weights[0]*100,1) + '%</b></span>' +
+        '<span>英国 <b>' + fmt(rec.weights[1]*100,1) + '%</b></span>' +
+        '<span>马来西亚 <b>' + fmt(rec.weights[2]*100,1) + '%</b></span>' +
+        '<span>λ<sub>max</sub> <b>' + fmt(rec.lambdaMax) + '</b></span>' +
+        '<span>CR <b>' + fmt(rec.cr) + '</b></span>' +
+      '</div>' +
+    '</article>';
+  }
+
+  function renderCompareCards(container, records){
+    if(!container) return;
+    if(records.length === 0){
+      container.innerHTML = '<div class="empty">暂时没有学生提交，还不能比较。</div>';
+      return;
+    }
+    var html = '<div class="compare-grid">';
+    records.forEach(function(rec){
+      html += compareCardHtml(rec);
+    });
+    html += '</div>';
+    container.innerHTML = html;
+  }
+
+  function renderCompareView(container, records, isTeacher){
+    renderCompareCards(container, records);
+  }
+
+  function renderTeacherList(container, records){
+    if(records.length === 0){
+      var emptyText = liveConnected
+        ? "等待学生加入，他们的判断矩阵会实时出现在这里。"
+        : "还没有学生提交。请切换到“学生填写”并提交一份判断矩阵。";
+      container.innerHTML = '<div class="empty">' + emptyText + '</div>';
+      return;
+    }
+
+    var showResults = livePhase === "check";
+    var tableClass = "records" + (showResults ? "" : " compact");
+    var html = '<div class="record-list"><div class="record-scroll"><table class="' + tableClass + '"><thead><tr>' +
+      '<th>姓名 / 学号</th><th>小组</th><th>判断矩阵</th>';
+    if(showResults){
+      html += '<th class="num">德国</th><th class="num">英国</th><th class="num">马来西亚</th>' +
+        '<th class="num">λ<sub>max</sub></th><th class="num">CR</th><th>结论</th>';
+    }
+    html += '<th></th></tr></thead><tbody>';
+    records.forEach(function(rec){
+      html += '<tr>' +
+        '<td class="name-cell">' + escapeHtml(rec.name) + '</td>' +
+        '<td>' + escapeHtml(rec.group) + '</td>' +
+        '<td><div class="matrix-open" data-id="' + rec.id + '" role="button" tabindex="0" aria-label="放大 ' + escapeHtml(rec.name) + ' 的判断矩阵">' + miniMatrixHtml(rec.values) + '</div></td>';
+      if(showResults){
+        var badge = rec.cr < 0.10 ? 'ok' : (rec.cr < 0.15 ? 'warn' : 'danger');
+        var text = rec.cr < 0.10 ? '通过' : (rec.cr < 0.15 ? '需检查' : '不通过');
+        html +=
+          '<td class="num">' + fmt(rec.weights[0]*100,1) + '%</td>' +
+          '<td class="num">' + fmt(rec.weights[1]*100,1) + '%</td>' +
+          '<td class="num">' + fmt(rec.weights[2]*100,1) + '%</td>' +
+          '<td class="num">' + fmt(rec.lambdaMax) + '</td>' +
+          '<td class="num">' + fmt(rec.cr) + '</td>' +
+          '<td><span class="badge ' + badge + '">' + text + '</span></td>';
+      }
+      html += '<td><div class="record-actions">' +
+        '<button class="icon-btn" type="button" data-del="' + rec.id + '" title="删除这条记录" aria-label="删除 ' + escapeHtml(rec.name) + ' 的记录">' +
+          '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 6h18"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"/><path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>' +
+        '</button>' +
+      '</div></td></tr>';
+    });
+    html += '</tbody></table></div></div>';
+    container.innerHTML = html;
+
+    var delButtons = container.querySelectorAll("[data-del]");
+    Array.prototype.forEach.call(delButtons, function(btn){
+      btn.addEventListener("click", function(){
+        var id = btn.getAttribute("data-del");
+        if(liveConnected){
+          publishEvent({ type: "delete", id: id });
+        } else {
+          var records2 = getRecords().filter(function(r){ return r.id !== id; });
+          saveRecords(records2);
+          renderTeacher();
+          showToast("已删除该条记录", "ok");
+        }
+      });
+    });
+  }
+
+  function renderTeacher(){
+    var records = currentRecords();
+    if(livePhase === "compare"){
+      records = compareRecords();
+    }
+    $("record-count").textContent = records.length;
+    updateAverageStats(records);
+    if(livePhase === "compare"){
+      renderCompareCards($("teacher-content"), records);
+    } else {
+      renderTeacherList($("teacher-content"), records);
+    }
+  }
+
+  function escapeHtml(str){
+    return String(str).replace(/[&<>"']/g, function(ch){
+      return { "&":"&amp;", "<":"&lt;", ">":"&gt;", '"':"&quot;", "'": "&#39;" }[ch];
+    });
+  }
+
+  function exportCsv(){
+    var records = currentRecords();
+    if(records.length === 0){
+      showToast("暂无数据可导出", "warn");
+      return;
+    }
+    var header = ["姓名/学号","小组","德国权重","英国权重","马来西亚权重","德国判断","英国判断","马来西亚判断","lambdaMax","CI","CR","提交时间"];
+    var lines = [header.join(",")];
+    records.forEach(function(rec){
+      var row = [
+        rec.name, rec.group,
+        rec.weights[0], rec.weights[1], rec.weights[2],
+        rec.values[0], rec.values[1], rec.values[2],
+        rec.lambdaMax, rec.ci, rec.cr, new Date(rec.time).toLocaleString("zh-CN")
+      ];
+      lines.push(row.map(csvCell).join(","));
+    });
+    var blob = new Blob(["\uFEFF" + lines.join("\n")], { type:"text/csv;charset=utf-8" });
+    var url = URL.createObjectURL(blob);
+    var a = document.createElement("a");
+    a.href = url;
+    a.download = "AHP政策环境判断矩阵汇总.csv";
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+    showToast("CSV 已导出", "ok");
+  }
+
+  function csvCell(value){
+    var str = value === null || value === undefined ? "" : String(value);
+    if(/[",\n]/.test(str)){
+      return '"' + str.replace(/"/g, '""') + '"';
+    }
+    return str;
+  }
+
+  function clearRecords(){
+    if(confirm("确定清空全部学生提交吗？此操作无法撤销。")){
+      if(liveConnected){
+        publishEvent({ type: "clear" });
+      } else {
+        saveRecords([]);
+        renderTeacher();
+        showToast("已清空全部提交", "ok");
+      }
+    }
+  }
+
+  function showToast(msg, type){
+    var el = $("toast");
+    el.textContent = msg;
+    el.className = "toast show " + (type || "");
+    if(toastTimer) clearTimeout(toastTimer);
+    toastTimer = setTimeout(function(){
+      el.className = "toast";
+    }, 2800);
+  }
+
+  function setStudentJoinUrl(){
+    var el = $("student-join-url");
+    if(!el) return;
+    el.textContent = PUBLIC_STUDENT_URL;
+  }
+
+  function copyJoinUrl(){
+    var text = $("student-join-url").textContent;
+    if(!text) return;
+    if(navigator.clipboard && navigator.clipboard.writeText){
+      navigator.clipboard.writeText(text).then(function(){
+        showToast("学生链接已复制", "ok");
+      }).catch(function(){
+        fallbackCopy(text);
+      });
+    } else {
+      fallbackCopy(text);
+    }
+  }
+
+  function fallbackCopy(text){
+    var area = document.createElement("textarea");
+    area.value = text;
+    area.style.position = "fixed";
+    area.style.opacity = "0";
+    document.body.appendChild(area);
+    area.select();
+    try{
+      document.execCommand("copy");
+      showToast("学生链接已复制", "ok");
+    }catch(e){
+      showToast("复制失败，请手动选择地址", "warn");
+    }
+    document.body.removeChild(area);
+  }
+
+  $("tab-student").addEventListener("click", function(){ switchView("student"); });
+  $("tab-teacher").addEventListener("click", function(){ switchView("teacher"); });
+  $("submit-btn").addEventListener("click", submitRecord);
+  $("example-btn").addEventListener("click", fillExample);
+  $("reset-btn").addEventListener("click", resetForm);
+  $("export-btn").addEventListener("click", exportCsv);
+  $("clear-btn").addEventListener("click", clearRecords);
+  $("student-name").addEventListener("input", queueSendLive);
+  $("student-group").addEventListener("input", queueSendLive);
+  $("copy-join-btn").addEventListener("click", copyJoinUrl);
+  Array.prototype.forEach.call(document.querySelectorAll("[data-phase]"), function(btn){
+    btn.addEventListener("click", function(){
+      setPhase(btn.getAttribute("data-phase"));
+    });
+  });
+  $("matrix-modal-close").addEventListener("click", closeMatrixModal);
+  $("matrix-modal").addEventListener("click", function(e){
+    if(e.target === this) closeMatrixModal();
+  });
+  document.addEventListener("click", function(e){
+    var opener = e.target.closest ? e.target.closest(".matrix-open") : null;
+    if(opener) openMatrixModal(opener.getAttribute("data-id"));
+  });
+  document.addEventListener("keydown", function(e){
+    if(e.key === "Escape" && !$("matrix-modal").hidden){
+      closeMatrixModal();
+      return;
+    }
+    var opener = e.target && e.target.closest ? e.target.closest(".matrix-open") : null;
+    if(opener && (e.key === "Enter" || e.key === " ")){
+      e.preventDefault();
+      openMatrixModal(opener.getAttribute("data-id"));
+    }
+  });
+
+  render();
+  setStudentJoinUrl();
+  applyPhaseUI();
+  if(isTeacherPage) switchView("teacher");
+  applyRoleChrome();
+  if(/^https?:$/.test(window.location.protocol)){
+    connectLive();
+  } else {
+    setLiveStatus("offline", "本地模式");
+    livePhase = "fill";
+    applyPhaseUI();
+  }
+})();
+</script>
+</body>
+</html>

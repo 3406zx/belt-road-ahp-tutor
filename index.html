@@ -3,1251 +3,1454 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>一带一路投资环境 AHP 伴学实验室</title>
+<title>AHP 政策环境判断矩阵互动练习</title>
 <style>
-:root{
-  --bg:#f2f5f7; --surface:#ffffff; --surface2:#eef2f5; --text:#17212b;
-  --muted:#5b6b7b; --border:#d8e0e6; --primary:#0e7568; --primary2:#0a5c52;
-  --primary-soft:#dff3ef; --accent:#b45309; --accent-soft:#fbead2;
-  --green:#14804b; --green-soft:#dcf3e6; --red:#b91c1c; --red-soft:#fbe2e2;
-  --blue:#0f6ba8; --blue-soft:#dfeeF8; --violet:#6d28d9;
-  --s1:#0e7568; --s2:#d97706; --s3:#be123c; --s4:#0f6ba8; --s5:#14804b; --s6:#7c3aed;
-  --shadow:0 1px 2px rgba(20,40,50,.06),0 10px 28px rgba(20,40,50,.07);
-  --radius:8px;
-}
-[data-theme="dark"]{
-  --bg:#0d1419; --surface:#151d24; --surface2:#1b252d; --text:#e8eef2;
-  --muted:#93a4b3; --border:#26333d; --primary:#2bb8a5; --primary2:#3fcbb8;
-  --primary-soft:#123b36; --accent:#f0a13a; --accent-soft:#3a2a14;
-  --green:#34c174; --green-soft:#123522; --red:#ef5b5b; --red-soft:#3a1717;
-  --blue:#54a7df; --blue-soft:#122b3a; --violet:#a78bfa;
-  --s1:#2bb8a5; --s2:#f0a13a; --s3:#f26d8d; --s4:#54a7df; --s5:#34c174; --s6:#a78bfa;
-  --shadow:0 1px 2px rgba(0,0,0,.4),0 10px 28px rgba(0,0,0,.35);
-}
-*{box-sizing:border-box}
-html{scroll-behavior:smooth}
-body{
-  margin:0; background:var(--bg); color:var(--text);
-  font:400 15px/1.65 "Segoe UI","Microsoft YaHei",system-ui,-apple-system,sans-serif;
-  -webkit-font-smoothing:antialiased;
-}
-h1,h2,h3,h4{line-height:1.3; margin:0 0 .55em; font-weight:500; letter-spacing:0}
-h1{font-size:26px} h2{font-size:20px} h3{font-size:17px} h4{font-size:15px}
-p{margin:.35em 0}
-a{color:var(--primary)}
-code{font-family:"Cascadia Code",Consolas,monospace; background:var(--surface2); padding:1px 5px; border-radius:4px; font-size:.9em}
-.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+  :root{
+    --bg:#f5f6f8;
+    --surface:#ffffff;
+    --fg:#202833;
+    --muted:#697386;
+    --line:#dfe4eb;
+    --line-strong:#c8cfda;
+    --brand:#2456d6;
+    --brand-strong:#1c44ac;
+    --brand-soft:#e8efff;
+    --ok:#137a60;
+    --ok-soft:#e2f3ed;
+    --warn:#9a5a00;
+    --warn-soft:#fff1dc;
+    --danger:#b33a4a;
+    --danger-soft:#fde8eb;
+    --de:#2456d6;
+    --uk:#c83d55;
+    --my:#178564;
+    --shadow:0 1px 2px rgba(19,32,51,.06);
+  }
+  @media (prefers-color-scheme: dark){
+    :root{
+      --bg:#11151c;
+      --surface:#171c25;
+      --fg:#edf1f7;
+      --muted:#a2adbd;
+      --line:#2b3442;
+      --line-strong:#3b4656;
+      --brand:#6f9cff;
+      --brand-strong:#8aafff;
+      --brand-soft:#1d2a45;
+      --ok:#45c49b;
+      --ok-soft:#17372f;
+      --warn:#e6ad55;
+      --warn-soft:#3a2c17;
+      --danger:#ef7281;
+      --danger-soft:#40212a;
+      --de:#6f9cff;
+      --uk:#ee7890;
+      --my:#3ec79c;
+      --shadow:0 1px 2px rgba(0,0,0,.25);
+    }
+  }
 
-.wrap{max-width:1120px;margin:0 auto;padding:0 18px}
-.topbar{
-  position:sticky;top:0;z-index:40;background:var(--surface);background:color-mix(in srgb,var(--surface) 88%,transparent);
-  backdrop-filter:blur(10px);border-bottom:1px solid var(--border);
-}
-.topbar-inner{display:flex;align-items:center;gap:12px;padding:13px 0}
-.brand{display:flex;align-items:center;gap:11px;min-width:0}
-.brand-mark{width:38px;height:38px;border-radius:8px;background:linear-gradient(135deg,var(--primary),#1fa88f);color:#fff;display:grid;place-items:center;flex:0 0 auto}
-.brand-mark svg{width:21px;height:21px}
-.brand-title{font-weight:500;font-size:16px;line-height:1.2}
-.brand-sub{font-size:12px;color:var(--muted)}
-.topbar-spacer{flex:1}
-.icon-btn{
-  width:36px;height:36px;border-radius:8px;border:1px solid var(--border);background:var(--surface);
-  color:var(--text);display:inline-grid;place-items:center;cursor:pointer;flex:0 0 auto
-}
-.icon-btn svg{width:18px;height:18px}
-.icon-btn:hover{border-color:var(--primary);color:var(--primary)}
+  *{box-sizing:border-box}
+  html,body{margin:0;padding:0}
+  body{
+    background:var(--bg);
+    color:var(--fg);
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Microsoft YaHei",system-ui,sans-serif;
+    line-height:1.5;
+    -webkit-font-smoothing:antialiased;
+  }
+  button,input,select{font:inherit}
 
-.tabs{
-  position:sticky;top:58px;z-index:30;background:var(--surface);border-bottom:1px solid var(--border);
-  overflow-x:auto;
-}
-.tabs-inner{display:flex;gap:2px;max-width:1120px;margin:0 auto;padding:0 12px}
-.tab-btn{
-  display:inline-flex;align-items:center;gap:7px;padding:13px 14px;background:none;border:none;
-  color:var(--muted);font:inherit;font-size:14px;cursor:pointer;white-space:nowrap;border-bottom:2px solid transparent;
-}
-.tab-btn svg{width:17px;height:17px}
-.tab-btn:hover{color:var(--text)}
-.tab-btn.active{color:var(--primary);border-bottom-color:var(--primary);font-weight:500}
+  .app-header{
+    border-bottom:1px solid var(--line);
+    background:color-mix(in srgb, var(--surface) 88%, transparent);
+    backdrop-filter:blur(8px);
+    position:sticky;top:0;z-index:20;
+  }
+  .header-inner{
+    max-width:1120px;margin:0 auto;padding:16px 20px;
+    display:flex;gap:18px;align-items:center;justify-content:space-between;
+  }
+  .brand{display:flex;gap:12px;align-items:center;min-width:0}
+  .brand-mark{
+    width:34px;height:34px;flex:0 0 34px;border-radius:8px;
+    background:var(--brand);color:#fff;display:grid;place-items:center;
+    font-weight:600;font-size:14px;
+  }
+  .brand-text{min-width:0}
+  h1{font-size:18px;font-weight:600;margin:0;line-height:1.3}
+  .subtitle{color:var(--muted);font-size:12px;margin:2px 0 0}
 
-main{padding:22px 0 64px}
-.tab-panel{display:none;animation:fade .25s ease}
-.tab-panel.active{display:block}
-@keyframes fade{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:none}}
+  .tabs{
+    display:inline-flex;gap:2px;background:var(--bg);border:1px solid var(--line);
+    border-radius:8px;padding:3px;
+  }
+  .tab{
+    border:0;background:transparent;color:var(--muted);padding:7px 12px;
+    border-radius:6px;cursor:pointer;font-size:13px;font-weight:500;
+    display:inline-flex;align-items:center;gap:6px;
+  }
+  .tab[aria-selected="true"]{background:var(--surface);color:var(--fg);box-shadow:var(--shadow)}
+  .tab svg{width:14px;height:14px}
 
-.card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:18px;box-shadow:var(--shadow)}
-.card+.card{margin-top:16px}
-.card-head{display:flex;align-items:flex-start;gap:11px;margin-bottom:12px}
-.card-head .ic{width:34px;height:34px;border-radius:8px;background:var(--primary-soft);color:var(--primary);display:grid;place-items:center;flex:0 0 auto}
-.card-head .ic svg{width:18px;height:18px}
-.card-head .ic.amber{background:var(--accent-soft);color:var(--accent)}
-.card-head .ic.green{background:var(--green-soft);color:var(--green)}
-.card-head .ic.red{background:var(--red-soft);color:var(--red)}
-.card-title{font-size:17px;font-weight:500;margin:0}
-.card-sub{font-size:13px;color:var(--muted)}
+  main{max-width:1120px;margin:0 auto;padding:24px 20px 64px}
+  section{margin:0 0 32px}
+  .section-head{display:flex;align-items:baseline;justify-content:space-between;gap:16px;margin-bottom:14px}
+  h2{font-size:15px;font-weight:600;margin:0}
+  .section-note{color:var(--muted);font-size:12px;margin:0;max-width:720px}
 
-.grid{display:grid;gap:14px}
-.grid.cols-2{grid-template-columns:1fr 1fr}
-.grid.cols-3{grid-template-columns:repeat(3,1fr)}
+  .intro{
+    display:flex;gap:14px;align-items:flex-start;border-left:3px solid var(--brand);
+    background:var(--brand-soft);padding:12px 14px;border-radius:0 8px 8px 0;
+  }
+  .intro svg{width:18px;height:18px;flex:0 0 18px;color:var(--brand);margin-top:1px}
+  .intro p{margin:0;font-size:13px;color:var(--fg)}
+  .intro strong{font-weight:600}
+  .phase-banner{
+    display:flex;align-items:center;gap:9px;margin:14px 0 0;padding:10px 14px;
+    border:1px solid var(--line);border-radius:8px;font-size:13px;background:var(--surface);
+  }
+  .phase-dot{width:9px;height:9px;border-radius:50%;background:var(--brand);flex:0 0 9px}
+  .phase-banner.check{background:var(--ok-soft);border-color:color-mix(in srgb,var(--ok) 35%,var(--line));color:var(--ok)}
+  .phase-banner.check .phase-dot{background:var(--ok)}
 
-.btn{
-  display:inline-flex;align-items:center;justify-content:center;gap:7px;padding:9px 14px;border-radius:8px;
-  border:1px solid var(--border);background:var(--surface);color:var(--text);font:inherit;font-size:14px;cursor:pointer;
-  transition:background .15s,border-color .15s,color .15s,transform .05s;
-}
-.btn svg{width:16px;height:16px}
-.btn:hover{border-color:var(--primary);color:var(--primary)}
-.btn:active{transform:translateY(1px)}
-.btn-primary{background:var(--primary);border-color:var(--primary);color:#fff}
-.btn-primary:hover{background:var(--primary2);border-color:var(--primary2);color:#fff}
-.btn-ghost{background:transparent;border-color:transparent;color:var(--muted)}
-.btn-ghost:hover{color:var(--primary);border-color:transparent}
-.btn-outline{background:transparent}
-.btn-sm{padding:5px 10px;font-size:13px;border-radius:7px}
-.btn-block{width:100%}
+  .identity-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;max-width:680px}
+  .field{display:flex;flex-direction:column;gap:6px}
+  .field label{font-size:12px;font-weight:500;color:var(--fg)}
+  .field input{
+    height:40px;border:1px solid var(--line-strong);border-radius:8px;
+    background:var(--surface);color:var(--fg);padding:0 12px;width:100%;
+  }
+  .field input:focus{outline:2px solid var(--brand);outline-offset:1px;border-color:var(--brand)}
 
-.badge{display:inline-flex;align-items:center;gap:5px;padding:2px 9px;border-radius:999px;font-size:12px;font-weight:500;background:var(--surface2);color:var(--muted)}
-.badge svg{width:13px;height:13px}
-.badge.primary{background:var(--primary-soft);color:var(--primary)}
-.badge.green{background:var(--green-soft);color:var(--green)}
-.badge.red{background:var(--red-soft);color:var(--red)}
-.badge.amber{background:var(--accent-soft);color:var(--accent)}
-.badge.blue{background:var(--blue-soft);color:var(--blue)}
+  .matrix-layout{display:grid;grid-template-columns:minmax(300px,1.05fr) minmax(300px,.95fr);gap:24px;align-items:start}
+  @media (max-width:820px){.matrix-layout{grid-template-columns:1fr}}
 
-.stat-row{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
-.stat{background:var(--surface2);border-radius:8px;padding:13px 14px}
-.stat .label{font-size:12px;color:var(--muted)}
-.stat .value{font-size:22px;font-weight:500;margin-top:2px}
-.stat .value small{font-size:13px;font-weight:400;color:var(--muted)}
+  .pair-list{display:flex;flex-direction:column;gap:14px}
+  .pair{border:1px solid var(--line);border-radius:8px;padding:14px;background:var(--surface)}
+  .pair-top{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:10px}
+  .pair-label{font-size:13px;font-weight:600;margin:0}
+  .pair-meaning{font-size:12px;color:var(--muted);margin:0;font-weight:400}
+  .pair-value{
+    flex:0 0 auto;min-width:34px;text-align:center;background:var(--brand-soft);
+    color:var(--brand-strong);border-radius:6px;padding:4px 8px;font-weight:600;font-size:13px;
+  }
+  .pair-control{display:flex;gap:12px;align-items:center}
+  input[type="range"]{flex:1;accent-color:var(--brand);min-width:0}
+  .scale-word{flex:0 0 96px;text-align:right;font-size:12px;color:var(--muted)}
 
-.note{border-left:3px solid var(--blue);background:var(--blue-soft);border-radius:0 8px 8px 0;padding:10px 13px;font-size:13.5px;margin:10px 0}
-.note.warn{border-left-color:var(--accent);background:var(--accent-soft)}
-.note.good{border-left-color:var(--green);background:var(--green-soft)}
-.note.bad{border-left-color:var(--red);background:var(--red-soft)}
+  .matrix-display{min-width:0}
+  .matrix-card{background:var(--surface);border:1px solid var(--line);border-radius:8px;overflow:hidden}
+  .matrix-title{font-size:12px;font-weight:600;padding:12px 14px;border-bottom:1px solid var(--line);color:var(--fg)}
+  .matrix-scroll{overflow-x:auto}
+  table.matrix{border-collapse:collapse;width:100%;min-width:260px;text-align:center}
+  .matrix th,.matrix td{border-bottom:1px solid var(--line);padding:11px 8px;font-size:13px}
+  .matrix th{font-weight:600;color:var(--muted);font-size:12px}
+  .matrix tr:last-child td{border-bottom:0}
+  .matrix .row-head{font-weight:600;color:var(--fg);text-align:left;white-space:nowrap}
+  .matrix .diag{color:var(--muted)}
+  .matrix .num{font-variant-numeric:tabular-nums}
+  .country-dot{display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:7px;vertical-align:1px}
 
-.steps{display:flex;flex-wrap:wrap;gap:8px;margin:6px 0 2px}
-.step-pill{display:inline-flex;align-items:center;gap:7px;padding:7px 11px;border-radius:999px;background:var(--surface2);color:var(--muted);font-size:13px}
-.step-pill .n{width:18px;height:18px;border-radius:50%;background:var(--border);color:var(--text);display:grid;place-items:center;font-size:11px;font-weight:500}
-.step-pill.done{background:var(--primary-soft);color:var(--primary)}
-.step-pill.done .n{background:var(--primary);color:#fff}
-.step-pill svg{width:14px;height:14px}
+  .results-grid{display:grid;grid-template-columns:1.05fr .95fr;gap:24px;align-items:start}
+  @media (max-width:820px){.results-grid{grid-template-columns:1fr}}
 
-/* chat */
-.chat{display:flex;flex-direction:column;height:min(64vh,640px);min-height:420px;border:1px solid var(--border);border-radius:8px;background:var(--surface);overflow:hidden}
-.chat-head{display:flex;align-items:center;gap:10px;padding:12px 14px;border-bottom:1px solid var(--border);background:var(--surface)}
-.avatar{width:34px;height:34px;border-radius:50%;background:linear-gradient(135deg,var(--primary),#1fa88f);color:#fff;display:grid;place-items:center;flex:0 0 auto}
-.avatar svg{width:18px;height:18px}
-.chat-scroll{flex:1;overflow-y:auto;padding:16px 14px;display:flex;flex-direction:column;gap:12px}
-.msg{display:flex;gap:9px;max-width:88%}
-.msg.user{align-self:flex-end;flex-direction:row-reverse}
-.msg .bubble{padding:10px 13px;border-radius:10px;background:var(--surface2);font-size:14px;line-height:1.6;white-space:pre-wrap;overflow-wrap:anywhere}
-.msg.user .bubble{background:var(--primary);color:#fff}
-.msg .who{font-size:11px;color:var(--muted);margin-bottom:3px}
-.msg.user .who{text-align:right}
-.msg.thinking .bubble{display:flex;gap:5px;padding:14px 16px}
-.dot{width:7px;height:7px;border-radius:50%;background:var(--muted);animation:blink 1s infinite}
-.dot:nth-child(2){animation-delay:.18s}.dot:nth-child(3){animation-delay:.36s}
-@keyframes blink{0%,80%,100%{opacity:.25}40%{opacity:1}}
-.chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:9px}
-.chip{background:var(--primary-soft);color:var(--primary);border:1px solid transparent;border-radius:999px;padding:6px 12px;font-size:13px;cursor:pointer;font:inherit}
-.chip:hover{border-color:var(--primary)}
-.quiz-opt{display:block;width:100%;text-align:left;margin-top:8px;background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:9px 12px;cursor:pointer;font:inherit;font-size:14px;color:var(--text)}
-.quiz-opt:hover{border-color:var(--primary)}
-.quiz-opt.correct{border-color:var(--green);background:var(--green-soft)}
-.quiz-opt.wrong{border-color:var(--red);background:var(--red-soft)}
-.quiz-opt[disabled]{cursor:default;opacity:.92}
-.chat-input{display:flex;gap:8px;padding:11px 12px;border-top:1px solid var(--border);background:var(--surface)}
-.chat-input input{flex:1;border:1px solid var(--border);border-radius:8px;padding:9px 12px;font:inherit;background:var(--bg);color:var(--text);min-width:0}
-.chat-input input:focus{outline:none;border-color:var(--primary)}
-.chat-input button{flex:0 0 auto}
+  .metrics{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:16px}
+  @media (max-width:520px){.metrics{grid-template-columns:1fr}}
+  .metric{border:1px solid var(--line);border-radius:8px;padding:12px;background:var(--surface)}
+  .metric-label{font-size:12px;color:var(--muted);margin:0 0 5px}
+  .metric-value{font-size:20px;font-weight:600;margin:0;font-variant-numeric:tabular-nums}
+  .metric-hint{font-size:11px;color:var(--muted);margin:3px 0 0}
+  .verdict{
+    border:1px solid var(--line);border-radius:8px;padding:12px 14px;margin-bottom:16px;
+    font-size:13px;display:flex;gap:9px;align-items:center;background:var(--surface);
+  }
+  .verdict svg{width:17px;height:17px;flex:0 0 17px}
+  .verdict.ok{background:var(--ok-soft);border-color:color-mix(in srgb,var(--ok) 35%,var(--line));color:var(--ok)}
+  .verdict.warn{background:var(--warn-soft);border-color:color-mix(in srgb,var(--warn) 35%,var(--line));color:var(--warn)}
 
-/* tables */
-.table{width:100%;border-collapse:collapse;font-size:14px}
-.table th,.table td{padding:9px 10px;text-align:left;border-bottom:1px solid var(--border);vertical-align:middle}
-.table th{font-weight:500;color:var(--muted);font-size:13px;background:var(--surface2)}
-.table th:first-child{border-top-left-radius:8px}
-.table th:last-child{border-top-right-radius:8px}
-.table td.num,.table th.num{text-align:right;font-variant-numeric:tabular-nums}
-.table tr:last-child td{border-bottom:none}
-.table-responsive{overflow-x:auto;border-radius:8px}
+  .bar-chart{display:flex;flex-direction:column;gap:14px;background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:16px}
+  .bar-row{display:grid;grid-template-columns:96px 1fr 76px;gap:12px;align-items:center}
+  @media (max-width:480px){.bar-row{grid-template-columns:82px 1fr 58px}}
+  .bar-name{font-size:13px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .bar-track{height:18px;background:var(--bg);border-radius:5px;overflow:hidden}
+  .bar-fill{height:100%;border-radius:5px;min-width:3px;transition:width .25s ease}
+  .bar-pct{font-size:13px;font-weight:600;text-align:right;font-variant-numeric:tabular-nums}
 
-/* matrix */
-.matrix-wrap{overflow-x:auto}
-.matrix{width:100%;border-collapse:collapse;font-size:13px;min-width:640px}
-.matrix th,.matrix td{border:1px solid var(--border);padding:5px;text-align:center}
-.matrix th{background:var(--surface2);font-weight:500}
-.matrix td.diag{background:var(--surface2);font-weight:500}
-.matrix select{width:74px;padding:5px 6px;border:1px solid var(--border);border-radius:6px;background:var(--bg);color:var(--text);font:inherit;font-size:13px}
-.matrix .recip{color:var(--muted);font-variant-numeric:tabular-nums}
+  .actions{display:flex;flex-wrap:wrap;gap:10px;margin-top:18px}
+  .btn{
+    display:inline-flex;align-items:center;gap:8px;border:1px solid var(--line-strong);
+    background:var(--surface);color:var(--fg);padding:9px 14px;border-radius:8px;
+    cursor:pointer;font-size:13px;font-weight:500;line-height:1.2;
+  }
+  .btn:hover{background:color-mix(in srgb,var(--surface) 88%,var(--fg))}
+  .btn svg{width:15px;height:15px}
+  .btn-primary{background:var(--brand);border-color:var(--brand);color:#fff}
+  .btn-primary:hover{background:var(--brand-strong);border-color:var(--brand-strong)}
+  .btn-ghost{background:transparent;border-color:transparent;color:var(--muted)}
+  .btn-ghost:hover{background:var(--bg);color:var(--fg)}
+  .btn-danger{color:var(--danger);border-color:color-mix(in srgb,var(--danger) 35%,var(--line))}
+  .btn-danger:hover{background:var(--danger-soft)}
 
-/* scoring */
-.score-input{width:64px;padding:6px 8px;border:1px solid var(--border);border-radius:6px;background:var(--bg);color:var(--text);font:inherit;text-align:center}
-.score-input:focus{outline:none;border-color:var(--primary)}
-.dir-cost{color:var(--accent);font-weight:500}
-.del-btn{background:none;border:none;color:var(--muted);cursor:pointer;padding:4px;border-radius:6px;display:inline-grid;place-items:center}
-.del-btn:hover{color:var(--red);background:var(--red-soft)}
-.del-btn svg{width:16px;height:16px}
+  .teacher-bar{display:flex;flex-wrap:wrap;gap:14px;align-items:center;justify-content:space-between;margin-bottom:14px}
+  .teacher-stats{display:flex;flex-wrap:wrap;gap:10px}
+  .chip{display:inline-flex;align-items:center;gap:8px;background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:7px 11px;font-size:12px;color:var(--muted)}
+  .chip b{color:var(--fg);font-weight:600}
+  .join-panel{
+    display:flex;flex-wrap:wrap;gap:12px;align-items:center;justify-content:space-between;
+    border:1px solid var(--line);border-radius:8px;padding:12px 14px;margin-bottom:14px;background:var(--surface);
+  }
+  .join-info{display:flex;flex-direction:column;gap:4px;min-width:0}
+  .join-label{font-size:12px;color:var(--muted);font-weight:600}
+  .join-url{font-size:16px;font-weight:600;color:var(--brand-strong);word-break:break-all}
+  .phase-control{
+    display:flex;flex-wrap:wrap;gap:12px;align-items:center;justify-content:space-between;
+    border:1px solid var(--line);border-radius:8px;padding:12px 14px;margin-bottom:14px;background:var(--surface);
+  }
+  .phase-switch{display:flex;flex-wrap:wrap;gap:8px}
+  .phase-switch .btn{padding:7px 11px;font-size:12px}
+  .phase-switch .btn.active{background:var(--brand);border-color:var(--brand);color:#fff}
+  .compare-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px}
+  .compare-card{background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:14px;display:flex;flex-direction:column;gap:12px;min-width:0}
+  .compare-card-head{display:flex;justify-content:space-between;gap:12px;align-items:baseline;min-width:0}
+  .compare-card-head strong{font-size:14px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .compare-card-head span{font-size:12px;color:var(--muted);white-space:nowrap}
+  .compare-card .matrix-open{align-self:flex-start}
+  .compare-meta{display:flex;flex-wrap:wrap;gap:7px}
+  .compare-meta span{background:var(--bg);border:1px solid var(--line);border-radius:6px;padding:4px 7px;font-size:12px;color:var(--fg);font-variant-numeric:tabular-nums}
+  .phase-banner.compare{background:var(--warn-soft);border-color:color-mix(in srgb,var(--warn) 35%,var(--line));color:var(--warn)}
+  .phase-banner.compare .phase-dot{background:var(--warn)}
+    .empty{border:1px dashed var(--line-strong);border-radius:8px;padding:34px 20px;text-align:center;color:var(--muted);font-size:13px;background:var(--surface)}
+  .record-list{border:1px solid var(--line);border-radius:8px;overflow:hidden;background:var(--surface)}
+  .record-scroll{overflow-x:auto}
+  table.records{border-collapse:collapse;width:100%;text-align:left;font-size:13px;min-width:980px}
+  table.records.compact{min-width:420px}
+  .records th,.records td{padding:11px 12px;border-bottom:1px solid var(--line)}
+  .records th{font-size:12px;color:var(--muted);font-weight:600;white-space:nowrap}
+  .records tr:last-child td{border-bottom:0}
+  .records td.num,.records th.num{text-align:right;font-variant-numeric:tabular-nums}
+  .records .name-cell{font-weight:600}
+  .records .badge{font-size:11px;padding:2px 7px;border-radius:5px;font-weight:600}
+  .badge.ok{background:var(--ok-soft);color:var(--ok)}
+  .badge.warn{background:var(--warn-soft);color:var(--warn)}
+  .badge.danger{background:var(--danger-soft);color:var(--danger)}
+  .mini-matrix{border-collapse:collapse;font-size:11px;font-variant-numeric:tabular-nums;white-space:nowrap}
+  .mini-matrix td{border:1px solid var(--line);padding:3px 6px;text-align:center;min-width:22px;background:var(--surface)}
+  .mini-matrix .mini-head{color:var(--muted);font-weight:600}
+  .mini-matrix .mini-diag{color:var(--muted)}
+  .matrix-open{cursor:pointer;border-radius:8px;transition:box-shadow .15s ease,background .15s ease;padding:4px;margin:-4px}
+  .matrix-open:hover,.matrix-open:focus-visible{background:var(--brand-soft);box-shadow:0 0 0 2px var(--brand-soft)}
+  .matrix-open:focus{outline:2px solid var(--brand);outline-offset:2px}
+  .record-actions{display:flex;gap:6px}
+  .icon-btn{width:28px;height:28px;display:inline-grid;place-items:center;border:1px solid var(--line);border-radius:6px;background:transparent;color:var(--muted);cursor:pointer}
+  .icon-btn:hover{color:var(--danger);border-color:color-mix(in srgb,var(--danger) 35%,var(--line));background:var(--danger-soft)}
+  .icon-btn svg{width:14px;height:14px}
 
-/* charts */
-.bar-row{display:grid;grid-template-columns:110px 1fr 64px;align-items:center;gap:10px;margin:7px 0}
-.bar-label{font-size:13px;text-align:right;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.bar-track{background:var(--surface2);border-radius:6px;height:16px;overflow:hidden}
-.bar-fill{height:100%;border-radius:6px;background:var(--s1);transition:width .5s ease}
-.bar-val{font-size:13px;font-variant-numeric:tabular-nums;color:var(--muted);text-align:right}
-.legend{display:flex;flex-wrap:wrap;gap:12px;margin-top:10px}
-.legend span{display:inline-flex;align-items:center;gap:6px;font-size:12px;color:var(--muted)}
-.legend i{width:10px;height:10px;border-radius:3px;display:inline-block}
-.corridor-map{width:100%;overflow:hidden;border:1px solid var(--border);border-radius:8px;background:var(--surface);margin-top:4px}
-.corridor-map svg{display:block;width:100%;height:auto}
-.rank-badge{display:inline-grid;place-items:center;width:26px;height:26px;border-radius:50%;background:var(--surface2);font-weight:500;font-size:13px}
-.rank-badge.top1{background:var(--accent);color:#fff}
-.rank-badge.top2{background:#8b9aa8;color:#fff}
-.rank-badge.top3{background:#b07a45;color:#fff}
-svg.chart{width:100%;height:auto;display:block}
-svg text{font-family:inherit;fill:var(--text)}
-svg .axis{stroke:var(--border);stroke-width:1}
-svg .gridline{stroke:var(--border);stroke-width:.6;stroke-dasharray:3 3}
+  .live-badge{
+    display:inline-flex;align-items:center;gap:7px;border:1px solid var(--line);
+    border-radius:999px;padding:6px 10px;font-size:12px;color:var(--muted);background:var(--surface);
+    white-space:nowrap;
+  }
+  .live-dot{width:8px;height:8px;border-radius:50%;background:var(--muted);flex:0 0 8px}
+  .live-badge.online{color:var(--ok);border-color:color-mix(in srgb,var(--ok) 40%,var(--line));background:var(--ok-soft)}
+  .live-badge.online .live-dot{background:var(--ok);box-shadow:0 0 0 3px color-mix(in srgb,var(--ok) 18%,transparent)}
+  .live-badge.offline{color:var(--warn);border-color:color-mix(in srgb,var(--warn) 40%,var(--line));background:var(--warn-soft)}
+  .live-badge.offline .live-dot{background:var(--warn)}
 
-/* hierarchy */
-.hierarchy{display:flex;flex-direction:column;gap:8px}
-.h-level{display:flex;flex-wrap:wrap;gap:8px;justify-content:center}
-.h-box{border:1px solid var(--border);border-radius:8px;padding:9px 12px;background:var(--surface);font-size:13px;text-align:center}
-.h-box.goal{background:var(--primary);color:#fff;border-color:var(--primary);font-weight:500}
-.h-box.criterion{background:var(--primary-soft);border-color:transparent}
-.h-box.alt{background:var(--surface2);border-color:transparent;font-size:12px;padding:6px 10px}
-.h-link{text-align:center;color:var(--muted);font-size:11px}
-.h-link svg{width:14px;height:14px;vertical-align:middle}
+  .toast{
+    position:fixed;right:20px;bottom:20px;z-index:50;max-width:320px;
+    background:var(--fg);color:var(--bg);padding:11px 14px;border-radius:8px;font-size:13px;
+    box-shadow:0 8px 24px rgba(0,0,0,.22);opacity:0;transform:translateY(8px);
+    pointer-events:none;transition:opacity .2s ease,transform .2s ease;
+  }
+  .toast.show{opacity:1;transform:translateY(0)}
+  .toast.warn{background:var(--warn);color:#fff}
+  .toast.danger{background:var(--danger);color:#fff}
+  .toast.ok{background:var(--ok);color:#fff}
 
-/* knowledge */
-.kb-item{border-bottom:1px solid var(--border);padding:12px 0}
-.kb-item:last-child{border-bottom:none}
-.kb-item h4{margin:0 0 5px;display:flex;gap:8px;align-items:center}
-.kb-item h4 svg{width:16px;height:16px;color:var(--primary)}
-.kb-item p,.kb-item li{font-size:14px;color:var(--text)}
-.kb-item ul{padding-left:20px;margin:5px 0}
-.formula{background:var(--surface2);border-radius:8px;padding:10px 14px;margin:8px 0;overflow-x:auto;font-family:"Cascadia Code",Consolas,monospace;font-size:13px}
+  .matrix-modal{position:fixed;inset:0;z-index:80;display:flex;align-items:center;justify-content:center;padding:20px;background:rgba(8,13,22,.64)}
+  .matrix-modal[hidden]{display:none}
+  .matrix-modal-panel{
+    background:var(--surface);border:1px solid var(--line);border-radius:12px;
+    width:100%;max-width:760px;max-height:92vh;overflow:auto;padding:24px;box-shadow:0 24px 80px rgba(0,0,0,.35);
+  }
+  .matrix-modal-head{display:flex;align-items:flex-start;justify-content:space-between;gap:18px;margin-bottom:18px}
+  .matrix-modal-kicker{font-size:12px;color:var(--muted);margin:0 0 4px}
+  .matrix-modal-title{font-size:20px;font-weight:600;margin:0;letter-spacing:0}
+  .matrix-modal-close{
+    width:34px;height:34px;flex:0 0 34px;display:grid;place-items:center;border:1px solid var(--line);
+    border-radius:8px;background:var(--surface);color:var(--fg);cursor:pointer;
+  }
+  .matrix-modal-close:hover{background:var(--danger-soft);color:var(--danger);border-color:color-mix(in srgb,var(--danger) 35%,var(--line))}
+  .matrix-modal-close svg{width:16px;height:16px}
+  .large-matrix-wrap{overflow-x:auto;padding:6px 0 4px}
+  table.large-matrix{border-collapse:collapse;width:100%;max-width:560px;margin:0 auto;text-align:center}
+  .large-matrix td{border:1px solid var(--line-strong);padding:16px 12px;font-size:20px;font-variant-numeric:tabular-nums;min-width:58px}
+  .large-matrix .large-head{font-size:13px;font-weight:600;color:var(--muted);background:var(--bg)}
+  .large-matrix .large-row-head{font-size:13px;font-weight:600;color:var(--fg);background:var(--bg)}
+  .large-matrix .large-diag{color:var(--muted)}
+  .matrix-modal-summary{display:flex;flex-wrap:wrap;gap:10px;margin-top:18px}
+  .matrix-modal-summary .chip{font-size:13px}
+  @media (max-width:520px){
+    .matrix-modal-panel{padding:16px}
+    .large-matrix td{padding:12px 8px;font-size:17px;min-width:44px}
+  }
 
-.saaty-table td:first-child{white-space:nowrap}
-.foot{color:var(--muted);font-size:12px;text-align:center;padding:24px 0 8px}
-
-@media(max-width:820px){
-  .grid.cols-2,.grid.cols-3{grid-template-columns:1fr}
-  .stat-row{grid-template-columns:1fr 1fr}
-  .bar-row{grid-template-columns:78px 1fr 52px}
-  h1{font-size:22px}
-}
-@media(max-width:600px){ .brand-sub{display:none} }
-/* mascot & animations */
-.mascot-slot{display:grid;place-items:center;flex:0 0 auto}
-.mascot-sm{width:42px;height:42px}
-.mascot-lg{width:96px;height:96px}
-.mascot-svg{width:100%;height:100%;overflow:visible;animation:bob 3.2s ease-in-out infinite}
-.hero-mascot{position:absolute;right:20px;top:50%;transform:translateY(-50%)}
-.mascot-svg .bulb{animation:glow 2.2s ease-in-out infinite}
-.mascot-svg .eyes{transform-origin:60px 43px;animation:blink 4s infinite}
-.mascot-svg .arm{transform-origin:82px 82px;animation:wave 2.6s ease-in-out infinite}
-.mascot-svg .screen-bars rect{transform-origin:center bottom;animation:bars 2s ease-in-out infinite}
-.mascot-svg .screen-bars rect:nth-child(2){animation-delay:.15s}
-.mascot-svg .screen-bars rect:nth-child(3){animation-delay:.3s}
-@keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(-4px)}}
-@keyframes glow{0%,100%{opacity:.7}50%{opacity:1}}
-@keyframes blink{0%,91%,100%{transform:scaleY(1)}94%{transform:scaleY(.12)}}
-@keyframes wave{0%,100%{transform:rotate(0)}50%{transform:rotate(20deg)}}
-@keyframes bars{0%,100%{transform:scaleY(1)}50%{transform:scaleY(.55)}}
-@keyframes pop{0%{transform:scale(.92);opacity:.5}60%{transform:scale(1.05)}100%{transform:scale(1);opacity:1}}
-@keyframes shake{0%,100%{transform:translateX(0)}20%{transform:translateX(-5px)}40%{transform:translateX(5px)}60%{transform:translateX(-4px)}80%{transform:translateX(4px)}}
-@keyframes pulse{0%,100%{box-shadow:0 0 0 0 rgba(14,117,104,.35)}50%{box-shadow:0 0 0 6px rgba(14,117,104,0)}}
-@keyframes flowDown{0%,100%{transform:translateY(-2px);opacity:.35}50%{transform:translateY(2px);opacity:1}}
-.quiz-opt.correct{animation:pop .35s ease}
-.quiz-opt.wrong{animation:shake .4s ease}
-.step-pill.current{background:var(--primary-soft);color:var(--primary);animation:pulse 1.8s infinite}
-.step-pill.done .n svg{animation:pop .3s ease}
-.h-link svg{animation:flowDown 1.8s ease-in-out infinite}
-.note.good{animation:pop .35s ease}
-.note.bad{animation:shake .4s ease}
-.confetti{position:fixed;inset:0;pointer-events:none;z-index:200;overflow:hidden}
-.confetti i{position:absolute;top:-14px;width:8px;height:14px;border-radius:2px;animation:fall linear forwards}
-@keyframes fall{to{transform:translateY(110vh) rotate(680deg);opacity:0}}
-@media(max-width:900px){.hero-mascot{display:none}}
-@media (prefers-reduced-motion: reduce){
-  .mascot-svg,.mascot-svg .bulb,.mascot-svg .eyes,.mascot-svg .arm,.mascot-svg .screen-bars rect,
-  .step-pill.current,.h-link svg{animation:none!important}
-  .quiz-opt.correct,.quiz-opt.wrong,.note.good,.note.bad{animation:none!important}
-  .bar-fill{transition:none!important}
-}
-
-@media print{
-  .topbar,.tabs,.chat-input,.chips,.quiz-opt,.no-print{display:none!important}
-  .tab-panel{display:block!important}
-  .chat{height:auto;min-height:0}
-  .chat-scroll{overflow:visible}
-  body{background:#fff}
-  .card{box-shadow:none;border-color:#ddd}
-}
+  @media (max-width:600px){
+    .header-inner{padding:12px 14px;gap:10px}
+    .brand-mark{width:30px;height:30px;flex-basis:30px}
+    h1{font-size:16px}
+    .subtitle{display:none}
+    .tab{padding:7px 9px;font-size:12px}
+    main{padding:18px 14px 56px}
+    .identity-grid{grid-template-columns:1fr}
+    .metrics{grid-template-columns:1fr 1fr}
+  }
+  @media (max-width:420px){
+    .header-inner{flex-wrap:wrap;row-gap:8px}
+    .tabs{width:100%;justify-content:center}
+    .live-badge{order:3;margin-left:auto}
+  }
 </style>
 </head>
-<body><header class="topbar">
-  <div class="wrap topbar-inner">
+<body>
+<header class="app-header">
+  <div class="header-inner">
     <div class="brand">
-      <div class="brand-mark"><i data-icon="graduation"></i></div>
-      <div class="brand-title">一带一路投资环境 AHP 伴学实验室
-        <div class="brand-sub">层次分析法 · 多准则综合评估 · 互动伴学</div>
+      <div class="brand-mark">AHP</div>
+      <div class="brand-text">
+        <h1>政策环境下的国家比较</h1>
+        <p class="subtitle">德国 · 英国 · 马来西亚 判断矩阵互动练习</p>
       </div>
     </div>
-    <div class="topbar-spacer"></div>
-    <button class="icon-btn no-print" id="themeToggle" data-tooltip="切换深浅色" aria-label="切换深浅色"><i data-icon="sun"></i></button>
+    <div class="tabs" role="tablist" aria-label="视图切换">
+      <button class="tab" type="button" role="tab" aria-selected="true" data-view="student" aria-controls="student-view" id="tab-student">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M19 8v6"/><path d="M22 11h-6"/></svg>
+        学生填写
+      </button>
+      <button class="tab" type="button" role="tab" aria-selected="false" data-view="teacher" aria-controls="teacher-view" id="tab-teacher">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 3v18h18"/><path d="M7 15l4-5 3 3 5-7"/></svg>
+        教师汇总
+      </button>
+    </div>
+    <div class="live-badge offline" id="live-badge" aria-live="polite">
+      <span class="live-dot" aria-hidden="true"></span>
+      <span id="live-badge-text">本地模式</span>
+    </div>
   </div>
 </header>
 
-<nav class="tabs" aria-label="主导航">
-  <div class="tabs-inner">
-    <button class="tab-btn active" data-tab="background"><i data-icon="globe"></i>背景知识</button>
-    <button class="tab-btn" data-tab="lab"><i data-icon="calculator"></i>AHP 实操</button>
-    <button class="tab-btn" data-tab="knowledge"><i data-icon="book"></i>知识库</button>
-    <button class="tab-btn" data-tab="tutor"><i data-icon="message"></i>AI 助手</button>
-  </div>
-</nav>
-
-<main class="wrap">
-
-  <section id="tab-background" class="tab-panel active">
-    <div class="card" style="background:linear-gradient(120deg,var(--blue),#1f7fc0);border:none;color:#fff">
-      <h1 style="margin-bottom:.35em">题目背景：认识“一带一路”</h1>
-      <p style="max-width:800px;opacity:.94">“一带一路”倡议覆盖区域广阔、各国发展阶段差异大，是学习多准则综合评估的理想场景。了解背景，有助于你选择国家、给准则打分，并写出更有说服力的分析报告。</p>
+<main>
+  <section id="student-view" role="tabpanel" aria-labelledby="tab-student">
+    <section class="intro" aria-label="任务说明">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg>
+      <p>请从<strong>政策环境</strong>这一准则出发，对德国、英国、马来西亚进行两两比较。拖动滑块填写你认为相对重要的程度，程序会自动生成完整的互反矩阵，并实时计算权重和一致性比率。</p>
+    </section>
+    <div class="phase-banner fill" id="student-phase-banner">
+      <span class="phase-dot" aria-hidden="true"></span>
+      <span id="student-phase-text">当前阶段：填写判断矩阵，先不用考虑对错。</span>
     </div>
 
-    <div class="grid cols-2" style="margin-top:16px">
-      <div class="card">
-        <div class="card-head"><div class="ic"><i data-icon="globe"></i></div><div><h3 class="card-title">什么是“一带一路”倡议</h3></div></div>
-        <p style="font-size:14px">“一带一路”是“丝绸之路经济带”和“21 世纪海上丝绸之路”的简称，于 2013 年提出。它以<b>共商、共建、共享</b>为原则，重点推动“五通”：<b>政策沟通、设施联通、贸易畅通、资金融通、民心相通</b>。</p>
-      </div>
-      <div class="card">
-        <div class="card-head"><div class="ic amber"><i data-icon="layers"></i></div><div><h3 class="card-title">覆盖范围与区域特色</h3></div></div>
-        <p style="font-size:14px">沿线涵盖东南亚、南亚、中亚、西亚、中东欧、东非等区域，既有新兴市场，也有转型经济体。各国在<b>资源禀赋、地理区位、发展阶段</b>上差异显著，这正是需要多准则比较的原因。</p>
-      </div>
-    </div>
-
-    <div class="card">
-      <div class="card-head"><div class="ic"><i data-icon="map"></i></div><div><h3 class="card-title">六大经济走廊（世界地图）</h3></div></div>
-      <div id="corridorMap" class="corridor-map"></div>
-      <div class="legend">
-        <span><i style="background:var(--s1)"></i>中蒙俄</span>
-        <span><i style="background:var(--s2)"></i>新亚欧大陆桥</span>
-        <span><i style="background:var(--s3)"></i>中国—中亚—西亚</span>
-        <span><i style="background:var(--s4)"></i>中巴经济走廊</span>
-        <span><i style="background:var(--s5)"></i>孟中印缅</span>
-        <span><i style="background:var(--s6)"></i>中国—中南半岛</span>
-      </div>
-      <p style="font-size:12.5px;color:var(--muted);margin-top:8px">真实世界地图（联网加载），线条为六大走廊的大致走向；完全离线打开时地图可能不显示，其余功能不受影响。</p>
-    </div>
-
-    <div class="card">
-      <div class="card-head"><div class="ic"><i data-icon="list"></i></div><div><h3 class="card-title">七大评估准则说明</h3></div></div>
-      <div class="table-responsive">
-        <table class="table">
-          <thead><tr><th>准则</th><th>含义</th><th>参考评分（1–10，基于公开数据）</th><th>方向</th></tr></thead>
-          <tbody>
-            <tr><td><b>数字基础设施</b></td><td>网络、数据中心、数字支付等数字化基础条件</td><td><b>新加坡 8.7</b>（优）｜阿联酋 8.4｜<b>巴基斯坦 1.0</b>（劣，差 7.7）</td><td style="color:var(--green)">正向</td></tr>
-            <tr><td><b>政策环境</b></td><td>外资政策、监管透明度、营商便利度</td><td><b>新加坡 8.9</b>（优）｜阿联酋 7.3｜<b>巴基斯坦 3.7</b>（劣，差 5.2）</td><td style="color:var(--green)">正向</td></tr>
-            <tr><td><b>经济风险</b></td><td>债务、通胀、汇率与增长波动（风险越低越好）</td><td><b>新加坡 1.0</b>（最低）｜越南 5.0｜<b>巴基斯坦 / 哈萨克斯坦 10.0</b>（最高，差 9.0）</td><td class="dir-cost">逆向</td></tr>
-            <tr><td><b>可持续发展</b></td><td>环境、社会、治理与长期发展潜力</td><td><b>匈牙利 9.2</b>（优）｜越南 8.9｜<b>巴基斯坦 2.8</b>（劣，差 6.4）</td><td style="color:var(--green)">正向</td></tr>
-            <tr><td><b>区域特色</b></td><td>区位、资源禀赋、产业互补性</td><td><b>阿联酋 9.0</b>（优）｜新加坡 8.7｜<b>巴基斯坦 6.2</b>（劣，差 2.8）</td><td style="color:var(--green)">正向</td></tr>
-            <tr><td><b>投资机遇</b></td><td>市场增长空间与项目机会</td><td><b>越南 7.8</b>（优）｜印度尼西亚 6.7｜<b>匈牙利 1.6</b>（劣，差 6.2）</td><td style="color:var(--green)">正向</td></tr>
-            <tr><td><b>竞争态势</b></td><td>市场竞争强度与进入壁垒（成熟市场为优）</td><td><b>新加坡 8.8</b>（优）｜匈牙利 8.4｜<b>巴基斯坦 1.5</b>（劣，差 7.3）</td><td style="color:var(--green)">正向</td></tr>
-          </tbody>
-        </table>
-      </div>
-      <div class="note" style="margin-top:10px"><i data-icon="info"></i> 上表采用 <a href="https://data.worldbank.org/" target="_blank" rel="noreferrer">世界银行 WDI/WGI/B-READY</a> 2024–2025 年公开指标，按 8 个国家 min-max 标准化为 1–10；数字设施、政策环境、可持续发展、投资机遇、竞争态势为正向指标，“经济风险”为逆向指标，分数越低越有利。区域特色结合六大经济走廊区位与物流绩效作定性判断。</div>
-    </div>
-
-    <div class="card">
-      <div class="card-head"><div class="ic amber"><i data-icon="sparkles"></i></div><div><h3 class="card-title">近年趋势与关注点</h3></div></div>
-      <ul style="padding-left:20px;line-height:1.9;margin:0">
-        <li><b>数字化、绿色化</b>：数字丝绸之路、绿色丝绸之路成为新重点；</li>
-        <li><b>风险意识增强</b>：地缘政治、债务可持续性受到更多关注；</li>
-        <li><b>项目更注重“小而美”</b>：强调合规、本地化与可持续运营；</li>
-        <li><b>评估更强调综合比较</b>：这正是 AHP 这类多准则方法的用武之地。</li>
-      </ul>
-    </div>
-  </section>
-
-  <section id="tab-lab" class="tab-panel">
-    <div class="card">
-      <div class="card-head"><div class="ic"><i data-icon="calculator"></i></div><div><h3 class="card-title">AHP 实操台</h3><div class="card-sub">按五步完成：建立模型、构造矩阵、检验权重、单排序、总排序</div></div></div>
-      <div class="steps">
-        <span class="step-pill"><span class="n">1</span>层次结构模型</span>
-        <span class="step-pill"><span class="n">2</span>判断矩阵构建</span>
-        <span class="step-pill"><span class="n">3</span>权重与一致性检验</span>
-        <span class="step-pill"><span class="n">4</span>层次单排序</span>
-        <span class="step-pill"><span class="n">5</span>层次总排序</span>
-      </div>
-    </div>
-
-    <div class="card">
-      <div class="card-head"><div class="ic"><i data-icon="layers"></i></div><div><h3 class="card-title">① 层次结构模型</h3><div class="card-sub">目标层 → 准则层 → 方案层</div></div></div>
-      <div id="hierarchyBox"></div>
-    </div>
-
-    <div class="card">
-      <div class="card-head"><div class="ic amber"><i data-icon="grid"></i></div><div><h3 class="card-title">② 判断矩阵构建（1–9 标度）</h3><div class="card-sub">上三角填入“行相对列”的重要程度，下三角自动取倒数</div></div></div>
-      <div class="legend">
-        <span><i style="background:var(--s1)"></i>1 同等重要</span>
-        <span><i style="background:var(--s2)"></i>3 稍微重要</span>
-        <span><i style="background:var(--s3)"></i>5 明显重要</span>
-        <span><i style="background:var(--s4)"></i>7 强烈重要</span>
-        <span><i style="background:var(--s5)"></i>9 极端重要</span>
-        <span style="color:var(--muted)">2/4/6/8 为中间值</span>
-      </div>
-      <div style="display:flex;gap:8px;flex-wrap:wrap;margin:12px 0">
-        <button class="btn btn-sm" id="fillExample"><i data-icon="wand"></i>填入参考判断</button>
-        <button class="btn btn-sm" id="fillEqual"><i data-icon="equal"></i>清空（全为 1）</button>
-        <button class="btn btn-sm btn-outline" id="matrixDiagnose"><i data-icon="stethoscope"></i>让助手诊断</button>
-      </div>
-      <div class="matrix-wrap" id="matrixTable"></div>
-    </div>
-
-    <div class="card">
-      <div class="card-head"><div class="ic green"><i data-icon="scale"></i></div><div><h3 class="card-title">③ 权重计算与一致性检验</h3><div class="card-sub">由判断矩阵计算权重，并用 CR 检验逻辑一致性</div></div></div>
-      <div id="matrixResults"></div>
-    </div>
-
-    <div class="card">
-      <div class="card-head"><div class="ic green"><i data-icon="edit"></i></div><div><h3 class="card-title">④ 层次单排序</h3><div class="card-sub">对每个国家逐项打分，并观察各国在各准则下的相对表现；<span class="dir-cost">经济风险为逆向指标，分数越高表示风险越大</span></div></div></div>
-      <div class="note warn"><i data-icon="info"></i> 经济风险在计算时会自动反向归一化：风险越低、单排序得分越高。</div>
-      <div style="display:flex;gap:8px;margin:10px 0 14px">
-        <input id="countryName" type="text" placeholder="输入国家名，如：埃及" style="flex:0 1 260px;border:1px solid var(--border);border-radius:8px;padding:8px 11px;font:inherit;background:var(--bg);color:var(--text)">
-        <button class="btn" id="addCountry"><i data-icon="plus"></i>添加国家</button>
-        <button class="btn btn-ghost" id="resetCountries"><i data-icon="refresh"></i>恢复参考数据</button>
-      </div>
-      <div class="table-responsive" id="scoreTable"></div>
-      <h4 style="margin:14px 0 4px">各国在各准则下的单排序得分</h4>
-      <div class="table-responsive" id="singleRankTable"></div>
-      <div class="note" style="margin-top:10px"><i data-icon="info"></i> 层次单排序只比较各国在同一准则下的原始表现，所以调整国家打分会变化；调整上面的判断矩阵只改变准则权重，影响的是“层次总排序”。</div>
-    </div>
-
-    <div class="card">
-      <div class="card-head"><div class="ic"><i data-icon="chart"></i></div><div><h3 class="card-title">⑤ 层次总排序</h3><div class="card-sub">综合得分 = Σ（准则权重 × 该准则下的单排序得分）</div></div></div>
-      <div class="grid cols-2" style="align-items:start">
-        <div><h4>投资适宜度排名</h4><div id="rankChart"></div></div>
-        <div><h4>前三名雷达图</h4><div id="radarChart"></div></div>
-      </div>
-      <div class="table-responsive" id="rankTable" style="margin-top:14px"></div>
-      <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:14px">
-        <button class="btn" id="copyReport"><i data-icon="clipboard"></i>复制文字报告</button>
-        <button class="btn btn-outline" id="reportToTutor"><i data-icon="sparkles"></i>让助手解读结果</button>
-      </div>
-    </div>
-  </section>
-  <section id="tab-knowledge" class="tab-panel">
-    <div class="card">
-      <div class="card-head"><div class="ic"><i data-icon="book"></i></div><div><h3 class="card-title">AHP 知识速查</h3><div class="card-sub">课堂核心内容汇总，随时回来翻</div></div></div>
-
-      <div class="kb-item">
-        <h4><i data-icon="target"></i>1. AHP 基本思想</h4>
-        <p>把复杂的多准则决策分解为“目标—准则—方案”的层次，通过同一层因素之间的<b>两两比较</b>得到相对重要性，进而合成权重并排序。它把主观判断转化为可计算的数值，同时用一致性检验约束判断的合理性。</p>
-      </div>
-
-      <div class="kb-item">
-        <h4><i data-icon="layers"></i>2. 层次结构</h4>
-        <ul>
-          <li><b>目标层</b>：决策的总目标（本作业：投资适宜程度排序）；</li>
-          <li><b>准则层</b>：影响目标的因素（本作业：七项评估因素）；</li>
-          <li><b>方案层</b>：待比较的备选对象（本作业：沿线国家）。</li>
-        </ul>
-      </div>
-
-      <div class="kb-item">
-        <h4><i data-icon="scale"></i>3. 1–9 标度</h4>
-        <div class="table-responsive"><table class="table saaty-table">
-          <thead><tr><th>标度 a<sub>ij</sub></th><th>含义（i 相对 j）</th></tr></thead>
-          <tbody>
-            <tr><td>1</td><td>两者同等重要</td></tr>
-            <tr><td>3</td><td>i 比 j 稍微重要</td></tr>
-            <tr><td>5</td><td>i 比 j 明显重要</td></tr>
-            <tr><td>7</td><td>i 比 j 强烈重要</td></tr>
-            <tr><td>9</td><td>i 比 j 极端重要</td></tr>
-            <tr><td>2,4,6,8</td><td>相邻判断的中间值</td></tr>
-            <tr><td>倒数</td><td>j 相对 i 的重要程度</td></tr>
-          </tbody>
-        </table></div>
-      </div>
-
-      <div class="kb-item">
-        <h4><i data-icon="grid"></i>4. 判断矩阵</h4>
-        <p>n 个准则构成 n×n 矩阵 A，满足：a<sub>ii</sub>=1，a<sub>ij</sub>&gt;0，且 a<sub>ji</sub>=1/a<sub>ij</sub>。因此只需填写上三角即可。</p>
-        <div class="formula">A = [a<sub>ij</sub>]，a<sub>ij</sub> = w<sub>i</sub> / w<sub>j</sub>（理想情况下）</div>
-      </div>
-
-      <div class="kb-item">
-        <h4><i data-icon="check"></i>5. 一致性检验</h4>
-        <div class="formula">CI = (λ<sub>max</sub> − n) / (n − 1)，　CR = CI / RI</div>
-        <p>当 <b>CR &lt; 0.1</b> 时，认为判断矩阵通过一致性检验；否则需调整判断。RI 为随机一致性指标：</p>
-        <div class="table-responsive"><table class="table">
-          <thead><tr><th>n</th><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th><th>7</th><th>8</th><th>9</th><th>10</th></tr></thead>
-          <tbody><tr><td>RI</td><td>0</td><td>0</td><td>0.58</td><td>0.90</td><td>1.12</td><td>1.24</td><td>1.32</td><td>1.41</td><td>1.45</td><td>1.49</td></tr></tbody>
-        </table></div>
-      </div>
-
-      <div class="kb-item">
-        <h4><i data-icon="sparkles"></i>6. 层次单排序</h4>
-        <p>先用判断矩阵求各准则权重，再分别看每个方案在同一准则下的相对表现。</p>
-        <div class="formula">w<sub>i</sub> = (∏<sub>j</sub> a<sub>ij</sub>)<sup>1/n</sup> ／ Σ<sub>k</sub>(∏<sub>j</sub> a<sub>kj</sub>)<sup>1/n</sup></div>
-        <p>正向准则：r<sub>ik</sub> = (x<sub>ik</sub> − min) / (max − min)；逆向准则反向处理。得到各国在每项准则下的单排序得分。</p>
-      </div>
-
-      <div class="kb-item">
-        <h4><i data-icon="chart"></i>7. 层次总排序</h4>
-        <p>把准则权重与单排序得分合成，得到方案的总排序。</p>
-        <div class="formula">S<sub>k</sub> = Σ<sub>i</sub> w<sub>i</sub> × r<sub>ik</sub></div>
-        <p>总得分越高，投资适宜程度越高。</p>
-      </div>
-
-      <div class="kb-item">
-        <h4><i data-icon="alert"></i>8. 常见误区</h4>
-        <ul>
-          <li>判断矩阵未按“行相对列”填写，导致上下三角不互为倒数；</li>
-          <li>CR 超过 0.1 却不调整判断，直接使用结果；</li>
-          <li>混淆正向与逆向指标，未对“经济风险”反向处理；</li>
-          <li>只用绝对分数，没有体现 AHP 两两比较的核心思想。</li>
-        </ul>
-      </div>
-    </div>
-  </section>
-
-  <section id="tab-tutor" class="tab-panel">
-    <div class="card" style="padding:0;overflow:hidden">
-      <div class="chat">
-        <div class="chat-head">
-          <div class="mascot-slot mascot-sm"></div>
-          <div style="min-width:0">
-            <div style="font-weight:500">小析 · AHP 伴学助手</div>
-            <div id="tutorStatus" style="font-size:12px;color:var(--muted)">在线 · 随时可以提问</div>
-          </div>
-          <div style="flex:1"></div>
-          <div style="display:flex;gap:7px;flex-wrap:wrap">
-            <button class="btn btn-sm btn-ghost" id="restartLesson"><i data-icon="refresh"></i>重新导学</button>
-            <button class="btn btn-sm btn-ghost" id="diagnoseBtn"><i data-icon="stethoscope"></i>诊断实操</button>
-          </div>
+    <section>
+      <div class="section-head"><h2>你的信息</h2></div>
+      <div class="identity-grid">
+        <div class="field">
+          <label for="student-name">姓名或学号</label>
+          <input id="student-name" type="text" placeholder="例如：张三" autocomplete="name">
         </div>
-        <div id="lessonProgress" class="no-print" style="display:flex;flex-wrap:wrap;gap:6px;padding:8px 14px;border-bottom:1px solid var(--border);background:var(--surface)"></div>
-        <div class="chat-scroll" id="chatScroll" aria-live="polite"></div>
-        <div class="chat-input no-print">
-          <input id="chatInput" type="text" placeholder="输入问题，例如：什么是一致性比例？" autocomplete="off">
-          <button class="btn btn-primary" id="sendBtn" aria-label="发送"><i data-icon="send"></i>发送</button>
+        <div class="field">
+          <label for="student-group">小组</label>
+          <input id="student-group" type="text" placeholder="例如：第 1 组" autocomplete="off">
         </div>
       </div>
+    </section>
+
+    <section>
+      <div class="section-head">
+        <h2>填写判断矩阵</h2>
+        <p class="section-note">数值 1 表示同等重要，9 表示极端重要；向左拖动表示右侧国家更重要，向右拖动表示左侧国家更重要。</p>
+      </div>
+      <div class="matrix-layout">
+        <div class="pair-list" id="pair-list"></div>
+        <div class="matrix-display">
+          <div class="matrix-card">
+            <div class="matrix-title">当前判断矩阵（上三角为你填写，下三角自动取倒数）</div>
+            <div class="matrix-scroll" id="matrix-scroll"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+          <div class="actions">
+        <button class="btn btn-primary" id="submit-btn" type="button">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>
+          提交本次判断
+        </button>
+        <button class="btn" id="example-btn" type="button">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m12 3-1.5 4.5L6 9l4.5 1.5L12 15l1.5-4.5L18 9l-4.5-1.5L12 3Z"/><path d="m5 17 .8 2.2L8 20l-2.2.8L5 23l-.8-2.2L2 20l2.2-.8L5 17Z"/></svg>
+          填入示例
+        </button>
+        <button class="btn btn-ghost" id="reset-btn" type="button">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 12a9 9 0 1 0 3-6.7L3 8"/><path d="M3 3v5h5"/></svg>
+          清空
+        </button>
+      </div>
+
+
+
+    <section id="results-section">
+      <div class="section-head">
+        <h2>结果与一致性检验</h2>
+        <p class="section-note">一般认为 CR &lt; 0.10 时判断矩阵通过一致性检验。</p>
+      </div>
+      <div class="results-grid">
+        <div>
+          <div class="metrics">
+            <div class="metric">
+              <p class="metric-label">λ<sub>max</sub></p>
+              <p class="metric-value" id="lambda-max">—</p>
+              <p class="metric-hint">最大特征值</p>
+            </div>
+            <div class="metric">
+              <p class="metric-label">CI</p>
+              <p class="metric-value" id="ci-value">—</p>
+              <p class="metric-hint">一致性指标</p>
+            </div>
+            <div class="metric">
+              <p class="metric-label">CR</p>
+              <p class="metric-value" id="cr-value">—</p>
+              <p class="metric-hint">RI = 0.58</p>
+            </div>
+          </div>
+          <div class="verdict" id="verdict"></div>
+        </div>
+        <div>
+          <h2>权重结果</h2>
+          <div class="bar-chart" id="weight-chart" aria-label="方案权重条形图"></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="compare-section" hidden>
+      <div class="section-head">
+        <h2>全班矩阵比较</h2>
+        <p class="section-note">老师已开启比较阶段。点击任意矩阵可以放大查看。</p>
+      </div>
+      <div id="student-compare-content"></div>
+    </section>
+  </section>
+
+  <section id="teacher-view" role="tabpanel" aria-labelledby="tab-teacher" hidden>
+    <div class="section-head">
+      <h2>班级提交汇总</h2>
+      <p class="section-note">实时模式下，学生端的每次修改都会自动同步到这里；直接打开文件时则使用当前浏览器的本地保存。</p>
     </div>
+    <div class="join-panel">
+      <div class="join-info">
+        <span class="join-label">学生加入地址（投屏或复制发送给学生）</span>
+        <code class="join-url" id="student-join-url">正在获取地址…</code>
+      </div>
+      <button class="btn" id="copy-join-btn" type="button">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="14" height="14" x="8" y="8" rx="2"/><path d="M4 16V6a2 2 0 0 1 2-2h10"/></svg>
+        复制链接
+      </button>
+    </div>
+    <div class="phase-control">
+      <span class="chip">当前阶段 <b id="teacher-phase-label">填写判断矩阵</b></span>
+      <div class="phase-switch" role="group" aria-label="教学阶段切换">
+        <button class="btn active" type="button" data-phase="fill" aria-pressed="true">填写判断矩阵</button>
+        <button class="btn" type="button" data-phase="check" aria-pressed="false">一致性检验</button>
+        <button class="btn" type="button" data-phase="compare" aria-pressed="false">矩阵比较</button>
+      </div>
+    </div>
+    <div class="teacher-bar">
+      <div class="teacher-stats" id="teacher-stats">
+        <span class="chip">提交数 <b id="record-count">0</b></span>
+        <span class="chip">德国均值 <b id="avg-de">—</b></span>
+        <span class="chip">英国均值 <b id="avg-uk">—</b></span>
+        <span class="chip">马来西亚均值 <b id="avg-my">—</b></span>
+      </div>
+      <div class="actions" style="margin-top:0">
+        <button class="btn" id="export-btn" type="button">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12"/><path d="m7 10 5 5 5-5"/><path d="M4 21h16"/></svg>
+          导出 CSV
+        </button>
+        <button class="btn btn-danger" id="clear-btn" type="button">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 6h18"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"/><path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
+          清空全部
+        </button>
+      </div>
+    </div>
+    <div id="teacher-content"></div>
   </section>
 </main>
 
-<footer class="foot wrap">一带一路投资环境 · 层次分析法伴学实验室 · 供课程作业学习使用</footer>
+<div class="matrix-modal" id="matrix-modal" hidden>
+  <div class="matrix-modal-panel" role="dialog" aria-modal="true" aria-labelledby="matrix-modal-title">
+    <div class="matrix-modal-head">
+      <div>
+        <p class="matrix-modal-kicker">判断矩阵</p>
+        <h2 class="matrix-modal-title" id="matrix-modal-title">学生</h2>
+      </div>
+      <button class="matrix-modal-close" id="matrix-modal-close" type="button" aria-label="关闭放大矩阵">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+      </button>
+    </div>
+    <div id="matrix-modal-body"></div>
+  </div>
+</div>
 
-<script>"use strict";
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
 
-/* ---------- icons ---------- */
-const P = (d) => `<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${d}</svg>`;
-const ICONS = {
-  home:P('<path d="M3 10.5 12 3l9 7.5"/><path d="M5 9.5V21h14V9.5"/><path d="M9 21v-6h6v6"/>'),
-  message:P('<path d="M21 15a2 2 0 0 1-2 2H8l-5 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>'),
-  calculator:P('<rect x="4" y="2" width="16" height="20" rx="2"/><path d="M8 6h8"/><path d="M8 12h.01M12 12h.01M16 12h.01M8 16h.01M12 16h.01M16 16h.01"/>'),
-  file:P('<path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/><path d="M16 13H8M16 17H8"/>'),
-  book:P('<path d="M2 4h6a4 4 0 0 1 4 4v12a3 3 0 0 0-3-3H2z"/><path d="M22 4h-6a4 4 0 0 0-4 4v12a3 3 0 0 1 3-3h7z"/>'),
-  sun:P('<circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/>'),
-  moon:P('<path d="M21 12.8A9 9 0 1 1 11.2 3 7 7 0 0 0 21 12.8z"/>'),
-  graduation:P('<path d="M22 9 12 4 2 9l10 5 10-5z"/><path d="M6 11.5V16c0 1.7 2.7 3 6 3s6-1.3 6-3v-4.5"/><path d="M22 9v5"/>'),
-  target:P('<circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1.5"/>'),
-  layers:P('<path d="m12 2 9 5-9 5-9-5 9-5z"/><path d="m3 12 9 5 9-5"/>'),
-  grid:P('<rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/>'),
-  globe:P('<circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a15 15 0 0 1 0 18M12 3a15 15 0 0 0 0 18"/>'),
-  map:P('<path d="M9 3 3 6v15l6-3 6 3 6-3V3l-6 3-6-3z"/><path d="M9 3v15M15 6v15"/>'),
-  scale:P('<path d="M12 3v18M8 7h8"/><path d="M6 7l-3 6a4 4 0 0 0 6 0z"/><path d="M18 7l-3 6a4 4 0 0 0 6 0z"/>'),
-  check:P('<path d="M20 6 9 17l-5-5"/>'),
-  chart:P('<path d="M3 3v18h18"/><path d="M8 16v2M13 11v7M18 6v12"/>'),
-  sparkles:P('<path d="M12 3l1.7 4.6L18 9l-4.3 1.4L12 15l-1.7-4.6L6 9l4.3-1.4z"/><path d="M19 14l.8 2.2L22 17l-2.2.8L19 20l-.8-2.2L16 17l2.2-.8z"/>'),
-  arrowDown:P('<path d="M12 5v14M5 12l7 7 7-7"/>'),
-  arrowRight:P('<path d="M5 12h14M13 6l6 6-6 6"/>'),
-  list:P('<path d="M8 6h13M8 12h13M8 18h13M3.5 6h.01M3.5 12h.01M3.5 18h.01"/>'),
-  info:P('<circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 8h.01"/>'),
-  refresh:P('<path d="M3 12a9 9 0 0 1 15.3-6.4L21 8"/><path d="M21 3v5h-5"/><path d="M21 12a9 9 0 0 1-15.3 6.4L3 16"/><path d="M3 21v-5h5"/>'),
-  send:P('<path d="M22 2 11 13"/><path d="M22 2 15 22l-4-9-9-4z"/>'),
-  stethoscope:P('<path d="M2 12h4l2-5 3 10 2-7 2 2h7"/>'),
-  wand:P('<path d="m3 21 9-9"/><path d="M15 4v4M13 6h4M20 8v4M18 10h4"/>'),
-  equal:P('<path d="M5 9h14M5 15h14"/>'),
-  edit:P('<path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4z"/>'),
-  plus:P('<path d="M12 5v14M5 12h14"/>'),
-  clipboard:P('<rect x="8" y="2" width="8" height="4" rx="1"/><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/>'),
-  award:P('<circle cx="12" cy="8" r="5"/><path d="M8.5 13 7 21l5-3 5 3-1.5-8"/>'),
-  alert:P('<path d="M10.3 3.6 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.6a2 2 0 0 0-3.4 0z"/><path d="M12 9v4M12 17h.01"/>'),
-  x:P('<path d="M18 6 6 18M6 6l12 12"/>')
-};
-function ic(name){ return ICONS[name] || ''; }
-function fillIcons(root){ (root||document).querySelectorAll("[data-icon]").forEach(el=>{ el.innerHTML = ic(el.dataset.icon); }); }
+<script>
+(function(){
+  "use strict";
 
-/* ---------- theme & tabs ---------- */
-const rootEl = document.documentElement;
-function applyTheme(t){
-  rootEl.setAttribute("data-theme", t);
-  const el = document.getElementById("themeToggle");
-  if(el) el.innerHTML = ic(t === "dark" ? "sun" : "moon");
-  try{ localStorage.setItem("ahp-theme", t); }catch(e){}
-}
-(function initTheme(){
-  let t = "light";
-  try{ t = localStorage.getItem("ahp-theme") || (matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light"); }catch(e){}
-  applyTheme(t);
-})();
-document.addEventListener("click", (e)=>{
-  const tt = e.target.closest("#themeToggle");
-  if(tt){ applyTheme(rootEl.getAttribute("data-theme") === "dark" ? "light" : "dark"); return; }
-  const tab = e.target.closest(".tab-btn");
-  if(tab){ switchTab(tab.dataset.tab); return; }
-  const go = e.target.closest("[data-goto]");
-  if(go){ switchTab(go.dataset.goto); return; }
-});
-function switchTab(name){
-  document.querySelectorAll(".tab-panel").forEach(p=>p.classList.remove("active"));
-  document.querySelectorAll(".tab-btn").forEach(b=>b.classList.toggle("active", b.dataset.tab===name));
-  const panel = document.getElementById("tab-"+name);
-  if(panel) panel.classList.add("active");
-  if(name === "lab") renderAllLab();
-  if(name === "tutor") scrollChat();
-}
+  var COUNTRIES = [
+    { key:"DE", name:"德国", color:"var(--de)" },
+    { key:"UK", name:"英国", color:"var(--uk)" },
+    { key:"MY", name:"马来西亚", color:"var(--my)" }
+  ];
 
-/* ---------- data ---------- */
-const CRITERIA = [
-  {id:"digital", name:"数字基础设施", short:"数字设施", dir:1},
-  {id:"policy", name:"政策环境", short:"政策", dir:1},
-  {id:"risk", name:"经济风险", short:"风险", dir:-1},
-  {id:"sustain", name:"可持续发展", short:"可持续", dir:1},
-  {id:"regional", name:"区域特色", short:"区域", dir:1},
-  {id:"opportunity", name:"投资机遇", short:"机遇", dir:1},
-  {id:"competition", name:"竞争态势", short:"竞争", dir:1}
-];
-const SCALE = [9,8,7,6,5,4,3,2,1,"1/2","1/3","1/4","1/5","1/6","1/7","1/8","1/9"];
-const RI = {1:0,2:0,3:0.58,4:0.90,5:1.12,6:1.24,7:1.32,8:1.41,9:1.45,10:1.49};
-const EXAMPLE = [
-  [1,1,1,2,3,1,2],
-  [1,1,1,2,4,2,3],
-  [1,1,1,2,3,1,2],
-  [0.5,0.5,0.5,1,2,1,1],
-  [1/3,1/4,1/3,0.5,1,0.5,1],
-  [1,0.5,1,1,2,1,2],
-  [0.5,1/3,0.5,1,1,0.5,1]
-];
-const DEFAULT_COUNTRIES = [
-  {name:"新加坡", s:{digital:8.7, policy:8.9, risk:1.0, sustain:8.6, regional:8.7, opportunity:6.5, competition:8.8}},
-  {name:"阿联酋", s:{digital:8.4, policy:7.3, risk:2.4, sustain:6.4, regional:9.0, opportunity:5.6, competition:6.9}},
-  {name:"波兰", s:{digital:7.2, policy:6.9, risk:5.7, sustain:7.3, regional:7.8, opportunity:4.8, competition:6.9}},
-  {name:"匈牙利", s:{digital:7.8, policy:6.0, risk:8.1, sustain:9.2, regional:7.2, opportunity:1.6, competition:8.4}},
-  {name:"印度尼西亚", s:{digital:4.0, policy:5.2, risk:6.3, sustain:6.4, regional:7.8, opportunity:6.7, competition:3.8}},
-  {name:"越南", s:{digital:5.9, policy:5.4, risk:5.0, sustain:8.9, regional:8.0, opportunity:7.8, competition:2.3}},
-  {name:"哈萨克斯坦", s:{digital:6.2, policy:5.3, risk:10.0, sustain:8.0, regional:8.2, opportunity:5.4, competition:4.0}},
-  {name:"巴基斯坦", s:{digital:1.0, policy:3.7, risk:10.0, sustain:2.8, regional:6.2, opportunity:6.0, competition:1.5}}
-];
+  var PAIRS = [
+    { left:0, right:1, label:"德国 对 英国" },
+    { left:0, right:2, label:"德国 对 马来西亚" },
+    { left:1, right:2, label:"英国 对 马来西亚" }
+  ];
 
-let matrix = EXAMPLE.map(r=>r.slice());
-let countries = DEFAULT_COUNTRIES.map(c=>({name:c.name, s:{...c.s}}));
+  var SCALE_WORDS = {
+    1:"同等重要",2:"介于同等与稍微",3:"稍微重要",4:"介于稍微与明显",
+    5:"明显重要",6:"介于明显与强烈",7:"强烈重要",8:"介于强烈与极端",9:"极端重要"
+  };
 
-/* ---------- helpers ---------- */
-function parseFrac(s){
-  if(String(s).includes("/")){ const p=String(s).split("/"); return (+p[0])/(+p[1]); }
-  return +s;
-}
-function fracLabel(x){
-  const map = {"0.111":"1/9","0.125":"1/8","0.143":"1/7","0.167":"1/6","0.200":"1/5","0.250":"1/4","0.333":"1/3","0.500":"1/2"};
-  const k = (Math.round(x*1000)/1000).toFixed(3);
-  if(map[k]) return map[k];
-  if(x >= 1) return String(Math.round(x));
-  return (Math.round(x*1000)/1000).toFixed(3);
-}
-function fmt(x, d=4){ return (Math.round(x*(10**d))/(10**d)).toString(); }
-function $(id){ return document.getElementById(id); }
-/* ---------- AHP computation ---------- */
-function computeAHP(A){
-  const n = A.length;
-  const gm = A.map(row => Math.pow(row.reduce((p,v)=>p*v,1), 1/n));
-  const sum = gm.reduce((a,b)=>a+b,0);
-  const w = gm.map(x=>x/sum);
-  const ws = A.map((row,i)=>row.reduce((s,v,j)=>s+v*w[j],0));
-  const lamMax = ws.reduce((s,v,i)=>s+v/w[i],0)/n;
-  const CI = (lamMax-n)/(n-1);
-  const ri = RI[n] ?? 1.49;
-  const CR = CI/ri;
-  return {w, lamMax, CI, CR, ri};
-}
+  var STORAGE_KEY = "ahp-policy-matrix-records-v1";
+  var REMOTE_URL = "https://ntfy.sh/ahp-judgment-3406zx-7d31";
+  var REMOTE_SSE_URL = REMOTE_URL + "/sse?since=all";
+  var REMOTE_FALLBACK_URL = "https://api.restful-api.dev/objects/ff808181a09d98f701a1207b36a72cef";
+  var POLL_MS = 2500;
+  var PUBLIC_STUDENT_URL = "https://3406zx.github.io/ahp-judgment-class/";
+  var PUBLIC_TEACHER_URL = "https://3406zx.github.io/ahp-judgment-class/?role=teacher";
+  var remoteSource = null;
+  var remoteErrorCount = 0;
+  var remoteUsingFallback = false;
+  var remotePollTimer = null;
+  var remoteFallbackFailCount = 0;
+  var remoteWriteBusy = false;
+  var remoteSentInitial = false;
+  var state = [1, 1, 1];
+  var toastTimer = null;
+  var liveConnected = false;
+  var liveSnapshot = [];
+  var livePhase = "fill";
+  var liveSendTimer = null;
+  var clientId = getClientId();
+  var isTeacherPage = (new URLSearchParams(window.location.search).get("role") === "teacher") || window.location.pathname === "/teacher";
+  var currentView = "student";
 
-/* ---------- matrix ---------- */
-function renderMatrix(){
-  const box = $("matrixTable");
-  let html = '<table class="matrix"><thead><tr><th></th>';
-  CRITERIA.forEach(c=> html += `<th>${c.short}</th>`);
-  html += '</tr></thead><tbody>';
-  for(let i=0;i<7;i++){
-    html += `<tr><th>${CRITERIA[i].short}</th>`;
-    for(let j=0;j<7;j++){
-      if(i===j){ html += '<td class="diag">1</td>'; }
-      else if(i<j){
-        const val = fracLabel(matrix[i][j]);
-        const opts = SCALE.map(v=>`<option value="${v}" ${fracLabel(parseFrac(v))===val?'selected':''}>${v}</option>`).join('');
-        html += `<td><select data-i="${i}" data-j="${j}" aria-label="${CRITERIA[i].name}相对${CRITERIA[j].name}">${opts}</select></td>`;
+  function $(id){ return document.getElementById(id); }
+
+  function getClientId(){
+    var key = "ahp-live-client-id";
+    try{
+      var existing = sessionStorage.getItem(key) || localStorage.getItem(key);
+      if(existing) return existing;
+      var id = "c-" + Date.now().toString(36) + "-" + Math.random().toString(36).slice(2,8);
+      sessionStorage.setItem(key, id);
+      return id;
+    }catch(e){
+      return "c-" + Math.random().toString(36).slice(2,10);
+    }
+  }
+
+  function matrix(){
+    var v = state;
+    return [
+      [1, signedToRatio(v[0]), signedToRatio(v[1])],
+      [1 / signedToRatio(v[0]), 1, signedToRatio(v[2])],
+      [1 / signedToRatio(v[1]), 1 / signedToRatio(v[2]), 1]
+    ];
+  }
+
+  function matrixFromValues(v){
+    return [
+      [1, signedToRatio(v[0]), signedToRatio(v[1])],
+      [1 / signedToRatio(v[0]), 1, signedToRatio(v[2])],
+      [1 / signedToRatio(v[1]), 1 / signedToRatio(v[2]), 1]
+    ];
+  }
+
+  function miniMatrixHtml(values){
+    var m = matrixFromValues(values || [1,1,1]);
+    var names = ["德", "英", "马"];
+    var html = '<table class="mini-matrix"><tbody>';
+    html += '<tr><td></td><td class="mini-head">德</td><td class="mini-head">英</td><td class="mini-head">马</td></tr>';
+    for(var i=0;i<3;i++){
+      html += '<tr><td class="mini-head">' + names[i] + '</td>';
+      for(var j=0;j<3;j++){
+        var cls = i === j ? ' class="mini-diag"' : '';
+        html += '<td' + cls + '>' + fracDisplay(m[i][j]) + '</td>';
+      }
+      html += '</tr>';
+    }
+    html += '</tbody></table>';
+    return html;
+  }
+
+  function largeMatrixHtml(values){
+    var m = matrixFromValues(values || [1,1,1]);
+    var names = ["德国", "英国", "马来西亚"];
+    var html = '<div class="large-matrix-wrap"><table class="large-matrix"><tbody>';
+    html += '<tr><td></td><td class="large-head">德国</td><td class="large-head">英国</td><td class="large-head">马来西亚</td></tr>';
+    for(var i=0;i<3;i++){
+      html += '<tr><td class="large-row-head">' + names[i] + '</td>';
+      for(var j=0;j<3;j++){
+        var cls = i === j ? ' class="large-diag"' : '';
+        html += '<td' + cls + '>' + fracDisplay(m[i][j]) + '</td>';
+      }
+      html += '</tr>';
+    }
+    html += '</tbody></table></div>';
+    return html;
+  }
+
+  var activeMatrixId = null;
+
+  function openMatrixModal(id){
+    var rec = currentRecords().filter(function(r){ return r.id === id; })[0];
+    if(!rec) return;
+    activeMatrixId = id;
+    $("matrix-modal-title").textContent = rec.name + " · " + rec.group;
+    var html = largeMatrixHtml(rec.values);
+    if(livePhase === "check" || livePhase === "compare"){
+      html += '<div class="matrix-modal-summary">' +
+        '<span class="chip">德国 <b>' + fmt(rec.weights[0]*100,1) + '%</b></span>' +
+        '<span class="chip">英国 <b>' + fmt(rec.weights[1]*100,1) + '%</b></span>' +
+        '<span class="chip">马来西亚 <b>' + fmt(rec.weights[2]*100,1) + '%</b></span>' +
+        '<span class="chip">λ<sub>max</sub> <b>' + fmt(rec.lambdaMax) + '</b></span>' +
+        '<span class="chip">CR <b>' + fmt(rec.cr) + '</b></span>' +
+      '</div>';
+    }
+    $("matrix-modal-body").innerHTML = html;
+    $("matrix-modal").hidden = false;
+    document.body.style.overflow = "hidden";
+  }
+
+  function closeMatrixModal(){
+    activeMatrixId = null;
+    $("matrix-modal").hidden = true;
+    document.body.style.overflow = "";
+  }
+
+  function refreshMatrixModal(){
+    if($("matrix-modal").hidden || !activeMatrixId) return;
+    var rec = currentRecords().filter(function(r){ return r.id === activeMatrixId; })[0];
+    if(rec){
+      openMatrixModal(activeMatrixId);
+    } else {
+      closeMatrixModal();
+    }
+  }
+
+  function signedToRatio(v){
+    if(v === 0 || v === 1 || v === -1) return 1;
+    return v > 0 ? v : 1 / (-v);
+  }
+
+  function signedDisplay(v){
+    if(Math.abs(v) <= 1) return "1";
+    return v > 0 ? String(v) : "1/" + (-v);
+  }
+
+  function wordFor(v){
+    return Math.abs(v) <= 1 ? "同等重要" : SCALE_WORDS[Math.abs(v)];
+  }
+
+  function matVec(A, v){
+    var out = [0,0,0];
+    for(var i=0;i<3;i++){
+      var s=0;
+      for(var j=0;j<3;j++) s += A[i][j]*v[j];
+      out[i]=s;
+    }
+    return out;
+  }
+
+  function eigen(A){
+    var v=[1,1,1], nv;
+    for(var iter=0; iter<200; iter++){
+      nv = matVec(A, v);
+      var norm = Math.sqrt(nv[0]*nv[0]+nv[1]*nv[1]+nv[2]*nv[2]);
+      nv = [nv[0]/norm, nv[1]/norm, nv[2]/norm];
+      var diff = Math.max(Math.abs(nv[0]-v[0]), Math.abs(nv[1]-v[1]), Math.abs(nv[2]-v[2]));
+      v = nv;
+      if(diff < 1e-13) break;
+    }
+    var sum = v[0]+v[1]+v[2];
+    return [v[0]/sum, v[1]/sum, v[2]/sum];
+  }
+
+  function calc(){
+    var A = matrix();
+    var w = eigen(A);
+    var Av = matVec(A, w);
+    var lambdaMax = (Av[0]+Av[1]+Av[2]) / (w[0]+w[1]+w[2]);
+    var n = 3;
+    var ci = (lambdaMax - n) / (n - 1);
+    var cr = ci / 0.58;
+    return { w:w, lambdaMax:lambdaMax, ci:ci, cr:cr };
+  }
+
+  function currentRecords(){
+    return liveConnected ? liveSnapshot : getRecords();
+  }
+
+  function setLiveStatus(mode, text){
+    var badge = $("live-badge");
+    var label = $("live-badge-text");
+    if(!badge || !label) return;
+    badge.className = "live-badge " + mode;
+    label.textContent = text;
+  }
+
+  function buildLiveRecord(submitted){
+    var r = calc();
+    return {
+      id: clientId,
+      name: $("student-name").value.trim() || "未署名",
+      group: $("student-group").value.trim() || "—",
+      values: state.slice(),
+      weights: r.w,
+      lambdaMax: r.lambdaMax,
+      ci: r.ci,
+      cr: r.cr,
+      submitted: !!submitted,
+      time: new Date().toISOString()
+    };
+  }
+
+  function sendLiveNow(submitted){
+    if(!liveConnected || isTeacherPage) return;
+    var payload = buildLiveRecord(submitted);
+    publishEvent({ type: "upsert", record: payload });
+  }
+
+  function queueSendLive(){
+    if(!liveConnected || isTeacherPage) return;
+    if(liveSendTimer) clearTimeout(liveSendTimer);
+    liveSendTimer = setTimeout(function(){ sendLiveNow(false); }, 250);
+  }
+
+  function applyPhaseUI(){
+    var check = livePhase === "check";
+    var compare = livePhase === "compare";
+    var banner = $("student-phase-banner");
+    var text = $("student-phase-text");
+    if(banner){
+      banner.className = "phase-banner " + (compare ? "compare" : (check ? "check" : "fill"));
+    }
+    if(text){
+      text.textContent = compare
+        ? "当前阶段：矩阵比较。请查看全班提交的判断矩阵。"
+        : (check
+          ? "当前阶段：一致性检验。请查看权重与 CR，必要时回到上方调整判断。"
+          : "当前阶段：填写判断矩阵，先不用考虑对错。");
+    }
+    var results = $("results-section");
+    if(results) results.hidden = !check;
+    var compareSection = $("compare-section");
+    if(compareSection) compareSection.hidden = !compare;
+    var phaseLabel = $("teacher-phase-label");
+    if(phaseLabel) phaseLabel.textContent = compare ? "矩阵比较" : (check ? "一致性检验" : "填写判断矩阵");
+    var buttons = document.querySelectorAll("[data-phase]");
+    Array.prototype.forEach.call(buttons, function(btn){
+      var active = btn.getAttribute("data-phase") === livePhase;
+      btn.classList.toggle("active", active);
+      btn.setAttribute("aria-pressed", active ? "true" : "false");
+    });
+    var stats = $("teacher-stats");
+    if(stats) stats.style.display = (check || compare) ? "flex" : "none";
+    if(compare && compareSection){
+      renderCompareView($("student-compare-content"), compareRecords(), false);
+    }
+  }
+  function setPhase(next){
+    if(next !== "fill" && next !== "check" && next !== "compare") return;
+    livePhase = next;
+    applyPhaseUI();
+    if(currentView === "teacher") renderTeacher();
+    if(!liveConnected) return;
+    publishEvent({ type: "phase", phase: next });
+  }
+
+  function publishEvent(event){
+    event.at = new Date().toISOString();
+    if(remoteUsingFallback) return mutateFallback(event);
+    return fetch(REMOTE_URL, {
+      method: "POST",
+      headers: { "Content-Type": "application/json", "Title": "ahp-event" },
+      body: JSON.stringify(event)
+    }).then(function(res){
+      if(!res.ok) throw new Error("publish " + res.status);
+      return res.json();
+    }).catch(function(){});
+  }
+
+  function applyEvent(event){
+    var data = event;
+    if(event && typeof event.message === "string"){
+      try{ data = JSON.parse(event.message); }catch(e){ data = event; }
+    }
+    if(!data || !data.type) return;
+    if(data.type === "upsert" && data.record && typeof data.record.id === "string"){
+      liveSnapshot = upsertRecord(liveSnapshot, data.record);
+    } else if(data.type === "delete" && typeof data.id === "string"){
+      liveSnapshot = liveSnapshot.filter(function(r){ return r.id !== data.id; });
+    } else if(data.type === "clear"){
+      liveSnapshot = [];
+    } else if(data.type === "phase" && (data.phase === "fill" || data.phase === "check" || data.phase === "compare")){
+      livePhase = data.phase;
+    }
+  }
+
+  function upsertRecord(records, rec){
+    for(var i=records.length-1;i>=0;i--){
+      if(records[i].id === rec.id) records.splice(i, 1);
+    }
+    records.unshift(rec);
+    return records;
+  }
+
+  function applyFallbackPayload(payload){
+    var data = payload && payload.data ? payload.data : payload;
+    if(typeof data === "string"){
+      try{ data = JSON.parse(data); }catch(e){ data = payload; }
+    }
+    if(data && Object.prototype.hasOwnProperty.call(data, "records")){
+      liveSnapshot = Array.isArray(data.records) ? data.records : [];
+    }
+    if(data && (data.phase === "fill" || data.phase === "check" || data.phase === "compare")){
+      livePhase = data.phase;
+    }
+  }
+
+  function fetchFallback(){
+    return fetch(REMOTE_FALLBACK_URL + "?ts=" + Date.now(), { cache: "no-store" }).then(function(res){
+      if(!res.ok) throw new Error("fallback read " + res.status);
+      return res.json();
+    });
+  }
+
+  function mutateFallback(event){
+    if(remoteWriteBusy) return Promise.resolve();
+    remoteWriteBusy = true;
+    applyEvent(event);
+    return fetch(REMOTE_FALLBACK_URL, {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ name: "ahp-class", data: { phase: livePhase, records: liveSnapshot } })
+    }).then(function(res){
+      if(!res.ok) throw new Error("fallback write " + res.status);
+      return res.json();
+    }).catch(function(){}).finally(function(){
+      remoteWriteBusy = false;
+    });
+  }
+
+  function startFallbackPolling(){
+    if(remotePollTimer) return;
+    if(remoteSource){
+      remoteSource.close();
+      remoteSource = null;
+    }
+    remoteUsingFallback = true;
+    function poll(){
+      fetchFallback().then(function(payload){
+        applyFallbackPayload(payload);
+        liveConnected = true;
+        remoteFallbackFailCount = 0;
+        setLiveStatus("online", "实时已连接（备用通道）");
+        applyPhaseUI();
+        if(!isTeacherPage && !remoteSentInitial){
+          remoteSentInitial = true;
+          sendLiveNow(false);
+        }
+        if(currentView === "teacher"){
+          renderTeacher();
+          refreshMatrixModal();
+        }
+      }).catch(function(){
+        remoteFallbackFailCount += 1;
+        if(remoteFallbackFailCount >= 3){
+          liveConnected = false;
+          setLiveStatus("offline", "实时连接中断");
+        }
+        if(currentView === "teacher"){
+          renderTeacher();
+          refreshMatrixModal();
+        }
+      });
+    }
+    poll();
+    remotePollTimer = setInterval(poll, POLL_MS);
+  }
+
+  function connectLive(){
+    if(remotePollTimer){
+      clearInterval(remotePollTimer);
+      remotePollTimer = null;
+    }
+    if(remoteSource) remoteSource.close();
+    remoteUsingFallback = false;
+    remoteErrorCount = 0;
+    remoteFallbackFailCount = 0;
+    remoteWriteBusy = false;
+    remoteSource = new EventSource(REMOTE_SSE_URL);
+
+    remoteSource.onopen = function(){
+      liveConnected = true;
+      remoteErrorCount = 0;
+      setLiveStatus("online", "实时已连接");
+      applyPhaseUI();
+      if(!isTeacherPage){
+        remoteSentInitial = true;
+        sendLiveNow(false);
+      }
+      if(currentView === "teacher"){
+        renderTeacher();
+        refreshMatrixModal();
+      }
+    };
+
+    remoteSource.onmessage = function(event){
+      try{
+        applyEvent(JSON.parse(event.data));
+      }catch(e){
+        return;
+      }
+      liveConnected = true;
+      remoteErrorCount = 0;
+      setLiveStatus("online", "实时已连接");
+      applyPhaseUI();
+      if(currentView === "teacher"){
+        renderTeacher();
+        refreshMatrixModal();
+      }
+    };
+
+    remoteSource.onerror = function(){
+      remoteErrorCount += 1;
+      if(remoteErrorCount >= 3 && !remoteUsingFallback){
+        setLiveStatus("offline", "正在切换备用通道");
+        startFallbackPolling();
+      }
+      if(currentView === "teacher"){
+        renderTeacher();
+        refreshMatrixModal();
+      }
+    };
+  }
+
+  function fmt(v, digits){
+    if(v === null || v === undefined || !isFinite(v)) return "—";
+    return Number(v).toFixed(digits === undefined ? 3 : digits);
+  }
+
+  function fracDisplay(x){
+    if(Math.abs(x - Math.round(x)) < 1e-9) return String(Math.round(x));
+    var r = 1/x;
+    if(Math.abs(r - Math.round(r)) < 1e-9) return "1/" + Math.round(r);
+    return fmt(x, 2);
+  }
+
+  function countryChip(country){
+    return '<span class="country-dot" style="background:' + country.color + '"></span>' + country.name;
+  }
+
+  function renderPairs(){
+    var list = $("pair-list");
+    list.innerHTML = "";
+    PAIRS.forEach(function(pair, i){
+      var v = state[i];
+      var left = COUNTRIES[pair.left];
+      var right = COUNTRIES[pair.right];
+      var meaning = pairMeaning(left, right, v);
+      var scaleWord = wordFor(v);
+
+      var row = document.createElement("div");
+      row.className = "pair";
+      row.innerHTML =
+        '<div class="pair-top">' +
+          '<div><p class="pair-label">' + pair.label + '</p>' +
+          '<p class="pair-meaning">' + meaning + '</p></div>' +
+          '<div class="pair-value" id="pair-val-' + i + '">' + signedDisplay(v) + '</div>' +
+        '</div>' +
+        '<div class="pair-control">' +
+          '<input type="range" min="-9" max="9" step="1" value="' + v + '" aria-label="' + pair.label + ' 的 Saaty 数值" data-pair="' + i + '">' +
+          '<span class="scale-word" id="scale-word-' + i + '">' + scaleWord + '</span>' +
+        '</div>';
+      list.appendChild(row);
+    });
+  }
+
+  function pairMeaning(left, right, v){
+    if(Math.abs(v) <= 1) return left.name + " 与 " + right.name + " 同等重要";
+    if(v < -1) return right.name + " 比 " + left.name + " " + SCALE_WORDS[-v];
+    return left.name + " 比 " + right.name + " " + SCALE_WORDS[v];
+  }
+
+  function renderMatrix(){
+    var holder = $("matrix-scroll");
+    var A = matrix();
+    var html = '<table class="matrix"><thead><tr><th></th>';
+    COUNTRIES.forEach(function(c){ html += '<th>' + countryChip(c) + '</th>'; });
+    html += '</tr></thead><tbody>';
+    COUNTRIES.forEach(function(c, i){
+      html += '<tr><td class="row-head">' + countryChip(c) + '</td>';
+      for(var j=0;j<3;j++){
+        var val = A[i][j];
+        var cls = (i===j) ? ' class="diag"' : ' class="num"';
+        html += '<td' + cls + '>' + fracDisplay(val) + '</td>';
+      }
+      html += '</tr>';
+    });
+    html += '</tbody></table>';
+    holder.innerHTML = html;
+  }
+
+  function renderResults(){
+    var r = calc();
+    $("lambda-max").textContent = fmt(r.lambdaMax);
+    $("ci-value").textContent = fmt(r.ci);
+    $("cr-value").textContent = fmt(r.cr);
+
+    var verdict = $("verdict");
+    var passed = r.cr < 0.10;
+    if(passed){
+      verdict.className = "verdict ok";
+      verdict.innerHTML =
+        '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>' +
+        '<span>一致性良好：CR = ' + fmt(r.cr) + '，该判断矩阵通过一致性检验。</span>';
+    } else {
+      verdict.className = "verdict warn";
+      verdict.innerHTML =
+        '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 9v4"/><path d="M12 17h.01"/><path d="M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0Z"/></svg>' +
+        '<span>一致性较弱：CR = ' + fmt(r.cr) + '。建议回到矩阵中调整矛盾较大的判断。</span>';
+    }
+
+    var chart = $("weight-chart");
+    chart.innerHTML = "";
+    COUNTRIES.forEach(function(c, i){
+      var pct = r.w[i] * 100;
+      var row = document.createElement("div");
+      row.className = "bar-row";
+      row.innerHTML =
+        '<div class="bar-name">' + countryChip(c) + '</div>' +
+        '<div class="bar-track" role="img" aria-label="' + c.name + ' 权重 ' + fmt(pct, 1) + '%"><div class="bar-fill" style="width:' + pct.toFixed(2) + '%;background:' + c.color + '"></div></div>' +
+        '<div class="bar-pct">' + fmt(pct, 1) + '%</div>';
+      chart.appendChild(row);
+    });
+  }
+
+  function render(){
+    renderPairs();
+    renderMatrix();
+    renderResults();
+    bindPairInputs();
+  }
+
+  function bindPairInputs(){
+    var inputs = document.querySelectorAll("#pair-list input[type=range]");
+    Array.prototype.forEach.call(inputs, function(input){
+      input.addEventListener("input", function(){
+        var i = parseInt(input.getAttribute("data-pair"), 10);
+        var val = parseInt(input.value, 10);
+        if(val === 0){
+          val = 1;
+          input.value = 1;
+        }
+        state[i] = val;
+        renderMatrix();
+        renderResults();
+        updatePairFeedback(i);
+        queueSendLive();
+      });
+    });
+  }
+
+  function updatePairFeedback(i){
+    var v = state[i];
+    $("pair-val-" + i).textContent = signedDisplay(v);
+    $("scale-word-" + i).textContent = wordFor(v);
+    var pair = PAIRS[i];
+    var row = $("pair-val-" + i).closest(".pair");
+    row.querySelector(".pair-meaning").textContent = pairMeaning(COUNTRIES[pair.left], COUNTRIES[pair.right], v);
+  }
+
+  function switchView(view){
+    currentView = view;
+    $("student-view").hidden = view !== "student";
+    $("teacher-view").hidden = view !== "teacher";
+    $("tab-student").setAttribute("aria-selected", view === "student" ? "true" : "false");
+    $("tab-teacher").setAttribute("aria-selected", view === "teacher" ? "true" : "false");
+    if(view === "teacher") renderTeacher();
+    window.scrollTo({ top:0, behavior:"smooth" });
+  }
+
+  function applyRoleChrome(){
+    if(isTeacherPage){
+      $("tab-student").style.display = "none";
+      $("tab-teacher").setAttribute("aria-selected", "true");
+    } else if(window.location.protocol === "file:"){
+      $("tab-student").style.display = "";
+      $("tab-teacher").style.display = "";
+      $("tab-student").setAttribute("aria-selected", "true");
+    } else {
+      $("tab-teacher").style.display = "none";
+      $("tab-student").setAttribute("aria-selected", "true");
+    }
+  }
+
+  function getRecords(){
+    try{
+      var raw = localStorage.getItem(STORAGE_KEY);
+      if(!raw) return [];
+      var arr = JSON.parse(raw);
+      return Array.isArray(arr) ? arr : [];
+    }catch(e){
+      return [];
+    }
+  }
+
+  function saveRecords(records){
+    try{
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(records));
+    }catch(e){
+      showToast("无法保存：浏览器存储不可用", "danger");
+    }
+  }
+
+  function submitRecord(){
+    var name = $("student-name").value.trim() || "未署名";
+    var group = $("student-group").value.trim() || "—";
+    var r = calc();
+    var rec = {
+      id: Date.now().toString(36) + Math.random().toString(36).slice(2,6),
+      name:name,
+      group:group,
+      values:state.slice(),
+      weights:r.w,
+      lambdaMax:r.lambdaMax,
+      ci:r.ci,
+      cr:r.cr,
+      time:new Date().toISOString()
+    };
+    var records = getRecords();
+    records.unshift(rec);
+    saveRecords(records);
+    sendLiveNow(true);
+
+    if(rec.cr < 0.10){
+      showToast("已提交，CR = " + fmt(rec.cr), "ok");
+    } else {
+      showToast("已提交，但 CR = " + fmt(rec.cr) + "，请考虑调整后重新提交", "warn");
+    }
+  }
+
+  function fillExample(){
+    state = [3, 5, 2];
+    $("student-name").value = "";
+    $("student-group").value = "";
+    render();
+    queueSendLive();
+    showToast("已填入示例判断", "ok");
+  }
+
+  function resetForm(){
+    state = [1, 1, 1];
+    $("student-name").value = "";
+    $("student-group").value = "";
+    render();
+    queueSendLive();
+    showToast("已清空为同等重要", "ok");
+  }
+
+  function compareRecords(){
+    return currentRecords().filter(function(rec){ return rec.submitted !== false; });
+  }
+
+  function updateAverageStats(records){
+    var de = $("avg-de"), uk = $("avg-uk"), my = $("avg-my");
+    if(!de || !uk || !my) return;
+    if(records.length === 0){
+      de.textContent = "—";
+      uk.textContent = "—";
+      my.textContent = "—";
+      return;
+    }
+    var totals = [0,0,0];
+    records.forEach(function(rec){
+      totals[0] += rec.weights[0];
+      totals[1] += rec.weights[1];
+      totals[2] += rec.weights[2];
+    });
+    de.textContent = fmt(totals[0]/records.length*100, 1) + "%";
+    uk.textContent = fmt(totals[1]/records.length*100, 1) + "%";
+    my.textContent = fmt(totals[2]/records.length*100, 1) + "%";
+  }
+
+  function compareCardHtml(rec){
+    return '<article class="compare-card">' +
+      '<div class="compare-card-head"><strong>' + escapeHtml(rec.name) + '</strong><span>' + escapeHtml(rec.group || "—") + '</span></div>' +
+      '<div class="matrix-open" data-id="' + rec.id + '" role="button" tabindex="0" aria-label="放大 ' + escapeHtml(rec.name) + ' 的判断矩阵">' + miniMatrixHtml(rec.values) + '</div>' +
+      '<div class="compare-meta">' +
+        '<span>德国 <b>' + fmt(rec.weights[0]*100,1) + '%</b></span>' +
+        '<span>英国 <b>' + fmt(rec.weights[1]*100,1) + '%</b></span>' +
+        '<span>马来西亚 <b>' + fmt(rec.weights[2]*100,1) + '%</b></span>' +
+        '<span>λ<sub>max</sub> <b>' + fmt(rec.lambdaMax) + '</b></span>' +
+        '<span>CR <b>' + fmt(rec.cr) + '</b></span>' +
+      '</div>' +
+    '</article>';
+  }
+
+  function renderCompareCards(container, records){
+    if(!container) return;
+    if(records.length === 0){
+      container.innerHTML = '<div class="empty">暂时没有学生提交，还不能比较。</div>';
+      return;
+    }
+    var html = '<div class="compare-grid">';
+    records.forEach(function(rec){
+      html += compareCardHtml(rec);
+    });
+    html += '</div>';
+    container.innerHTML = html;
+  }
+
+  function renderCompareView(container, records, isTeacher){
+    renderCompareCards(container, records);
+  }
+
+  function renderTeacherList(container, records){
+    if(records.length === 0){
+      var emptyText = liveConnected
+        ? "等待学生加入，他们的判断矩阵会实时出现在这里。"
+        : "还没有学生提交。请切换到“学生填写”并提交一份判断矩阵。";
+      container.innerHTML = '<div class="empty">' + emptyText + '</div>';
+      return;
+    }
+
+    var showResults = livePhase === "check";
+    var tableClass = "records" + (showResults ? "" : " compact");
+    var html = '<div class="record-list"><div class="record-scroll"><table class="' + tableClass + '"><thead><tr>' +
+      '<th>姓名 / 学号</th><th>小组</th><th>判断矩阵</th>';
+    if(showResults){
+      html += '<th class="num">德国</th><th class="num">英国</th><th class="num">马来西亚</th>' +
+        '<th class="num">λ<sub>max</sub></th><th class="num">CR</th><th>结论</th>';
+    }
+    html += '<th></th></tr></thead><tbody>';
+    records.forEach(function(rec){
+      html += '<tr>' +
+        '<td class="name-cell">' + escapeHtml(rec.name) + '</td>' +
+        '<td>' + escapeHtml(rec.group) + '</td>' +
+        '<td><div class="matrix-open" data-id="' + rec.id + '" role="button" tabindex="0" aria-label="放大 ' + escapeHtml(rec.name) + ' 的判断矩阵">' + miniMatrixHtml(rec.values) + '</div></td>';
+      if(showResults){
+        var badge = rec.cr < 0.10 ? 'ok' : (rec.cr < 0.15 ? 'warn' : 'danger');
+        var text = rec.cr < 0.10 ? '通过' : (rec.cr < 0.15 ? '需检查' : '不通过');
+        html +=
+          '<td class="num">' + fmt(rec.weights[0]*100,1) + '%</td>' +
+          '<td class="num">' + fmt(rec.weights[1]*100,1) + '%</td>' +
+          '<td class="num">' + fmt(rec.weights[2]*100,1) + '%</td>' +
+          '<td class="num">' + fmt(rec.lambdaMax) + '</td>' +
+          '<td class="num">' + fmt(rec.cr) + '</td>' +
+          '<td><span class="badge ' + badge + '">' + text + '</span></td>';
+      }
+      html += '<td><div class="record-actions">' +
+        '<button class="icon-btn" type="button" data-del="' + rec.id + '" title="删除这条记录" aria-label="删除 ' + escapeHtml(rec.name) + ' 的记录">' +
+          '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 6h18"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"/><path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>' +
+        '</button>' +
+      '</div></td></tr>';
+    });
+    html += '</tbody></table></div></div>';
+    container.innerHTML = html;
+
+    var delButtons = container.querySelectorAll("[data-del]");
+    Array.prototype.forEach.call(delButtons, function(btn){
+      btn.addEventListener("click", function(){
+        var id = btn.getAttribute("data-del");
+        if(liveConnected){
+          publishEvent({ type: "delete", id: id });
+        } else {
+          var records2 = getRecords().filter(function(r){ return r.id !== id; });
+          saveRecords(records2);
+          renderTeacher();
+          showToast("已删除该条记录", "ok");
+        }
+      });
+    });
+  }
+
+  function renderTeacher(){
+    var records = currentRecords();
+    if(livePhase === "compare"){
+      records = compareRecords();
+    }
+    $("record-count").textContent = records.length;
+    updateAverageStats(records);
+    if(livePhase === "compare"){
+      renderCompareCards($("teacher-content"), records);
+    } else {
+      renderTeacherList($("teacher-content"), records);
+    }
+  }
+
+  function escapeHtml(str){
+    return String(str).replace(/[&<>"']/g, function(ch){
+      return { "&":"&amp;", "<":"&lt;", ">":"&gt;", '"':"&quot;", "'": "&#39;" }[ch];
+    });
+  }
+
+  function exportCsv(){
+    var records = currentRecords();
+    if(records.length === 0){
+      showToast("暂无数据可导出", "warn");
+      return;
+    }
+    var header = ["姓名/学号","小组","德国权重","英国权重","马来西亚权重","德国判断","英国判断","马来西亚判断","lambdaMax","CI","CR","提交时间"];
+    var lines = [header.join(",")];
+    records.forEach(function(rec){
+      var row = [
+        rec.name, rec.group,
+        rec.weights[0], rec.weights[1], rec.weights[2],
+        rec.values[0], rec.values[1], rec.values[2],
+        rec.lambdaMax, rec.ci, rec.cr, new Date(rec.time).toLocaleString("zh-CN")
+      ];
+      lines.push(row.map(csvCell).join(","));
+    });
+    var blob = new Blob(["\uFEFF" + lines.join("\n")], { type:"text/csv;charset=utf-8" });
+    var url = URL.createObjectURL(blob);
+    var a = document.createElement("a");
+    a.href = url;
+    a.download = "AHP政策环境判断矩阵汇总.csv";
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+    showToast("CSV 已导出", "ok");
+  }
+
+  function csvCell(value){
+    var str = value === null || value === undefined ? "" : String(value);
+    if(/[",\n]/.test(str)){
+      return '"' + str.replace(/"/g, '""') + '"';
+    }
+    return str;
+  }
+
+  function clearRecords(){
+    if(confirm("确定清空全部学生提交吗？此操作无法撤销。")){
+      if(liveConnected){
+        publishEvent({ type: "clear" });
       } else {
-        html += `<td class="recip">${fracLabel(matrix[i][j])}</td>`;
+        saveRecords([]);
+        renderTeacher();
+        showToast("已清空全部提交", "ok");
       }
     }
-    html += '</tr>';
   }
-  html += '</tbody></table>';
-  box.innerHTML = html;
-  const trs = box.querySelectorAll("tbody tr");
-  box.querySelectorAll("select").forEach(sel=>{
-    sel.addEventListener("change", ()=>{
-      const i=+sel.dataset.i, j=+sel.dataset.j;
-      matrix[i][j] = parseFrac(sel.value);
-      matrix[j][i] = 1/matrix[i][j];
-      trs[j].querySelectorAll("td")[i].textContent = fracLabel(matrix[j][i]);
-      renderMatrixResults();
-      renderRankings();
-    });
-  });
-  renderMatrixResults();
-}
 
-function renderMatrixResults(){
-  const res = computeAHP(matrix);
-  const ok = res.CR < 0.1;
-  const bars = CRITERIA.map((c,i)=>`<div class="bar-row"><div class="bar-label">${c.name}</div><div class="bar-track"><div class="bar-fill" style="width:${(res.w[i]*100).toFixed(1)}%;background:var(--s1)"></div></div><div class="bar-val">${(res.w[i]*100).toFixed(1)}%</div></div>`).join("");
-  $("matrixResults").innerHTML = `
-    <div class="stat-row">
-      <div class="stat"><div class="label">λ<sub>max</sub></div><div class="value">${fmt(res.lamMax,4)}</div></div>
-      <div class="stat"><div class="label">CI</div><div class="value">${fmt(res.CI,4)}</div></div>
-      <div class="stat"><div class="label">RI (n=7)</div><div class="value">${res.ri}</div></div>
-      <div class="stat"><div class="label">CR</div><div class="value">${fmt(res.CR,4)}</div></div>
-    </div>
-    <div class="note ${ok?'good':'bad'}" style="margin-top:12px"><i data-icon="${ok?'check':'alert'}"></i> ${ok ? `CR = ${fmt(res.CR,4)} &lt; 0.1，判断矩阵通过一致性检验，权重可信。` : `CR = ${fmt(res.CR,4)} ≥ 0.1，一致性不理想，建议调整差异较大的判断。`}</div>
-    <h4 style="margin:14px 0 4px">准则权重（几何平均法）</h4>
-    ${bars}`;
-  fillIcons($("matrixResults"));
-}
-
-/* ---------- scoring & ranking ---------- */
-function renderScoreTable(){
-  const box = $("scoreTable");
-  let html = '<table class="table"><thead><tr><th>国家</th>';
-  CRITERIA.forEach(c=> html += `<th class="num">${c.name}${c.dir<0?' <span class="dir-cost">(逆向)</span>':''}</th>`);
-  html += '<th class="num">操作</th></tr></thead><tbody>';
-  countries.forEach((c,ci)=>{
-    html += `<tr><td><b>${c.name}</b></td>`;
-    CRITERIA.forEach(cr=>{
-      html += `<td class="num"><input class="score-input" type="number" min="1" max="10" step="0.1" value="${c.s[cr.id]}" data-ci="${ci}" data-cid="${cr.id}" aria-label="${c.name}-${cr.name}"></td>`;
-    });
-    html += `<td class="num"><button class="del-btn" data-del="${ci}" aria-label="删除 ${c.name}">${ic('x')}</button></td></tr>`;
-  });
-  html += '</tbody></table>';
-  box.innerHTML = html;
-  box.querySelectorAll(".score-input").forEach(inp=>{
-    inp.addEventListener("input", ()=>{
-      let v = parseFloat(inp.value);
-      if(isNaN(v)) v = 5;
-      v = Math.max(1, Math.min(10, v));
-      countries[+inp.dataset.ci].s[inp.dataset.cid] = v;
-      renderRankings();
-    });
-  });
-  box.querySelectorAll(".del-btn").forEach(b=>{
-    b.addEventListener("click", ()=>{
-      countries.splice(+b.dataset.del,1);
-      renderScoreTable();
-      renderRankings();
-      renderHierarchy();
-    });
-  });
-}
-
-function computeRankings(){
-  const AHP = computeAHP(matrix);
-  const norm = {};
-  CRITERIA.forEach(cr=>{
-    const vals = countries.map(c=>c.s[cr.id]);
-    const mn = Math.min(...vals), mx = Math.max(...vals);
-    norm[cr.id] = countries.map(c=>{
-      if(mx===mn) return 0.5;
-      return cr.dir>0 ? (c.s[cr.id]-mn)/(mx-mn) : (mx-c.s[cr.id])/(mx-mn);
-    });
-  });
-  return countries.map((c,ci)=>{
-    let total = 0;
-    CRITERIA.forEach((cr,i)=> total += AHP.w[i]*norm[cr.id][ci]);
-    return {name:c.name, score:total, norm, ci};
-  }).sort((a,b)=>b.score-a.score);
-}
-
-function renderRankings(){
-  renderSingleRankTable();
-  renderRankChart();
-  renderRadar();
-  renderRankTable();
-}
-
-function renderRankChart(){
-  const ranked = computeRankings();
-  const max = Math.max(...ranked.map(r=>r.score), 0.0001);
-  const colors = ["var(--s1)","var(--s2)","var(--s3)","var(--s4)","var(--s5)","var(--s6)"];
-  $("rankChart").innerHTML = ranked.map((r,i)=>`<div class="bar-row"><div class="bar-label">${i+1}. ${r.name}</div><div class="bar-track"><div class="bar-fill" style="width:${(r.score/max*100).toFixed(1)}%;background:${colors[i%6]}"></div></div><div class="bar-val">${(r.score*100).toFixed(1)}</div></div>`).join("");
-}
-
-function renderRankTable(){
-  const ranked = computeRankings();
-  let html = '<table class="table"><thead><tr><th>排名</th><th>国家</th><th class="num">层次总排序得分</th></tr></thead><tbody>';
-  ranked.forEach((r,i)=>{
-    const cls = i===0?'top1':i===1?'top2':i===2?'top3':'';
-    html += `<tr><td><span class="rank-badge ${cls}">${i+1}</span></td><td><b>${r.name}</b></td>`;
-    html += `<td class="num"><b>${(r.score*100).toFixed(1)}</b></td></tr>`;
-  });
-  html += '</tbody></table>';
-  $("rankTable").innerHTML = html;
-}
-
-function renderSingleRankTable(){
-  const box = $("singleRankTable");
-  if(!box) return;
-  const ranked = computeRankings();
-  let html = '<table class="table"><thead><tr><th>国家</th>';
-  CRITERIA.forEach(c=> html += `<th class="num">${c.name}</th>`);
-  html += '</tr></thead><tbody>';
-  ranked.forEach(r=>{
-    html += `<tr><td><b>${r.name}</b></td>`;
-    CRITERIA.forEach(cr=>{ html += `<td class="num">${(r.norm[cr.id][r.ci]*10).toFixed(1)}</td>`; });
-    html += '</tr>';
-  });
-  html += '</tbody></table>';
-  box.innerHTML = html;
-}
-
-function renderRadar(){
-  const ranked = computeRankings();
-  const top = ranked.slice(0,3);
-  const box = $("radarChart");
-  if(!top.length){ box.innerHTML=''; return; }
-  const n=7, R=100, cx=145, cy=135;
-  const colors = ["var(--s1)","var(--s2)","var(--s3)"];
-  const ang = i => -Math.PI/2 + i*(2*Math.PI/n);
-  let g = '';
-  for(let ring=1; ring<=5; ring++){
-    const r=R*ring/5, pts=[];
-    for(let i=0;i<n;i++) pts.push(`${(cx+r*Math.cos(ang(i))).toFixed(1)},${(cy+r*Math.sin(ang(i))).toFixed(1)}`);
-    g += `<polygon points="${pts.join(' ')}" style="fill:none;stroke:var(--border);stroke-width:0.6"/>`;
+  function showToast(msg, type){
+    var el = $("toast");
+    el.textContent = msg;
+    el.className = "toast show " + (type || "");
+    if(toastTimer) clearTimeout(toastTimer);
+    toastTimer = setTimeout(function(){
+      el.className = "toast";
+    }, 2800);
   }
-  for(let i=0;i<n;i++){
-    const x=(cx+R*Math.cos(ang(i))).toFixed(1), y=(cy+R*Math.sin(ang(i))).toFixed(1);
-    g += `<line x1="${cx}" y1="${cy}" x2="${x}" y2="${y}" style="stroke:var(--border);stroke-width:0.6"/>`;
-    const lx=cx+(R+24)*Math.cos(ang(i)), ly=cy+(R+24)*Math.sin(ang(i));
-    g += `<text x="${lx.toFixed(1)}" y="${ly.toFixed(1)}" font-size="11" text-anchor="middle" dominant-baseline="middle">${CRITERIA[i].short}</text>`;
+
+  function setStudentJoinUrl(){
+    var el = $("student-join-url");
+    if(!el) return;
+    el.textContent = PUBLIC_STUDENT_URL;
   }
-  top.forEach((r,ti)=>{
-    const pts=[];
-    for(let i=0;i<n;i++){
-      const val = Math.max(0, Math.min(1, r.norm[CRITERIA[i].id][r.ci]));
-      const rr = val*R;
-      pts.push(`${(cx+rr*Math.cos(ang(i))).toFixed(1)},${(cy+rr*Math.sin(ang(i))).toFixed(1)}`);
+
+  function copyJoinUrl(){
+    var text = $("student-join-url").textContent;
+    if(!text) return;
+    if(navigator.clipboard && navigator.clipboard.writeText){
+      navigator.clipboard.writeText(text).then(function(){
+        showToast("学生链接已复制", "ok");
+      }).catch(function(){
+        fallbackCopy(text);
+      });
+    } else {
+      fallbackCopy(text);
     }
-    g += `<polygon points="${pts.join(' ')}" style="fill:${colors[ti]};fill-opacity:0.13;stroke:${colors[ti]};stroke-width:2"/>`;
-    g += `<circle cx="${pts[0].split(',')[0]}" cy="${pts[0].split(',')[1]}" r="2.5" style="fill:${colors[ti]}"/>`;
-  });
-  const legend = top.map((r,i)=>`<span><i style="background:${colors[i]}"></i>${r.name}</span>`).join('');
-  box.innerHTML = `<svg class="chart" viewBox="0 0 290 270" role="img" aria-label="前三名投资适宜度雷达图"><title>前三名投资适宜度雷达图</title>${g}</svg><div class="legend">${legend}</div>`;
-}
+  }
 
-/* ---------- hierarchy ---------- */
-function renderHierarchy(){
-  $("hierarchyBox").innerHTML = `
-    <div class="hierarchy">
-      <div class="h-level"><div class="h-box goal">目标层 · “一带一路”国家投资适宜程度综合排序</div></div>
-      <div class="h-link">${ic('arrowDown')}</div>
-      <div class="h-level">${CRITERIA.map(c=>`<span class="h-box criterion">${c.name}${c.dir<0?'（逆向）':''}</span>`).join('')}</div>
-      <div class="h-link">${ic('arrowDown')}</div>
-      <div class="h-level">${countries.map(c=>`<span class="h-box alt">${c.name}</span>`).join('')}</div>
-    </div>`;
-}
-
-function renderAllLab(){
-  renderHierarchy();
-  renderMatrix();
-  renderScoreTable();
-  renderRankings();
-}
-/* ---------- chat engine ---------- */
-document.head.insertAdjacentHTML("beforeend", `<style>.msg-body{display:flex;flex-direction:column;gap:8px;max-width:100%}.msg.user .msg-body{align-items:flex-end}.msg .bubble{max-width:100%}</style>`);
-const chatQueue=[]; let chatBusy=false; let chatGen=0;
-function scrollChat(){ const c=$("chatScroll"); c.scrollTop=c.scrollHeight; }
-function appendBubble(text, who){
-  const m=document.createElement("div");
-  m.className="msg "+(who==="user"?"user":"bot");
-  const body=document.createElement("div");
-  body.className="msg-body";
-  const b=document.createElement("div");
-  b.className="bubble";
-  b.innerHTML=text;
-  body.appendChild(b);
-  m.appendChild(body);
-  $("chatScroll").appendChild(m);
-  scrollChat();
-  return {m, body, b};
-}
-function showTyping(){
-  const m=document.createElement("div");
-  m.className="msg bot thinking";
-  m.innerHTML='<div class="bubble"><span class="dot"></span><span class="dot"></span><span class="dot"></span></div>';
-  $("chatScroll").appendChild(m);
-  scrollChat();
-  return m;
-}
-function pump(){
-  if(chatBusy || !chatQueue.length) return;
-  chatBusy=true;
-  const myGen = chatGen;
-  const item=chatQueue.shift();
-  const t=showTyping();
-  setTimeout(()=>{
-    if(myGen !== chatGen) return;
-    t.remove();
-    if(item.quiz){ appendQuiz(item.quiz); }
-    else {
-      const r=appendBubble(item.text, "bot");
-      if(item.chips) renderChips(item.chips, r.body);
+  function fallbackCopy(text){
+    var area = document.createElement("textarea");
+    area.value = text;
+    area.style.position = "fixed";
+    area.style.opacity = "0";
+    document.body.appendChild(area);
+    area.select();
+    try{
+      document.execCommand("copy");
+      showToast("学生链接已复制", "ok");
+    }catch(e){
+      showToast("复制失败，请手动选择地址", "warn");
     }
-    chatBusy=false;
-    setTimeout(pump, 80);
-  }, item.delay ?? 420);
-}
-function enqueueSay(text, opts={}){ chatQueue.push({text, ...opts}); pump(); }
-function enqueueQuiz(q){ chatQueue.push({quiz:q, delay:500}); pump(); }
-function renderChips(chips, body){
-  const wrap=document.createElement("div");
-  wrap.className="chips";
-  chips.forEach(c=>{
-    const b=document.createElement("button");
-    b.type="button"; b.className="chip"; b.textContent=c.label;
-    b.addEventListener("click", ()=>c.action());
-    wrap.appendChild(b);
-  });
-  body.appendChild(wrap);
-  scrollChat();
-}
-function appendQuiz(q){
-  const r=appendBubble(q.q, "bot");
-  const wrap=document.createElement("div");
-  q.opts.forEach((opt,idx)=>{
-    const b=document.createElement("button");
-    b.type="button"; b.className="quiz-opt"; b.innerHTML=opt;
-    b.addEventListener("click", ()=>{
-      if(b.disabled) return;
-      wrap.querySelectorAll(".quiz-opt").forEach(x=>x.disabled=true);
-      if(idx===q.a){ b.classList.add("correct"); }
-      else { b.classList.add("wrong"); wrap.querySelectorAll(".quiz-opt")[q.a].classList.add("correct"); }
-      doneCount++; renderLessonProgress();
-      if(doneCount===5) spawnConfetti();
-      enqueueSay(q.why);
-      setTimeout(()=>advanceLesson(), 900);
+    document.body.removeChild(area);
+  }
+
+  $("tab-student").addEventListener("click", function(){ switchView("student"); });
+  $("tab-teacher").addEventListener("click", function(){ switchView("teacher"); });
+  $("submit-btn").addEventListener("click", submitRecord);
+  $("example-btn").addEventListener("click", fillExample);
+  $("reset-btn").addEventListener("click", resetForm);
+  $("export-btn").addEventListener("click", exportCsv);
+  $("clear-btn").addEventListener("click", clearRecords);
+  $("student-name").addEventListener("input", queueSendLive);
+  $("student-group").addEventListener("input", queueSendLive);
+  $("copy-join-btn").addEventListener("click", copyJoinUrl);
+  Array.prototype.forEach.call(document.querySelectorAll("[data-phase]"), function(btn){
+    btn.addEventListener("click", function(){
+      setPhase(btn.getAttribute("data-phase"));
     });
-    wrap.appendChild(b);
   });
-  r.body.appendChild(wrap);
-  scrollChat();
-}
+  $("matrix-modal-close").addEventListener("click", closeMatrixModal);
+  $("matrix-modal").addEventListener("click", function(e){
+    if(e.target === this) closeMatrixModal();
+  });
+  document.addEventListener("click", function(e){
+    var opener = e.target.closest ? e.target.closest(".matrix-open") : null;
+    if(opener) openMatrixModal(opener.getAttribute("data-id"));
+  });
+  document.addEventListener("keydown", function(e){
+    if(e.key === "Escape" && !$("matrix-modal").hidden){
+      closeMatrixModal();
+      return;
+    }
+    var opener = e.target && e.target.closest ? e.target.closest(".matrix-open") : null;
+    if(opener && (e.key === "Enter" || e.key === " ")){
+      e.preventDefault();
+      openMatrixModal(opener.getAttribute("data-id"));
+    }
+  });
 
-/* ---------- lesson ---------- */
-const LESSON = [
-  {title:"层次结构模型", msgs:[
-    "第一步：<b>建立层次结构模型</b>。先确定总目标：综合评估“一带一路”沿线国家的投资适宜程度并排序。",
-    "然后自上而下拆成三层：<b>目标层 → 准则层 → 方案层</b>。",
-    "本作业的准则层是七项因素：数字基础设施、政策环境、经济风险、可持续发展、区域特色、投资机遇、竞争态势；方案层是你选择的国家。"
-  ], quiz:{q:"下面哪一项最符合 AHP 的层次结构？", opts:["A. 目标—准则—方案","B. 方案—准则—目标","C. 国家—GDP—得分","D. 数据—图表—报告"], a:0, why:"正确！AHP 自上而下依次是目标层、准则层、方案层。"}},
-  {title:"判断矩阵构建", msgs:[
-    "第二步：<b>构建判断矩阵</b>。用 1–9 标度对同一层的因素进行两两比较，例如“政策环境”相对“区域特色”明显重要，就填 5。",
-    "矩阵只需填上三角，因为 <b>a_ji = 1/a_ij</b>，下三角自动取倒数。"
-  ], quiz:{q:"若 a_ij = 3（i 比 j 稍微重要），那么 a_ji 应为多少？", opts:["A. 3","B. 1/3","C. -3","D. 1"], a:1, why:"正确！判断矩阵满足 a_ji = 1/a_ij，因此 a_ji = 1/3。"}},
-  {title:"权重与一致性检验", msgs:[
-    "第三步：<b>计算权重并做一致性检验</b>。常用几何平均法：先求每行元素的几何平均，再归一化，使权重之和等于 1。",
-    "接着计算 CI 与 CR。当 <b>CR &lt; 0.1</b> 时，判断矩阵通过一致性检验；n=7 时 RI=1.32。"
-  ], quiz:{q:"当一致性比例 CR 满足什么条件时，通常认为判断矩阵通过检验？", opts:["A. CR < 0.05","B. CR < 0.1","C. CR < 0.5","D. CR > 0.1"], a:1, why:"正确！经验阈值是 CR &lt; 0.1，超过时应回头调整差异较大的判断。"}},
-  {title:"层次单排序", msgs:[
-    "第四步：<b>层次单排序</b>。在同一个准则下比较各国表现，把原始分数归一化，得到各国在该准则下的相对得分。",
-    "特别注意：<b>经济风险是逆向指标</b>，风险越低、单排序得分越高，计算时必须反向归一化。"
-  ], quiz:{q:"关于“经济风险”准则的层次单排序，哪种处理是正确的？", opts:["A. 风险越高，单排序得分越高","B. 风险越低，单排序得分越高","C. 经济风险不参与单排序","D. 所有准则都按同一方向处理"], a:1, why:"正确！经济风险是成本型/逆向指标：风险越低越有利，需反向归一化。"}},
-  {title:"层次总排序", msgs:[
-    "第五步：<b>层次总排序</b>。把每个准则的权重与对应的层次单排序得分相乘，再求和，得到每个国家的综合得分。",
-    "综合得分越高，投资适宜程度越高，最终名次也越靠前。"
-  ], quiz:{q:"层次总排序的计算式是什么？", opts:["A. 各准则原始分直接相加","B. Σ（准则权重 × 该准则下的单排序得分）","C. 只使用权重最高的一个准则","D. 各国 GDP 直接排名"], a:1, why:"正确！层次总排序就是各准则权重与单排序得分的加权求和。"}},
-  {title:"总结", msgs:[
-    "太棒了，五步全部完成！你已经掌握 AHP 的完整流程：<b>层次结构模型 → 判断矩阵构建 → 权重与一致性检验 → 层次单排序 → 层次总排序</b>。",
-    "接下来去“AHP 实操”页，按这五步操作；完成后点“让助手解读结果”。"
-  ], chips:[{label:"前往 AHP 实操", action:()=>switchTab("lab")},{label:"翻一翻知识库", action:()=>switchTab("knowledge")}]}
-];
-let lessonStep=0, doneCount=0, lessonStarted=false;
-function renderLessonProgress(){
-  const titles=["层次结构模型","判断矩阵构建","权重与一致性","层次单排序","层次总排序"];
-  $("lessonProgress").innerHTML = titles.map((t,i)=>{
-    const cls = i<doneCount ? "done" : (lessonStarted && i===doneCount && doneCount<5 ? "current" : "");
-    return `<span class="step-pill ${cls}"><span class="n">${i<doneCount?ICONS.check:(i+1)}</span>${t}</span>`;
-  }).join("");
-}
-function advanceLesson(){
-  if(!lessonStarted || lessonStep>=LESSON.length) return;
-  const st=LESSON[lessonStep];
-  st.msgs.forEach((m,i)=> enqueueSay(m, (i===st.msgs.length-1 && st.chips)?{chips:st.chips}:{}));
-  if(st.quiz) enqueueQuiz(st.quiz);
-  lessonStep++;
-}
-function startLesson(){
-  if(lessonStarted) return;
-  lessonStarted=true; lessonStep=0; doneCount=0; renderLessonProgress();
-  enqueueSay("好的，我们开始。课程共五步，每步我先讲解，再问一个小问题，答完自动进入下一步。");
-  advanceLesson();
-}
-function restartLesson(){
-  chatGen++;
-  $("chatScroll").innerHTML="";
-  chatQueue.length=0; chatBusy=false;
-  lessonStep=0; doneCount=0; lessonStarted=false;
-  renderLessonProgress();
-  greet();
-}
-function greet(){
-  enqueueSay("你好，我是<b>小析</b>，你的 AHP 伴学助手。我们刚学完层次分析法，现在用它来完成“<b>一带一路国家投资环境综合评估</b>”作业。");
-  enqueueSay("你可以按步骤跟着我学习，也可以在下方直接提问，比如“<b>什么是一致性比例</b>”“<b>1–9 标度是什么意思</b>”。", {chips:[{label:"开始 AI 伴学", action:startLesson},{label:"直接提问", action:()=>$("chatInput").focus()}]});
-}
-
-/* ---------- knowledge base ---------- */
-const KB = [
-  {k:["层次分析法","ahp","什么是层次"], reply:"<b>层次分析法（AHP）</b>把复杂决策拆成“目标—准则—方案”三层，对同一层因素两两比较得到权重，再综合排序，从而把主观判断变得可计算、可检验。"},
-  {k:["层次结构","目标层","准则层","方案层","分层"], reply:"层次分三层：<b>目标层</b>（要解决什么问题）、<b>准则层</b>（影响决策的因素，本作业是七项评估因素）、<b>方案层</b>（待比较的国家）。"},
-  {k:["标度","1-9","九标度","saaty","重要程度"], reply:"<b>1–9 标度</b>：1 同等重要、3 稍微重要、5 明显重要、7 强烈重要、9 极端重要；2/4/6/8 为中间值；倒数表示反向比较。"},
-  {k:["判断矩阵","矩阵","两两比较","成对比较"], reply:"<b>判断矩阵</b>是 n×n 矩阵，满足 a_ii=1、a_ji=1/a_ij，只需填上三角。它记录“行因素相对列因素”的重要程度。"},
-  {k:["层次单排序","单排序","计算权重","权重","几何平均","特征向量","归一化"], reply:"<b>层次单排序</b>分两步：先由判断矩阵用几何平均法求准则权重，再在同一个准则下比较各国家的相对表现。正向准则按 (x-min)/(max-min) 归一化，逆向准则反向处理。"},
-  {k:["一致性","ci","ri","cr","检验"], reply:"<b>一致性检验</b>：CI=(λmax−n)/(n−1)，CR=CI/RI。当 <b>CR &lt; 0.1</b> 时通过检验；n=7 时 RI=1.32。"},
-  {k:["逆向","反向","经济风险","风险","成本型"], reply:"<b>经济风险是逆向指标</b>：风险越低越有利。计算时用反向归一化，使“风险低 → 得分高”。"},
-  {k:["层次总排序","总排序","排序","综合得分","排名","总分"], reply:"<b>层次总排序</b> = Σ（准则权重 × 该准则下的层次单排序得分）。总得分越高，投资适宜程度越高，据此排出最终名次。"},
-  {k:["背景","背景知识","倡议","丝绸之路","五通","经济走廊"], reply:"<b>“一带一路”倡议</b>于 2013 年提出，包括“丝绸之路经济带”和“21 世纪海上丝绸之路”，以共商共建共享为原则，重点推动政策沟通、设施联通、贸易畅通、资金融通、民心相通。更完整内容见“背景知识”页。"},
-  {k:["区域","走廊","覆盖","国家选择","选国家"], reply:"沿线覆盖东南亚、南亚、中亚、西亚、中东欧、东非等区域，可围绕<b>六大经济走廊</b>（中蒙俄、新亚欧大陆桥、中国—中亚—西亚、中国—中南半岛、中巴、孟中印缅）来选国家和理解“区域特色”。"},
-  {k:["一带一路","题目","作业","任务"], reply:"本作业：选择 5–10 个沿线国家，围绕七项因素用 AHP 建立层次模型、构造判断矩阵、检验一致性，再依次做层次单排序和层次总排序。"},
-  {k:["你好","在吗","hi","hello","谢谢"], reply:"不客气，随时问我！可以点“开始 AI 伴学”按步骤学习，或直接问我 AHP 的问题。"}
-];
-function matchKB(text){
-  const t=text.toLowerCase();
-  for(const item of KB){ if(item.k.some(kw=>t.includes(kw))) return item.reply; }
-  return null;
-}
-function handleUser(text){
-  appendBubble(text, "user");
-  const hit=matchKB(text);
-  if(hit) enqueueSay(hit);
-  else enqueueSay("这个问题我暂时没有预设答案。你可以试试问我：<b>“什么是一致性比例”</b>、<b>“1–9 标度”</b>、<b>“层次单排序怎么算”</b>，或者点“重新导学”再走一遍流程。", {chips:[{label:"重新导学", action:restartLesson},{label:"查看知识库", action:()=>switchTab("knowledge")}]});
-}
-
-/* ---------- tutor diagnostics & report ---------- */
-function diagnoseMatrix(){
-  const res=computeAHP(matrix); const ranked=computeRankings();
-  const topIdx=res.w.indexOf(Math.max(...res.w));
-  switchTab("tutor");
-  enqueueSay(`我看了你当前的判断矩阵：<b>CR = ${fmt(res.CR,4)}</b>，${res.CR<0.1?"<b>通过一致性检验</b>（应 &lt; 0.1）":"<b>未通过一致性检验</b>（应 &lt; 0.1）"}。`);
-  if(res.CR>=0.1){
-    enqueueSay("建议：回头找与整体权重方向冲突的判断并调整，或点“填入参考判断”参考一个通过检验的判断矩阵。");
+  render();
+  setStudentJoinUrl();
+  applyPhaseUI();
+  if(isTeacherPage) switchView("teacher");
+  applyRoleChrome();
+  if(/^https?:$/.test(window.location.protocol)){
+    connectLive();
   } else {
-    enqueueSay(`权重最高的是“<b>${CRITERIA[topIdx].name}</b>”（${(res.w[topIdx]*100).toFixed(1)}%）。当前排名前三：<b>${ranked[0]?.name}</b>、<b>${ranked[1]?.name}</b>、<b>${ranked[2]?.name}</b>。`);
+    setLiveStatus("offline", "本地模式");
+    livePhase = "fill";
+    applyPhaseUI();
   }
-}
-function interpretResult(){
-  const ranked=computeRankings();
-  switchTab("tutor");
-  if(!ranked.length){ enqueueSay("还没有可解读的结果，请先在实操页添加国家并打分。"); return; }
-  enqueueSay(`从当前结果看，投资适宜度最高的国家是 <b>${ranked[0].name}</b>（综合得分 ${(ranked[0].score*100).toFixed(1)}），其后是 <b>${ranked[1]?.name}</b> 与 <b>${ranked[2]?.name}</b>。`);
-  const top=ranked[0]; let best=CRITERIA[0], bestV=-1;
-  CRITERIA.forEach(cr=>{ const v=top.norm[cr.id][top.ci]; if(v>bestV){ bestV=v; best=cr; } });
-  enqueueSay(`其中 <b>${top.name}</b> 在“<b>${best.name}</b>”上相对最突出。写报告时可用这些差异解释排名，并据此提出投资建议。`);
-}
-function buildReport(){
-  const res=computeAHP(matrix); const ranked=computeRankings();
-  const lines=["“一带一路”国家投资环境综合评估报告",""];
-  lines.push(`一、准则权重（几何平均法，CR=${fmt(res.CR,4)}）`);
-  CRITERIA.forEach((c,i)=> lines.push(`${c.name}：${(res.w[i]*100).toFixed(1)}%`));
-  lines.push(""); lines.push("二、层次总排序");
-  ranked.forEach((r,i)=> lines.push(`${i+1}. ${r.name}：${(r.score*100).toFixed(1)}`));
-  lines.push(""); lines.push("三、简要分析");
-  lines.push(`投资适宜度最高的是 ${ranked[0].name}，其次是 ${ranked[1].name} 与 ${ranked[2].name}。`);
-  lines.push("建议优先关注排名靠前国家的数字基础设施与政策环境，同时对经济风险较高的市场保持谨慎。");
-  return lines.join("\n");
-}
-function copyReport(){
-  const txt=buildReport();
-  const done=()=>toast("报告已复制到剪贴板");
-  if(navigator.clipboard && navigator.clipboard.writeText){
-    navigator.clipboard.writeText(txt).then(done, ()=>fallbackCopy(txt));
-  } else fallbackCopy(txt);
-  function fallbackCopy(t){
-    const ta=document.createElement("textarea"); ta.value=t; document.body.appendChild(ta); ta.select();
-    try{ document.execCommand("copy"); done(); }catch(e){ toast("复制失败，请手动选择文本"); } ta.remove();
-  }
-}
-function toast(msg){
-  const t=document.createElement("div");
-  t.textContent=msg;
-  t.style.cssText="position:fixed;left:50%;bottom:28px;transform:translateX(-50%);background:var(--text);color:var(--bg);padding:10px 16px;border-radius:8px;font-size:14px;z-index:99;box-shadow:var(--shadow);transition:opacity .3s;max-width:88vw;text-align:center";
-  document.body.appendChild(t);
-  setTimeout(()=>{ t.style.opacity="0"; setTimeout(()=>t.remove(),350); },1900);
-}
-const MASCOT_SVG = `<svg class="mascot-svg" viewBox="0 0 120 120" role="img" aria-label="小析机器人助手">
-  <circle class="bulb-glow" cx="60" cy="8" r="10" fill="#f0a13a" opacity="0.22"></circle>
-  <path d="M60 22 L60 12" stroke="#0a5c52" stroke-width="3" stroke-linecap="round"></path>
-  <circle class="bulb" cx="60" cy="8" r="5" fill="#f0a13a"></circle>
-  <rect x="30" y="22" width="60" height="46" rx="14" fill="#1fa88f"></rect>
-  <rect x="30" y="22" width="60" height="46" rx="14" fill="none" stroke="#0a5c52" stroke-width="2"></rect>
-  <rect x="39" y="30" width="42" height="28" rx="8" fill="#e8f7f3"></rect>
-  <g class="eyes">
-    <circle cx="50" cy="44" r="4.6" fill="#0a5c52"></circle>
-    <circle cx="70" cy="44" r="4.6" fill="#0a5c52"></circle>
-    <circle cx="51.6" cy="42.4" r="1.5" fill="#ffffff"></circle>
-    <circle cx="71.6" cy="42.4" r="1.5" fill="#ffffff"></circle>
-  </g>
-  <path d="M55 52 Q60 57 65 52" stroke="#0a5c52" stroke-width="2.2" fill="none" stroke-linecap="round"></path>
-  <rect x="38" y="72" width="44" height="32" rx="10" fill="#0e7568"></rect>
-  <rect x="46" y="80" width="28" height="16" rx="4" fill="#e8f7f3"></rect>
-  <g class="screen-bars">
-    <rect x="50" y="88" width="3.4" height="6" rx="1" fill="#0e7568"></rect>
-    <rect x="56" y="86" width="3.4" height="8" rx="1" fill="#0e7568"></rect>
-    <rect x="62" y="84" width="3.4" height="10" rx="1" fill="#0e7568"></rect>
-  </g>
-  <g class="arm">
-    <path d="M82 84 Q95 78 96 90" stroke="#0a5c52" stroke-width="5" fill="none" stroke-linecap="round"></path>
-    <circle cx="97" cy="91" r="4.2" fill="#f0a13a"></circle>
-  </g>
-</svg>`;
-function renderMascots(){ document.querySelectorAll(".mascot-slot").forEach(el=>el.innerHTML=MASCOT_SVG); }
-function spawnConfetti(){
-  const colors=["#0e7568","#d97706","#be123c","#0f6ba8","#14804b","#f0a13a"];
-  const c=document.createElement("div"); c.className="confetti";
-  for(let i=0;i<42;i++){
-    const s=document.createElement("i");
-    s.style.left=(Math.random()*100).toFixed(2)+"vw";
-    s.style.background=colors[i%colors.length];
-    s.style.animationDuration=(2.2+Math.random()*1.8).toFixed(2)+"s";
-    s.style.animationDelay=(Math.random()*0.5).toFixed(2)+"s";
-    s.style.transform="rotate("+(Math.random()*360).toFixed(0)+"deg)";
-    c.appendChild(s);
-  }
-  document.body.appendChild(c);
-  setTimeout(()=>c.remove(), 4600);
-}
-
-/* ---------- corridor map ---------- */
-const CORRIDORS = [
-  {name:"中蒙俄", color:"var(--s1)", coords:[[116.4,39.9],[106.9,47.9],[87.6,43.8],[37.6,55.7]]},
-  {name:"新亚欧大陆桥", color:"var(--s2)", coords:[[119.2,34.6],[108.9,34.3],[103.8,36.1],[87.6,43.8],[76.9,43.2],[48.0,49.0],[4.5,51.9]]},
-  {name:"中国—中亚—西亚", color:"var(--s3)", coords:[[87.6,43.8],[69.2,41.3],[51.4,35.7],[28.9,41.0]]},
-  {name:"中巴经济走廊", color:"var(--s4)", coords:[[75.9,39.5],[73.0,33.7],[62.3,25.1]]},
-  {name:"孟中印缅", color:"var(--s5)", coords:[[102.8,25.0],[96.0,21.9],[90.4,23.8],[88.4,22.6],[77.2,28.6]]},
-  {name:"中国—中南半岛", color:"var(--s6)", coords:[[108.3,22.8],[105.8,21.0],[102.6,17.9],[100.5,13.8],[101.7,3.1],[103.8,1.35]]}
-];
-const MAP_LABELS = [
-  {name:"欧洲", coords:[5,52]},
-  {name:"俄罗斯", coords:[42,59]},
-  {name:"中国", coords:[104,33]},
-  {name:"西亚", coords:[44,30]},
-  {name:"巴基斯坦", coords:[67,27]},
-  {name:"孟 / 印 / 缅", coords:[88,20]},
-  {name:"中南半岛", coords:[102,12]}
-];
-function loadScript(src){
-  return new Promise((resolve,reject)=>{
-    const s=document.createElement("script");
-    s.src=src;
-    s.onload=resolve;
-    s.onerror=()=>reject(new Error("script load failed"));
-    document.head.appendChild(s);
-  });
-}
-function renderCorridorMap(){
-  const box=$("corridorMap");
-  if(!box) return;
-  box.innerHTML="";
-  const w=Math.max(360, box.clientWidth||780);
-  const h=Math.round(w*0.54);
-  const svg=d3.select(box).append("svg")
-    .attr("viewBox", `0 0 ${w} ${h}`)
-    .attr("class","chart")
-    .attr("role","img").attr("aria-label","六大经济走廊世界地图");
-  const g=svg.append("g");
-  const fitCoords=CORRIDORS.flatMap(c=>c.coords).concat([[-14,35],[136,32],[55,-8],[42,72]]);
-  const projection=d3.geoNaturalEarth1().fitExtent([[22,14],[w-22,h-14]], {type:"MultiPoint", coordinates:fitCoords});
-  const path=d3.geoPath(projection);
-  d3.json("https://cdn.jsdelivr.net/npm/world-atlas@2/countries-110m.json").then(world=>{
-    g.append("g").selectAll("path")
-      .data(topojson.feature(world, world.objects.countries).features)
-      .join("path")
-      .attr("d", path)
-      .style("fill","var(--surface2)")
-      .style("stroke","var(--border)")
-      .style("stroke-width","0.5px");
-    CORRIDORS.forEach(c=>{
-      g.append("path").datum({type:"LineString", coordinates:c.coords}).attr("d", path)
-        .style("fill","none").style("stroke",c.color).style("stroke-width","2.5px")
-        .style("stroke-linecap","round").style("stroke-linejoin","round");
-      const p=projection(c.coords[c.coords.length-1]);
-      g.append("circle").attr("cx",p[0]).attr("cy",p[1]).attr("r",4.2).style("fill",c.color).style("stroke","var(--surface)").style("stroke-width","1.5px");
-    });
-    MAP_LABELS.forEach(l=>{
-      const p=projection(l.coords);
-      g.append("text").attr("x",p[0]).attr("y",p[1]).attr("font-size",11).attr("text-anchor","middle")
-        .text(l.name)
-        .style("fill","var(--text)").style("paint-order","stroke").style("stroke","var(--surface)").style("stroke-width","3px");
-    });
-  }).catch(()=>{
-    box.innerHTML='<div class="note warn">世界地图加载失败，请联网后刷新。其余学习功能不受影响。</div>';
-  });
-}
-async function initMap(){
-  try{
-    if(typeof d3==="undefined") await loadScript("https://cdn.jsdelivr.net/npm/d3@7.9.0/dist/d3.min.js");
-    if(typeof topojson==="undefined") await loadScript("https://cdn.jsdelivr.net/npm/topojson-client@3.1.0/dist/topojson-client.min.js");
-    renderCorridorMap();
-  }catch(e){
-    const box=$("corridorMap"); if(box) box.innerHTML='<div class="note warn">真实地图组件加载失败，请联网后刷新。其余学习功能不受影响。</div>';
-  }
-}
-
-/* ---------- init & wiring ---------- */
-function bindEvents(){
-  $("fillExample").addEventListener("click", ()=>{ matrix = EXAMPLE.map(r=>r.slice()); renderMatrix(); renderRankings(); toast("已填入参考判断（CR≈0.01）"); });
-  $("fillEqual").addEventListener("click", ()=>{ matrix = CRITERIA.map(()=>CRITERIA.map(()=>1)); renderMatrix(); renderRankings(); toast("已清空为全 1（权重相等）"); });
-  $("matrixDiagnose").addEventListener("click", diagnoseMatrix);
-  $("addCountry").addEventListener("click", ()=>{
-    const inp=$("countryName"); const name=inp.value.trim();
-    if(!name){ toast("请先输入国家名"); inp.focus(); return; }
-    if(countries.some(c=>c.name===name)){ toast("该国家已存在"); return; }
-    const s={}; CRITERIA.forEach(c=>s[c.id]=5);
-    countries.push({name, s});
-    inp.value="";
-    renderScoreTable(); renderRankings(); renderHierarchy();
-  });
-  $("countryName").addEventListener("keydown", e=>{ if(e.key==="Enter") $("addCountry").click(); });
-  $("resetCountries").addEventListener("click", ()=>{ countries = DEFAULT_COUNTRIES.map(c=>({name:c.name, s:{...c.s}})); renderScoreTable(); renderRankings(); renderHierarchy(); toast("已恢复参考数据"); });
-  $("copyReport").addEventListener("click", copyReport);
-  $("reportToTutor").addEventListener("click", interpretResult);
-  $("restartLesson").addEventListener("click", restartLesson);
-  $("diagnoseBtn").addEventListener("click", diagnoseMatrix);
-  $("sendBtn").addEventListener("click", ()=>{
-    const inp=$("chatInput"); const v=inp.value.trim();
-    if(!v) return; inp.value=""; handleUser(v);
-  });
-  $("chatInput").addEventListener("keydown", e=>{ if(e.key==="Enter") $("sendBtn").click(); });
-}
-
-fillIcons(document);
-renderMascots();
-bindEvents();
-renderLessonProgress();
-renderAllLab();
-initMap();
-greet();
+})();
 </script>
 </body>
 </html>
